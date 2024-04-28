@@ -100,9 +100,9 @@ local FieldModule = {}
 		FieldModule.Flowers[ID] = {
 			Color = FlowerColor,
 			Stat = FlowerType,
-			MaxPosition = Flower.Position.Y,
-			MinPosition = Flower.Position.Y - 2.5,
-			Regen = 0.3,
+			MaxP = Flower.Position.Y,
+			MinP = Flower.Position.Y - 2,
+			RegenFlower = 0.3,
 		}
 		local Color = FieldModule.Flowers[ID].Color
 		local Number = FieldModule.Flowers[ID].Stat.Value

@@ -26,6 +26,15 @@ function TweenModule:StartShop(ShopFrame)
    TweenService:Create(ShopFrame.Right,TweenInfo1,{Position = UDim2.new(0.576, 0,0.783, 0)}):Play() 
 end
 
+function TweenModule:SizeUp(VP)
+    TweenService:Create(VP.BillboardGui.TextPlayer, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = UDim2.new(1,0,1,0)}):Play()
+end
+
+function TweenModule:SizeDown(VP)
+    TweenService:Create(VP.BillboardGui.TextPlayer, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0,0,0,0)}):Play()
+
+end
+
 function TweenModule:FlowerDown(Flower,FlowerPos)
     TweenService:Create(Flower, TweenInfo.new(0.7, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Position = FlowerPos}):Play()
 end

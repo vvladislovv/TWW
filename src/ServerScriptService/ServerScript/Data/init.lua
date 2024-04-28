@@ -21,7 +21,7 @@ function Data.new(Player)
 		OpenCameraCustomHive = false,
 		OpenCameraCustom = false,
 		OpenShop = false,
-		FieldVars = "",
+		FieldVars = "Banana",
 		GuiField = false,
 		FieldVarsOld = ""
 	}
@@ -35,18 +35,19 @@ function Data.new(Player)
 		Coin = 5000,
 		Pollen = 0,
 		Capacity = 0,
-		CapacityItems = 350,
+		CapacityItems = 10000000000000000000000000,
 		DailyHoney = 0,
         Tutorial = false
 	}
 
     PData.TotalItems = {
         TotalQuestAll = 0,
-		TotalWasp = 0,
         CoinTotal = 0,
         PollenTotal = 0,
         WaspTotal = 0,
-		
+		TotalWhite = 0,
+		TotalPupler = 0,
+		TotalBlue = 0,
     }
 
     PData.Hive = {
@@ -98,6 +99,7 @@ function Data.new(Player)
 			["White Pollen"] = 100,
 			["Blue Pollen"] = 100,
 			["Critical Chance"] = 100,
+			["Movement Collection"] = 0,
 			["Instant"] = 0,
 			["Pupler Instant"] = 0,
 			["White Instant"] = 0,
@@ -203,8 +205,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'DataMainServerAlifa1s1a2s4adaas'
-local ClientKey = 'DataMainClientAlifa1s1a2s4adaas'
+local MainKey = 'Data_Server_Test1'
+local ClientKey = 'Data_Client_Test1'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 

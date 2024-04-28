@@ -1,12 +1,14 @@
+
+local AllScript = {}
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
-local AllScript = {}
 
 local Data = require(ServerScriptService.ServerScript.Data)
 local ZonePlus = require(game.ReplicatedStorage.Zone)
 local EquipmentModule = require(ServerScriptService.ServerScript.Equipment)
-local Equipment = require(ServerScriptService.ServerScript.Equipment)
+
 function Barier() -- ! Barier location 
     for _, index in next, workspace.Map.GameSettings.Barier:GetChildren() do
         local Zone = ZonePlus.new(index)
@@ -111,6 +113,26 @@ function ShopBuyServer(Player,TextButton,TableSettings,CameraType, CameraNow) --
         PData:Update('EquipmentShop', PData.EquipmentShop)
         PData:Update('Equipment', PData.Equipment)
     end
+end
+
+-- ПРОБЛЕМА
+for _, v in next, workspace.Map.GameSettings.Fields:GetChildren() do
+    print(v)
+    local Zone = ZonePlus.new(v)
+    Zone.playerEntered:Connect(function(Player)
+        print(Player)
+        local PData = Data:Get(Player)
+        PData.BaseFakeSettings.FieldVars = v.Name
+        if Data.BaseFakeSettings.FieldVarsOld ~= v.Name then -- _G.PData.BaseFakeSettings.GuiField == false and
+            PData.BaseFakeSettings.FieldVarsOld = v.Name
+            task.wait(3)
+        end
+    end)
+
+    Zone.playerExited:Connect(function(Player)
+        local PData = Data:Get(Player)
+        PData.BaseFakeSettings.FieldVars = ""
+    end)
 end
 
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)

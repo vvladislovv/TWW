@@ -11,6 +11,12 @@ local TableModuel = {} do
         ["★★★★★★★★"] = {[1] = "Special",[2] = Color3.fromRGB(150, 78, 79)},
     }
 
+    TableModuel.FieldsDrop = {
+        ['Banana'] = {
+            f = 1
+        }
+    }
+
     TableModuel.LevelWasp = {
         [1] = 125,
         [2] = 375,
@@ -154,6 +160,7 @@ local TableModuel = {} do
                 Coouldown = 0.2,
                 SpeedCoper = 0.75,
                 Collecting = 12,
+                PowerTools = 0.3,
                 Stamp = "2x1",
                 ColorTools = "None",
                 AnimTools = "",
@@ -172,12 +179,13 @@ local TableModuel = {} do
             },
             ['Hammer'] = {
                 Type = 'PlayerData',
-                Coouldown = 0.2,
-                SpeedCoper = 0.75,
-                Collecting = 80,
-                Stamp = "2x1",
+                Coouldown = 0.5,
+                SpeedCoper = 0.5,
+                Collecting = 75,
+                PowerTools = 0.35,
+                Stamp = "Test",
                 ColorTools = "None",
-                AnimTools = "",
+                AnimTools = "rbxassetid://17191882664",
 
 
                 ShopBuy = {

@@ -1,3 +1,5 @@
+
+
 local EquipmentModule = {} do
 
     local PhysicsService = game:GetService("PhysicsService")
@@ -39,7 +41,7 @@ local EquipmentModule = {} do
             local PData = Data:Get(Player)
             
             --! Оповищение, что рюкзак пуст
-            PData.BaseSettings.Pollen = 0
+            PData.IStats.Pollen = 0
             EquipmentModule:LoadItems(Player, PData, Character)
         end)
     end
@@ -47,6 +49,10 @@ local EquipmentModule = {} do
     function EquipmentModule:StartSysmes()
 
         local PhysicsService = game:GetService("PhysicsService")
+local ServerScriptService = game:GetService("ServerScriptService")
+
+local AllScript = require(ServerScriptService.ServerScript.AllScript)
+
         local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
         PhysicsService:RegisterCollisionGroup("Players")
         PhysicsService:CollisionGroupSetCollidable("Players", "Players", false)
@@ -149,8 +155,8 @@ local EquipmentModule = {} do
                                 end
                                 
                                 Remote.UItems:FireClient(Player,TypeItem)
-                                --local CollectScript = game.ServerStorage.Tools:Clone()
-                                --CollectScript.Parent = ItemObj1
+                                local CollectScript = game.ServerStorage.ToolsScripts:Clone()
+                                CollectScript.Parent = ItemObj1
                                 Humanoid:AddAccessory(ItemObj1)
                             end
                         end
