@@ -109,8 +109,6 @@ local FieldModule = {}
 		Flower.TopTexture.Texture = FieldModule.FlowerTypes[Color][Number]
 	end
 
-
-
 	function FieldModule:GenerateFlower(Field, Position)
 		local Flower = script.Flower:Clone()
 		Flower.Parent = Field

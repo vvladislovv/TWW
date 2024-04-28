@@ -180,8 +180,8 @@ function Data.new(Player)
 	}
 
     PData.Settings = { 
-        Sound = false
-        
+        ['Sound'] = true,
+        ['Pollen Text'] = true
     }
 	
 	function PData:Update(key, value)

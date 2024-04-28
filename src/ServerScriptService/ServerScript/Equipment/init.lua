@@ -102,7 +102,6 @@ local EquipmentModule = {} do
                         else
 
                         ItemObj1 = Items:WaitForChild(TypeItem)[ItemPData]:Clone() -- папки в RS с буквой S без этого не видно
-                        print(ItemObj1)
                         if ItemObj1:IsA("Accessory") then					
                                 for _,v in pairs(ItemObj1:GetChildren()) do
                                     if v:IsA("Part") or v:IsA("MeshPart") or v:IsA("Union") or v:IsA("BasePart") then
@@ -142,6 +141,13 @@ local EquipmentModule = {} do
                                 Humanoid:AddAccessory(ItemObj1)
                             elseif TypeItem == "Tool" then
                                 ItemObj1.Name = "Tool"--PData.Equipment[TypeItem]
+
+                                for i, index in next, ItemObj1.Handle:GetChildren() do
+                                    if index:IsA("WeldConstraint") then
+                                        index.Enabled = true
+                                    end
+                                end
+                                
                                 Remote.UItems:FireClient(Player,TypeItem)
                                 --local CollectScript = game.ServerStorage.Tools:Clone()
                                 --CollectScript.Parent = ItemObj1

@@ -26,6 +26,20 @@ function TweenModule:StartShop(ShopFrame)
    TweenService:Create(ShopFrame.Right,TweenInfo1,{Position = UDim2.new(0.576, 0,0.783, 0)}):Play() 
 end
 
+function TweenModule:FlowerDown(Flower,FlowerPos)
+    TweenService:Create(Flower, TweenInfo.new(0.7, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Position = FlowerPos}):Play()
+end
+
+function TweenModule:RegenUp(Pollen,ToMaxFlower,InfoFieldGame,FlowerPos,FlowerPosTime)
+    if ToMaxFlower < InfoFieldGame.RegenFlower then
+        Pollen.ParticleEmitter.Enabled = false
+        TweenService:Create(Pollen, TweenInfo.new(3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Position = FlowerPos}):Play()
+    else
+        Pollen.ParticleEmitter.Enabled = false
+        TweenService:Create(Pollen, TweenInfo.new(3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Position = FlowerPosTime}):Play()
+    end
+end
+
 function TweenModule:StopShop(ShopFrame)
     TweenService:Create(ShopFrame.BuyButton,TweenInfo1,{Position = UDim2.new(0.444, 0,1.5, 0)}):Play()
     TweenService:Create(ShopFrame.DescriptionFrame,TweenInfo1,{Position = UDim2.new(-1, 0,0.179, 0)}):Play() 
