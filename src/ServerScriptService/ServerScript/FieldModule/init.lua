@@ -1,7 +1,9 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
-
+local Data = require(game.ServerScriptService.ServerScript.Data)
+local ZonePlus = require(game.ReplicatedStorage.Zone)
 local FieldModule = {}
+
 	FieldModule.MaxSize = 4
 	FieldModule.Flowers = {}
 	FieldModule.Fields = {
@@ -139,8 +141,7 @@ local FieldModule = {}
         for i, Fieldfolder in pairs(workspace.Map.GameSettings.FieldStudio:GetChildren()) do
             for i, Zone in pairs(Fieldfolder:GetChildren()) do
                 if Zone:IsA("Part") then
-                    if not (Zone.Name == "ACentering") then
-                        local Field = Instance.new("Folder", workspace.Map.GameSettings.Fields)
+                    local Field = Instance.new("Folder", workspace.Map.GameSettings.Fields)
                         Field.Name = Zone.Parent.Name
                         Zone.Transparency = 1
     
@@ -153,7 +154,6 @@ local FieldModule = {}
                                 FieldModule:GenerateFlower(Field, CFrame.new(x, Zone.Position.Y, z))
                             end
                         end
-                    end
                 end
             end
         end

@@ -3,7 +3,7 @@ local TablePlayerFlower = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
---local TokensModule = require(game.ServerScriptService.Server.TokenSystems)
+local TokensModule = require(game.ServerScriptService.ServerScript.TokenSystems)
 local FieldGame = require(ServerScriptService.ServerScript.FieldModule)
 local DataSave = require(ServerScriptService.ServerScript.Data)
 local Item = require(ReplicatedStorage.Modules.ModuleTable)
@@ -44,7 +44,7 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
         if PData.IStats.Pollen <= PData.IStats.Capacity and CanScoop == true then
             local Type = PData.Equipment.Tool
             local Crit = false
-            local FieldName = PData.BaseFakeSettings.FieldVars 
+            local FieldName = PData.BaseFakeSettings.FieldVars
             local FColor = FieldGame.Flowers[Flower.FlowerID.Value].Color
             local FSize = FieldGame.Flowers[Flower.FlowerID.Value].Stat.Value
             local SS
@@ -72,7 +72,6 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                     FoodAm = math.round(SS * ((PData.Boost.PlayerBoost["Pollen"] / 100) * (PData.Boost.PlayerBoost[FColor.." Pollen"] / 100) * (PData.Boost.PlayerBoost["Pollen From Collectors"] / 100)))
                 end
             else
-                print('ff')
                 if StatsMOD["Color"] == "Pupler" then
 
                     if FColor == "Pupler" then
@@ -135,12 +134,12 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                 
                 local FieldGrant = math.random(1,500)
                 if FieldGrant <= 300 then
+                    print(Item.FieldsDrop[FieldName])
                     if Item.FieldsDrop[FieldName] then
-                        local RandomToken = 1 -- RToken(FieldName)
+                        local RandomToken = RToken(FieldName)
                         if RandomToken ~= nil then
-                            --print(RandomToken)
-                            --[[
-                                TokensModule.SpawnToken({
+                            print(RandomToken)
+                            TokensModule:SpawnToken({
                                 Position = Flower.Position,
                                 Cooldown = 15,
                                 Token = {
@@ -150,7 +149,6 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                                 },
                                 Resourse = FieldName.." Field",
                             })
-                            ]]
                         end
                     end
                 end

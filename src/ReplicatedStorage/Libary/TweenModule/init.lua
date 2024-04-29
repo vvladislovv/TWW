@@ -31,7 +31,7 @@ function TweenModule:SizeUp(VP)
 end
 
 function TweenModule:SizeDown(VP)
-    TweenService:Create(VP.BillboardGui.TextPlayer, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0,0,0,0)}):Play()
+    TweenService:Create(VP.BillboardGui.TextPlayer, TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0,0,0,0)}):Play()
 
 end
 

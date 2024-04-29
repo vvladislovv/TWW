@@ -6,7 +6,6 @@ local Nofical = false
 local NofficalModule = {}
 
 
-
 function NofficalModule:NofficalCreate(OBJ,Text,ColorIndex)
     if not Nofical then
         Nofical = true

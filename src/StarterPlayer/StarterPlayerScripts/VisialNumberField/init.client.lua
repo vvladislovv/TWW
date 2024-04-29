@@ -141,6 +141,6 @@ VisEv.OnClientEvent:Connect(function(Tab)
 
 	task.wait(0.5)
     TweenModule:SizeDown(VP)
-	task.wait(0.25)
+	task.wait(1)
 	VP:Destroy()
 end)

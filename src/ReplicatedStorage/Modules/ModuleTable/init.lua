@@ -13,7 +13,7 @@ local TableModuel = {} do
 
     TableModuel.FieldsDrop = {
         ['Banana'] = {
-            f = 1
+            ['Coin'] = {Name = "Coin", Rarity = 15, APT = 1}
         }
     }
 
@@ -150,6 +150,15 @@ local TableModuel = {} do
             Purchase = {[1] = Color3.fromRGB(78, 220, 87), [2] = Color3.fromRGB(90, 255, 98)},
             Equip = {[1] = Color3.fromRGB(220, 193, 42), [2] = Color3.fromRGB(255, 221, 49)}, -- Изменить
             NoEquip = {[1] = Color3.fromRGB(200, 0, 7), [2] = Color3.fromRGB(226, 0, 8)}
+        }
+    }
+
+    TableModuel.TokenTables = {
+        TokenDrop = {
+            ['Coin'] = {
+                ColorToken = Color3.fromRGB(232, 164, 47),
+                Image = "http://www.roblox.com/asset/?id=10315383929",
+            }
         }
     }
 

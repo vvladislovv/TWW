@@ -5,7 +5,8 @@ local FlowerModule = {} do
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Remote = ReplicatedStorage:WaitForChild('Remotes')
     local TweenService = game:GetService("TweenService")
-    local Zone = require(game.ReplicatedStorage:WaitForChild('Zone'))
+    local ZonePlus = require(game.ReplicatedStorage:WaitForChild('Zone'))
+    local FieldExit = false
     local TweenModule = require(ReplicatedStorage.Libary.TweenModule)
     _G.PData = Remote.GetDataSave:InvokeServer()
     _G.Field = Remote.GetField:InvokeServer()
@@ -44,7 +45,7 @@ local FlowerModule = {} do
             end
         return Orientation
     end
-    
+
     function FlowerModule:CollectFlower(Player, Args)
         local Character = workspace:FindFirstChild(Player.Name)
         local ModelStamp = ReplicatedStorage.Assert.FolderStamps[Args.StatsMOD.Stamp]:Clone()
@@ -135,24 +136,24 @@ local FlowerModule = {} do
             end)
         end
     end
-    
+
     function FlowerModule:RegenUp(Field : Instance)
         local InfoFieldGame = _G.Field[Field.Name]
-            task.spawn(function()
-                while Field do task.wait(5)
-                    for i, Pollen in pairs(Field:GetChildren()) do
-                        if Pollen:IsA("BasePart") then
-                        InfoFieldGame = _G.Field.Flowers[Pollen.FlowerID.Value]
-                            if Pollen.Position.Y < InfoFieldGame.MaxP then
-                                local ToMaxFlower = tonumber(InfoFieldGame.MaxP - Pollen.Position.Y)
-                                local FlowerPos = Pollen.Position + Vector3.new(0, ToMaxFlower, 0)
-                                local FlowerPosTime = Pollen.Position + Vector3.new(0,InfoFieldGame.RegenFlower,0)
-                                TweenModule:RegenUp(Pollen,ToMaxFlower,InfoFieldGame,FlowerPos,FlowerPosTime)
-                            end
-                        end 
-                    end
+        task.spawn(function()
+            while Field do task.wait(5)
+                for i, Pollen in pairs(Field:GetChildren()) do
+                    if Pollen:IsA("BasePart") then
+                    InfoFieldGame = _G.Field.Flowers[Pollen.FlowerID.Value]
+                        if Pollen.Position.Y < InfoFieldGame.MaxP then
+                            local ToMaxFlower = tonumber(InfoFieldGame.MaxP - Pollen.Position.Y)
+                            local FlowerPos = Pollen.Position + Vector3.new(0, ToMaxFlower, 0)
+                            local FlowerPosTime = Pollen.Position + Vector3.new(0,InfoFieldGame.RegenFlower,0)
+                            TweenModule:RegenUp(Pollen,ToMaxFlower,InfoFieldGame,FlowerPos,FlowerPosTime)
+                        end
+                    end 
                 end
-            end)
+            end
+        end)
     end
     
     Remote.FlowerDown.OnClientEvent:Connect(function(Flower,DecAm)
@@ -162,11 +163,11 @@ local FlowerModule = {} do
         task.wait(0.25)
         Flower.ParticleEmitter.Enabled = false
     end)
-    
+
     for _, Field in next, workspace.Map.GameSettings.Fields:GetChildren() do
         FlowerModule:RegenUp(Field)
     end
-    
-    end
-    
-    return FlowerModule
+
+end
+
+return FlowerModule
