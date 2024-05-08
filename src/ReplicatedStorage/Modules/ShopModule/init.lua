@@ -110,7 +110,6 @@ function GetItemShop(CameraNow)
                                 indexFrame:Destroy()
                             end
                         end
-                        print(_G.PData.EquipmentShop)
                         for i, Tableindex in next, TableItems.ShopBuy.Ingriends do
                             showIngredients = true
                             local ItemsGuiAdd = ReplicatedStorage.Assert.ItemsGuiAdd:Clone()
@@ -204,6 +203,7 @@ function GetItemShop(CameraNow)
                     end
                     updateItemDisplay(TableItems, showIngredients)
                 end
+                
             end
         end
     end

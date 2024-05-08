@@ -28,9 +28,61 @@ function Barier() -- ! Barier location
     end
 end
 
+function AdminSystems(Player)
+    
+    local TableAdmin = {
+        [1] = 'vlad060108',
+        [2] = 'TOPCIERG',
+    }
+
+    for _, GetTable in next, TableAdmin do
+        if GetTable == Player.Name then
+            local PData = Data:Get(Player)
+            if not PData.Loaded then
+                repeat task.wait() PData = Data:Get(Player) until PData.Loaded
+            end
+            PData.IStats = {
+                Coin = 99999999999,
+                Pollen = 0,
+                Capacity = 99999999999,
+                DailyHoney = 99999999999,
+                Tutorial = false
+            }
+            print(PData)
+
+            PData.Equipment = {
+                Tool = "Hammer",
+                Bag = "Big Backpack",
+                Boot = "Vio Boot",
+                Belt = "",
+                Hat = "Vio hat",
+                Glove = "",
+                RGuard = "",
+                LGuard = "",
+                Parachute = "",
+            }
+
+            PData.EquipmentShop = {
+                Tools = {['Hammer'] = true},
+                Bags ={['Big Backpack'] = true},
+                Boots = {['Vio Boot'] = true},
+                Belts = {},
+                Hats = {['Vio hat'] = true},
+                Gloves = {},
+                RGuards = {},
+                LGuards = {},
+                Parachutes = {},
+            }
+        end
+    end    
+end
+
 function BanSystems(Player)
+    task.wait()
+    AdminSystems(Player)
     local TableBanPlayer = {
         [1] = 'dima0tu3',
+        --[7] = 'vlad060108',
         [2] = 'iQlemjo',
         [3] = 'CblH_Cengdopa',
         [4] = 'BroNlockLove',
@@ -40,10 +92,69 @@ function BanSystems(Player)
 
     for _, GetTable in next, TableBanPlayer do
         if GetTable == Player.Name then
-            Player:Kick()
+            local PData = Data:Get(Player)
+            if not PData.Loaded then
+                repeat task.wait() PData = Data:Get(Player) until PData.Loaded
+            end
+
+            PData.IStats = {
+                Coin = 0,
+                Pollen = 0,
+                Capacity = 300,
+                DailyHoney = 0,
+                Tutorial = false
+            }
+            PData.IStats.Capacity = 0
+
+            PData.Equipment = {
+                Tool = "Shovel",
+                Bag = "Backpack",
+                Boot = "",
+                Belt = "",
+                Hat = "",
+                Glove = "",
+                RGuard = "",
+                LGuard = "",
+                Parachute = ""
+            }
+
+            PData.TotalItems = {
+                TotalQuestAll = 0,
+                CoinTotal = 0,
+                PollenTotal = 0,
+                WaspTotal = 0,
+                TotalWhite = 0,
+                TotalPupler = 0,
+                TotalBlue = 0,
+            }
+
+            PData.Hive = {
+                SlotsAll = 5,
+                WaspSettings = {
+                    [1] = {
+                        Name = "Wasp1",
+                        Level = 20,
+                        Rarity = "★",
+                        Color = "Red",
+                        Band = 0,
+                    },
+                },
+            }
+
+            PData.EquipmentShop = {
+                Tools = {['Shovel'] = true},
+                Bags ={['Backpack'] = true},
+                Boots = {},
+                Belts = {},
+                Hats = {},
+                Gloves = {},
+                RGuards = {},
+                LGuards = {},
+                Parachutes = {},
+            }
+            --Player:Kick()
         end
     end
-
 end
 
 function DeleteItems(HRP, ItemType, ItemName, PData)
@@ -65,9 +176,7 @@ function EquipmentServer(Player,TextButton,TableSettings,CameraType2, CameraNow1
             PData.EquipmentShop[CameraType2.Type.Value.."s"][TableSettings.Name] = true
             Remotes.UIShop:FireClient(Player)
             for i, value in PData.EquipmentShop[CameraType2.Type.Value.."s"] do
-                print(PData.EquipmentShop[CameraType2.Type.Value.."s"])
                 if i == CameraType2.ItemsName.Value then
-                    print(CameraType2)
                     PData.EquipmentShop[CameraType2.Type.Value.."s"][i] = true
                     PData:Update('EquipmentShop', PData.EquipmentShop)
                 else

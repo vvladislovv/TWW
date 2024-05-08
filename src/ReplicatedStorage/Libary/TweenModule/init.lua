@@ -2,6 +2,9 @@ local TweenService = game:GetService("TweenService")
 local TweenModule = {}
 
 local TweenInfo1 = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+local TweenInfoToken1 = TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out)
+local TweenInfoToken2 = TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out,1)
+local TweenInfoToken3 = TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out)
 
 function TweenModule:OpenButton(Button)
     TweenService:Create(Button,TweenInfo1,{Size = UDim2.new(10,0,5, 0)}):Play()
@@ -9,6 +12,30 @@ end
 
 function TweenModule:CloseButton(Button)
     TweenService:Create(Button,TweenInfo1,{Size = UDim2.new(0,0,0,0)}):Play()
+end
+
+function TweenModule:OpenGuiEquments(Icon) -- {0.261, 0},{0.549, 0}
+    TweenService:Create(Icon,TweenInfo1,{Size = UDim2.new(0.261, 0,0.549, 0)}):Play()
+end
+
+function TweenModule:TrasnparionToken(Token)
+    TweenService:Create(Token.Tokenimage,TweenInfoToken1, {Transparency = 1}):Play()
+    TweenService:Create(Token.DownColor,TweenInfoToken1, {Transparency = 1}):Play()
+    Token.Tokenimage.Decal1.Texture = ""
+    Token.Tokenimage.Decal2.Texture = ""
+end
+
+function TweenModule:OrientationToken(Token)
+    Token.PrimaryPart.Position += Vector3.new(0,1,0)            
+    TweenService:Create(Token.PrimaryPart,TweenInfoToken2, {Orientation = Vector3.new(0,-90,0)}):Play()
+    TweenService:Create(Token.Tokenimage,TweenInfoToken2, {Orientation = Vector3.new(0,-90,0)}):Play()
+    TweenService:Create(Token.DownColor,TweenInfoToken2, {Orientation = Vector3.new(0,-90,0)}):Play()   
+end
+
+function TweenModule:PositionToken(Token)
+    TweenService:Create(Token.PrimaryPart,TweenInfoToken3, {Position = Token.PrimaryPart.Position + Vector3.new(0,2.75,0)}):Play()
+    TweenService:Create(Token.Tokenimage,TweenInfoToken3, {Position = Token.Tokenimage.Position + Vector3.new(0,2.75,0)}):Play()
+    TweenService:Create(Token.DownColor,TweenInfoToken3, {Position = Token.DownColor.Position + Vector3.new(0,2.75,0)}):Play()
 end
 
 function TweenModule:KeyCode(Button)

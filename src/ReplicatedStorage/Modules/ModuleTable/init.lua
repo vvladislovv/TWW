@@ -13,7 +13,12 @@ local TableModuel = {} do
 
     TableModuel.FieldsDrop = {
         ['Banana'] = {
-            ['Banana'] = {Name = "Banana", Rarity = 15, APT = 1}
+            ['Coin'] = {Name = "Coin", Rarity = 95, APT = 1},
+            ['Banana'] = {Name = "Banana", Rarity = 65, APT = 1},
+            ['Waspik Egg'] = {Name = "Waspik Egg", Rarity = 50, APT = 1},
+            ['Send'] = {Name = "Send", Rarity = 25, APT = 1},
+            ['Serk'] = {Name = "Serk", Rarity = 15, APT = 1},
+            ['Flower'] = {Name = "Flower", Rarity = 10, APT = 1},
         }
     }
 
@@ -159,7 +164,32 @@ local TableModuel = {} do
                 ColorToken = Color3.fromRGB(232, 164, 47),
                 Image = "rbxassetid://17180421548",
                 Coouldown = 15
-            }
+            },
+            ['Coin'] = {
+                ColorToken = Color3.fromRGB(160, 106, 12),
+                Image = "rbxassetid://17180421548",
+                Coouldown = 15
+            },
+            ['Waspik Egg'] = {
+                ColorToken = Color3.fromRGB(232, 47, 149),
+                Image = "rbxassetid://17180421548",
+                Coouldown = 15
+            },
+            ['Flower'] = {
+                ColorToken = Color3.fromRGB(47, 232, 140),
+                Image = "rbxassetid://17180421548",
+                Coouldown = 15
+            },
+            ['Send'] = {
+                ColorToken = Color3.fromRGB(232, 47, 47),
+                Image = "rbxassetid://17180421548",
+                Coouldown = 15
+            },
+            ['Serk'] = {
+                ColorToken = Color3.fromRGB(47, 158, 232),
+                Image = "rbxassetid://17180421548",
+                Coouldown = 15
+            },
         }
     }
 

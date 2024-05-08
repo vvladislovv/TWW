@@ -14,57 +14,81 @@ function AnimToken(Token,Info)
     local v1 = false
     local v2 = false
     local v3 = 0
-    
-    if Token then -- Нужно придумать и решить проблему с позицией и FieldVars есть баг надо пофиксить
-        v2 = false
-        TweenService:Create(Token.PrimaryPart,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.PrimaryPart.Position + Vector3.new(0,2.75,0)}):Play()
-        TweenService:Create(Token.Tokenimage,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.Tokenimage.Position + Vector3.new(0,2.75,0)}):Play()
-        TweenService:Create(Token.DownColor,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.DownColor.Position + Vector3.new(0,2.75,0)}):Play()
+
+    repeat task.wait()
+        if Token.PrimaryPart == nil then
+            return nil
+        end
+    until Token.PrimaryPart ~= nil
+    if Token and game.Players:FindFirstChild(Player.Name)  then -- Нужно придумать и решить проблему с позицией и FieldVars есть баг надо пофиксить
+        Token.PrimaryPart.Position = Info.Position
+        Token.Tokenimage.Position = Info.Position
+        Token.DownColor.Position = Info.Position
+        TweenModule:PositionToken(Token)
         TokenCoulduwn = true
         
         task.spawn(function() -- Problems (Наверное надо поменять саму систему вращения)
             repeat
-                task.wait()
-                if Token == nil then return else Token.PrimaryPart.CFrame = Token.PrimaryPart.CFrame * CFrame.Angles(0, math.rad(1), 0) end
+                task.wait() --error
+                if Token.PrimaryPart == nil then
+                    return nil
+                elseif Token.PrimaryPart ~= nil then
+                    Token.PrimaryPart.CFrame = Token.PrimaryPart.CFrame * CFrame.Angles(0, math.rad(1), 0) 
+               end
             until TokenCoulduwn == false
         end)
 
         Token.PrimaryPart.Touched:Connect(function(hit)
-            if v1 == false and hit.Parent == Player.Character and v3 == 0 then
+            task.wait()
+            repeat 
+                if Token.PrimaryPart == nil and _G.PData.BaseFakeSettings.FieldVars ~= "" then return end
+            until Token.PrimaryPart.Position ~= nil
+
+            if v1 == false and not v2 and hit.Parent == Player.Character and v3 == 0 then
+                v2 = true
                 v1 = true
                 v3 = 1
-               -- TokenCoulduwn = false
-                Token.PrimaryPart.Position += Vector3.new(0,1,0)            
-                TweenService:Create(Token.PrimaryPart,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out,1), {Orientation = Vector3.new(0,-90,0)}):Play()
-                TweenService:Create(Token.Tokenimage,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out,1), {Orientation = Vector3.new(0,-90,0)}):Play()
-                TweenService:Create(Token.DownColor,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out,1), {Orientation = Vector3.new(0,-90,0)}):Play()
-                
-                TweenService:Create(Token.Tokenimage,TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Transparency = 1}):Play()
-                TweenService:Create(Token.DownColor,TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Transparency = 1}):Play()
+
+                TweenModule:OrientationToken(Token)
+                TweenModule:TrasnparionToken(Token)
+
                 task.wait(2)
-                TweenService:Create(Token.PrimaryPart,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.PrimaryPart.Position + Vector3.new(0,-15,0)}):Play()
-                TweenService:Create(Token.Tokenimage,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.Tokenimage.Position + Vector3.new(0,-15,0)}):Play()
-                TweenService:Create(Token.DownColor,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.DownColor.Position + Vector3.new(0,-15,0)}):Play()
-                Token:Destroy()
+                if Token.PrimaryPart ~= nil then
+                    TweenService:Create(Token.PrimaryPart,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.PrimaryPart.Position + Vector3.new(0,-15,0)}):Play()
+                    TweenService:Create(Token.Tokenimage,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.Tokenimage.Position + Vector3.new(0,-15,0)}):Play()
+                    TweenService:Create(Token.DownColor,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.DownColor.Position + Vector3.new(0,-15,0)}):Play()
+                    Token:Destroy()
+                    v1 = false
+                    v3 = 0 
+                end
                 v1 = false
-                v2 = true
-                v3 = 0
+                v3 = 0 
             end
         end)
-        
+
         task.spawn(function()
             task.wait(15)
-            if not v2 then
-                TweenService:Create(Token.Tokenimage,TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Transparency = 1}):Play()
-                TweenService:Create(Token.DownColor,TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Transparency = 1}):Play()
+            v2 = false
+            repeat
+                task.wait() --error
+                if Token.PrimaryPart == nil then
+                    return nil
+               end
+            until Token.PrimaryPart ~= nil
+            if not v2 and Token:FindFirstChild('Tokenimage') ~= nil then
+                v2 = true
+                TweenModule:TrasnparionToken(Token)
                 task.wait(2)
-                TweenService:Create(Token.PrimaryPart,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.PrimaryPart.Position + Vector3.new(0,-15,0)}):Play()
-                TweenService:Create(Token.Tokenimage,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.Tokenimage.Position + Vector3.new(0,-15,0)}):Play()
-                TweenService:Create(Token.DownColor,TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out), {Position = Token.DownColor.Position + Vector3.new(0,-15,0)}):Play()
-                --TokenCoulduwn = false
+
+                if Token.PrimaryPart ~= nil then
+                    TweenModule:PositionToken(Token)
+                    v1 = false
+                    v2 = false
+                    Token:Destroy() 
+                end
+
                 v1 = false
                 v2 = false
-                Token:Destroy()
             end
         end)
     end

@@ -24,6 +24,7 @@ local EquipmentModule = {} do
 
     function EquipmentModule:LoadItems(Player, PData, Character)
         NoCollide(Character)
+        require(script.BootsCollect):BootsCollectings(Player,Character)
         local Humanoid = Character:FindFirstChild("Humanoid")
         EquipmentModule:EquipItemsGame(Character, "Boot", PData,Player)
         EquipmentModule:EquipItemsGame(Character, "Parachute", PData,Player)
@@ -40,7 +41,6 @@ local EquipmentModule = {} do
             local PData = Data:Get(Player)
             PData.IStats.Pollen = 0
             PData:Update('IStats', PData.IStats)
-
             
             --! Оповищение, что рюкзак пуст
             local Character = Player.CharacterAdded:Wait()
@@ -83,6 +83,7 @@ local AllScript = require(ServerScriptService.ServerScript.AllScript)
     function EquipmentModule:EquipItemsGame(Character, TypeItem, PData,Player)
         local Humanoid = Character:WaitForChild("Humanoid")
         if PData.Equipment[TypeItem] then
+            Remote.UItems:FireClient(Player,TypeItem)
             local ItemPData = PData.Equipment[TypeItem]
             local ItemObj1
             local ItemObj2

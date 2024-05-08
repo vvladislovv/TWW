@@ -16,16 +16,19 @@ local FlowerCollect = {}
 
 function RToken(Field)
     local Data = Item.FieldsDrop[Field]
-    local TotalWeight = 500
+    local TotalWeight = 0
 
+    for i,v in pairs(Data) do
+        TotalWeight += v.Rarity
+    end
+    
     local Chance = math.random(1, TotalWeight)
     local coun = 0
+
     for i,v in pairs(Data) do
-        coun += math.random(1, TotalWeight/6)
-        if coun > Chance then
+        coun += v.Rarity
+        if coun >= Chance then
             return v.Name
-        else
-            return nil
         end
     end
 end
@@ -135,12 +138,12 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                 CoinAdd += Convert
                 
                 local FieldGrant = math.random(1,500)
-                if FieldGrant <= 300 then
+                if FieldGrant <= math.random(1,15) then
                     if Item.FieldsDrop[FieldName] then
                         local RandomToken = RToken(FieldName)
                         if RandomToken ~= nil then
-                            print(RandomToken)
                             TokensModule:SpawnToken({
+                                PlayerName = Player,
                                 Position = Flower.Position,
                                 Cooldown = 15,
                                 Token = {

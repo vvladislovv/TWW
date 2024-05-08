@@ -33,11 +33,11 @@ function Data.new(Player)
 	}
 	
 	PData.IStats = {
-		Coin = 5000,
+		Coin = 99999999999,
 		Pollen = 0,
-		Capacity = 1000000000000,
-		DailyHoney = 0,
-        Tutorial = false
+		Capacity = 99999999999,
+		DailyHoney = 99999999999,
+		Tutorial = false
 	}
 
     PData.TotalItems = {
@@ -92,7 +92,7 @@ function Data.new(Player)
         RolingWasp = 0,
     }
 
-    PData.Boost  = {
+    PData.Boost = {
 		PlayerBoost = {
 			["Pollen"] = 100,
 			["Pupler Pollen"] = 100,
@@ -136,15 +136,15 @@ function Data.new(Player)
 	}
 
 	PData.Equipment = {
-        Tool = "Hammer",
-        Bag = "Big Backpack",
+		Tool = "Hammer",
+		Bag = "Big Backpack",
 		Boot = "Vio Boot",
-        Belt = "",
-        Hat = "Vio hat",
+		Belt = "",
+		Hat = "Vio hat",
 		Glove = "",
-        RGuard = "",
+		RGuard = "",
 		LGuard = "",
-		Parachute = ""
+		Parachute = "",
 	}
 
 	PData.EquipmentShop = {
@@ -184,7 +184,9 @@ function Data.new(Player)
 
     PData.Settings = { 
         ['Sound'] = true,
-        ['Pollen Text'] = true
+        ['Pollen Text'] = true,
+		['PollenGuiAdd'] = false,
+		['CoinGuiAdd'] = false
     }
 	
 	function PData:Update(key, value)
@@ -206,8 +208,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test1'
-local ClientKey = 'Data_Client_Test1'
+local MainKey = 'Data_Server_Test4'
+local ClientKey = 'Data_Client_Test4'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 

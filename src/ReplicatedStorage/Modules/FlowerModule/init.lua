@@ -1,6 +1,7 @@
 local FlowerModule = {} do
     local Player = game.Players.LocalPlayer
     local character = Player.Character or Player.CharacterAdded:Wait()
+    local Humanoid = character:WaitForChild("Humanoid")
     local PlayerGui = Player:WaitForChild("PlayerGui")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Remote = ReplicatedStorage:WaitForChild('Remotes')
@@ -11,11 +12,9 @@ local FlowerModule = {} do
     _G.PData = Remote.GetDataSave:InvokeServer()
     _G.Field = Remote.GetField:InvokeServer()
     
-    require(script.BootsCollect):BootsCollectings(Player,character,FlowerModule)
 
     local TablePlayerFlower = {}
     local Item = require(ReplicatedStorage.Modules.ModuleTable)
-    
     
     function GetRotation(Character)
         local Orientation 
@@ -45,6 +44,10 @@ local FlowerModule = {} do
             end
         return Orientation
     end
+
+    Remote.FlowerClientBoots.OnClientEvent:Connect(function(TableInfo)
+        FlowerModule:CollectFlower(Player,TableInfo)
+    end)
 
     function FlowerModule:CollectFlower(Player, Args)
         local Character = workspace:FindFirstChild(Player.Name)
