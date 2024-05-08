@@ -35,7 +35,7 @@ function Data.new(Player)
 	PData.IStats = {
 		Coin = 5000,
 		Pollen = 0,
-		Capacity = 100000,
+		Capacity = 1000000000000,
 		DailyHoney = 0,
         Tutorial = false
 	}

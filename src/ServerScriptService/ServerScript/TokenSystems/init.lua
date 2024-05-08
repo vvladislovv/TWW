@@ -13,6 +13,7 @@ local TokenSystems = {}
 
 function TokenSystems:SpawnToken(Info)
     print(Info)
+    local v1 = true
     local TokenModule = ModuleTable.TokenTables.TokenDrop[Info.Token.Item]
     local Token = ReplicatedStorage.Assert.Token:Clone()
     Token.Type.Value = Info.Token.Type
@@ -34,6 +35,11 @@ function TokenSystems:SpawnToken(Info)
             Token.DownColor.CanTouch = false
             if Player then
                 task.spawn(function()
+                    task.wait(TokenModule.Coouldown-5)
+                    v1 = true
+                end)
+
+                task.spawn(function()
                     local PData = Data:Get(Player)
                     if Token:FindFirstChild('Type').Value == "Drop" then
                         if Token:FindFirstChild('Item') == "Coin" then
@@ -43,7 +49,12 @@ function TokenSystems:SpawnToken(Info)
                             PData.BaseSettings["DailyHoney"] += AmountOfHoney
                             -- NofficalGame:NofficalCreate()
                         else
-                            PData.Inventory[Token.Item.Value] += Token.Amount.Value
+                            if v1 then
+                                print(v1)
+                                v1 = false
+                                PData.Inventory[Token.Item.Value] += Token.Amount.Value
+                                print(PData.Inventory[Token.Item.Value])
+                            end
                         end
 
                     elseif Token.Type.Value == "Boost" then

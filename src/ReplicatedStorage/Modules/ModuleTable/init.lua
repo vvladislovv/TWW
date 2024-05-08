@@ -158,6 +158,7 @@ local TableModuel = {} do
             ['Banana'] = {
                 ColorToken = Color3.fromRGB(232, 164, 47),
                 Image = "rbxassetid://17180421548",
+                Coouldown = 15
             }
         }
     }
