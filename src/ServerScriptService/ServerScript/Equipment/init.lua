@@ -37,11 +37,13 @@ local EquipmentModule = {} do
 
 
         Humanoid.Died:Connect(function()
-            local Character = Player.CharacterAdded:Wait()
             local PData = Data:Get(Player)
+            PData.IStats.Pollen = 0
+            PData:Update('IStats', PData.IStats)
+
             
             --! Оповищение, что рюкзак пуст
-            PData.IStats.Pollen = 0
+            local Character = Player.CharacterAdded:Wait()
             EquipmentModule:LoadItems(Player, PData, Character)
         end)
     end

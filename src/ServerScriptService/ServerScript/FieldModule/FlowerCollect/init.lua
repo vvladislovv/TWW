@@ -6,6 +6,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local TokensModule = require(game.ServerScriptService.ServerScript.TokenSystems)
 local FieldGame = require(ServerScriptService.ServerScript.FieldModule)
 local DataSave = require(ServerScriptService.ServerScript.Data)
+local ZonePlus = require(game.ReplicatedStorage:WaitForChild('Zone'))
 local Item = require(ReplicatedStorage.Modules.ModuleTable)
 local Remote = ReplicatedStorage:WaitForChild('Remotes')
 --print(TablePlayerFlower)
@@ -134,7 +135,6 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                 
                 local FieldGrant = math.random(1,500)
                 if FieldGrant <= 300 then
-                    print(Item.FieldsDrop[FieldName])
                     if Item.FieldsDrop[FieldName] then
                         local RandomToken = RToken(FieldName)
                         if RandomToken ~= nil then
@@ -179,7 +179,6 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                 --print(PData)
                 PData.TotalItems.CoinTotal += math.round(CoinAdd)
                 PData.TotalItems.PollenTotal += math.round(PollenAdd)
-                PData.IStats.Capacity += math.round(PollenAdd)
                -- print(FColor)
                 PData.TotalItems["Total"..FColor] += math.round(PollenAdd)
                 PData.IStats.Pollen += math.round(PollenAdd)
@@ -193,5 +192,22 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
     end
 end)
 
+for _, FieldBarier in next, workspace.Map.GameSettings.FieldBarier:GetChildren() do
+    local Zone = ZonePlus.new(FieldBarier)
+
+    Zone.playerEntered:Connect(function(Player)
+        local PData = DataSave:Get(Player)
+        PData.BaseFakeSettings.FieldVars = FieldBarier
+        PData.BaseFakeSettings.FieldVarsOld = FieldBarier
+        PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
+    end)
+
+    Zone.playerExited:Connect(function(Player)
+        local PData = DataSave:Get(Player)
+        PData.BaseFakeSettings.FieldVars = ""
+        PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
+    end)
+
+end
 
 return FlowerCollect

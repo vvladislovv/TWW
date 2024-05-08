@@ -21,7 +21,7 @@ function Data.new(Player)
 		OpenCameraCustomHive = false,
 		OpenCameraCustom = false,
 		OpenShop = false,
-		FieldVars = "Banana",
+		FieldVars = "",
 		GuiField = false,
 		FieldVarsOld = ""
 	}
@@ -34,8 +34,7 @@ function Data.new(Player)
 	PData.IStats = {
 		Coin = 5000,
 		Pollen = 0,
-		Capacity = 0,
-		CapacityItems = 10000000000000000000000000,
+		Capacity = 100000,
 		DailyHoney = 0,
         Tutorial = false
 	}

@@ -10,7 +10,7 @@ local UImodule = {}
 function ItemsPlayer(TypeItems)
 
     if _G.PData.Equipment[TypeItems] then
-        local IconGui = UIs.BoostIcon
+        local IconGui = UIs:WaitForChild('BoostIcon')
         for Number, GetIcon in next, IconGui:GetChildren() do
             for Num, GetEquimp in next, _G.PData.Equipment do
                 if GetIcon.Name == "Tool"and Num == "Tool" and _G.PData.Equipment[TypeItems] == GetEquimp then
@@ -25,6 +25,7 @@ function ItemsPlayer(TypeItems)
     end
 end
 
-Remote.UItems.OnClientEvent:Connect(ItemsPlayer)
 
+
+Remote.UItems.OnClientEvent:Connect(ItemsPlayer)
 return UImodule
