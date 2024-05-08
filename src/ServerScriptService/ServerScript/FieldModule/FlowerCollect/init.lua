@@ -38,6 +38,7 @@ game.Players.PlayerAdded:Connect(function(plr)
     TablePlayerFlower[plr.Name] = {White = 0, Blue = 0, Coin = 0,  Pupler = 0}
 end)
 
+
 Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, StatsMOD, Stamp)
     local PData = DataSave:Get(Player)
     if Flower and PData and (Flower.Position.Y - FieldGame.Flowers[Flower.FlowerID.Value].MinP) > 0.2 then
@@ -194,11 +195,11 @@ end)
 
 for _, FieldBarier in next, workspace.Map.GameSettings.FieldBarier:GetChildren() do
     local Zone = ZonePlus.new(FieldBarier)
-
     Zone.playerEntered:Connect(function(Player)
         local PData = DataSave:Get(Player)
-        PData.BaseFakeSettings.FieldVars = FieldBarier
-        PData.BaseFakeSettings.FieldVarsOld = FieldBarier
+        PData.BaseFakeSettings.FieldVars = FieldGame.Correspondant[FieldBarier.Name]
+        print(PData.BaseFakeSettings.FieldVars)
+        PData.BaseFakeSettings.FieldVarsOld = FieldBarier.Name
         PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
     end)
 

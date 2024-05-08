@@ -17,6 +17,7 @@ function TokenSystems:SpawnToken(Info)
     local Token = ReplicatedStorage.Assert.Token:Clone()
     Token.Type.Value = Info.Token.Type
     Token.Tokenimage.Color = TokenModule.ColorToken
+    Token.PrimaryPart.Position = Info.Position 
     Token.Amount.Value = Info.Token.Amount
     Token.Item.Value = Info.Token.Item
     Token.Resourse.Value = Info.Resourse

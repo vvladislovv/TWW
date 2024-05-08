@@ -22,6 +22,7 @@ function Data.new(Player)
 		OpenCameraCustom = false,
 		OpenShop = false,
 		FieldVars = "",
+		FieldNameSettings = "",
 		GuiField = false,
 		FieldVarsOld = ""
 	}
@@ -127,6 +128,7 @@ function Data.new(Player)
 		['Waspik Egg'] = 1,
 		['Strabbery'] = 15,
 		['Send'] = 15,
+		['Banana'] = 0,
 		['Rock'] = 15,
 		['Flower'] = 15,
 		['Gold Egg'] = 1,

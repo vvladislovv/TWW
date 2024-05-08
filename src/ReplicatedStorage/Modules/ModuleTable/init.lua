@@ -13,7 +13,7 @@ local TableModuel = {} do
 
     TableModuel.FieldsDrop = {
         ['Banana'] = {
-            ['Coin'] = {Name = "Coin", Rarity = 15, APT = 1}
+            ['Banana'] = {Name = "Banana", Rarity = 15, APT = 1}
         }
     }
 
@@ -155,9 +155,9 @@ local TableModuel = {} do
 
     TableModuel.TokenTables = {
         TokenDrop = {
-            ['Coin'] = {
+            ['Banana'] = {
                 ColorToken = Color3.fromRGB(232, 164, 47),
-                Image = "http://www.roblox.com/asset/?id=10315383929",
+                Image = "rbxassetid://17180421548",
             }
         }
     }
