@@ -24,7 +24,10 @@ function Data.new(Player)
 		FieldVars = "",
 		FieldNameSettings = "",
 		GuiField = false,
-		FieldVarsOld = ""
+		FieldVarsOld = "",
+
+		MonsterZone = false,
+		FieldMods = ""
 	}
 
 	PData.GameSettings = {

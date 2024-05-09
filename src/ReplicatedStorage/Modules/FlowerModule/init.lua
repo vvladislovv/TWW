@@ -172,7 +172,6 @@ local FlowerModule = {} do
 
     Remote.FlowerDown.OnClientEvent:Connect(function(Flower,DecAm)
         local FlowerPos = Flower.Position - Vector3.new(0,DecAm,0)
-        print(Flower)
         TweenModule:FlowerDown(Flower,FlowerPos)
     end)
 
