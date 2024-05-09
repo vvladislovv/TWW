@@ -49,7 +49,6 @@ function TokenSystems:SpawnToken(Info)
                                 v1Dop = false
                                 local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,50)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
                                 PData.IStats.Coin += AmountOfHoney
-                                print(AmountOfHoney)
                                 PData.TotalItems.CoinTotal += AmountOfHoney
                                 PData.IStats.DailyHoney += AmountOfHoney
                                 PData:Update('IStats', PData.IStats)
@@ -61,7 +60,6 @@ function TokenSystems:SpawnToken(Info)
                                 v1 = false
                                 PData.Inventory[Token.Item.Value] += Token.Amount.Value
                                 PData:Update('Inventory', PData.Inventory)
-                                print(PData.Inventory[Token.Item.Value])
                             end
                         end
 

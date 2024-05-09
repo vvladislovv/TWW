@@ -201,7 +201,6 @@ for _, FieldBarier in next, workspace.Map.GameSettings.FieldBarier:GetChildren()
     Zone.playerEntered:Connect(function(Player)
         local PData = DataSave:Get(Player)
         PData.BaseFakeSettings.FieldVars = FieldGame.Correspondant[FieldBarier.Name]
-        print(PData.BaseFakeSettings.FieldVars)
         PData.BaseFakeSettings.FieldVarsOld = FieldBarier.Name
         PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
     end)

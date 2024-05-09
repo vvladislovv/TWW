@@ -116,6 +116,7 @@ local FlowerModule = {} do
                                     Remote.CollectField:FireServer(part, Args.HRP, nil, ModelStamp.PrimaryPart)
                                     task.wait(0.1)
                                     ModelStamp:Destroy()
+                                    
                                 end
                             end
                         end)
@@ -134,6 +135,7 @@ local FlowerModule = {} do
                         end
                         task.wait(0.1)
                         ModelStamp:Destroy()
+                        
                     end
                 end
             end)
