@@ -45,15 +45,24 @@ function HiveModule:StatModule(input)
             end)
 
             HiveOwnerCheck()
-            if _G.PData.IStats.Capacity > 0 then -- Check Capacity
+            if _G.PData.IStats.Pollen > 0 then -- Check Capacity
                 --Button.B.Text.Position = UDim2.new(0.27, 0,0.25, 0)
                 Button.B:WaitForChild('TextLabel').Text = "Stop Converting"
+                Remotes.HiveConvert:FireServer()
+                
+                task.spawn(function()
+                    repeat task.wait(1)
+                        Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
+                    until _G.PData.IStats.Pollen == 0
+                end)
+
                 Noffical = true
                 --print(Noffical)
             else
                 --Button.B.Text.Position = UDim2.new(0.27, 0,0.2, 0)
                 Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
                 --Noffical = false
+                
                 if not Noffical then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
                     --print('fasdfagdasgdasdg')
                     task.wait()

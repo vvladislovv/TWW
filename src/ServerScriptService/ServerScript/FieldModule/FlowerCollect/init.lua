@@ -117,6 +117,7 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                     end
                 end
             end
+            Remote.FlowerDownEffect:FireClient(Player,Flower)
             Remote.FlowerDown:FireAllClients(Flower,DecAm)
             local CoinAdd = 0
 
@@ -141,7 +142,7 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
                 if FieldGrant <= math.random(1,15) then
                     if Item.FieldsDrop[FieldName] then
                         local RandomToken = RToken(FieldName)
-                        if RandomToken ~= nil then
+                        if RandomToken ~= 1 then
                             TokensModule:SpawnToken({
                                 PlayerName = Player,
                                 Position = Flower.Position,

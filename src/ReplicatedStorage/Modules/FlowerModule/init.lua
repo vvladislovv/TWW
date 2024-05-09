@@ -55,55 +55,57 @@ local FlowerModule = {} do
         local CheckStamp = 0
         ModelStamp.Parent = workspace.Map.GameSettings.GameOnline.Stamps
     
+        task.spawn(function()
+            local hit = Instance.new("Part")
+            hit.Name = "Hit"
+            hit.CanCollide = false
+            hit.Size = Vector3.new(0.1,0.1,0.1)
+            hit.Parent = Args.HRP
+            hit.Orientation = Args.HRP.Orientation
+            hit.Transparency = 1
+            hit.Anchored = false
+            hit.Massless = true
+            hit.Position = Args.HRP.Position + Args.Offset
 
-        local hit = Instance.new("Part")
-        hit.Name = "Hit"
-        hit.CanCollide = false
-        hit.Size = Vector3.new(0.1,0.1,0.1)
-        hit.Parent = Args.HRP
-        hit.Orientation = Args.HRP.Orientation
-        hit.Transparency = 1
-        hit.Anchored = false
-        hit.Massless = true
-        hit.Position = Args.HRP.Position + Args.Offset
-    
-        hit.Touched:Connect(function(Part)
-            if Part.Name == "Flower" then
-                
-                task.spawn(function()
-                    --local toolsSop = coroutine.create
-                    if ModelStamp:IsA("Model") then
-    
-                        for _, Object in pairs(ModelStamp:GetChildren()) do
-                            Object.Anchored = false
+            hit.Touched:Connect(function(Part)
+                if Part.Name == "Flower" then
+                    
+                    task.spawn(function()
+                        --local toolsSop = coroutine.create
+                        if ModelStamp:IsA("Model") then
+        
+                            for _, Object in pairs(ModelStamp:GetChildren()) do
+                                Object.Anchored = false
+                            end
+        
+                            ModelStamp:SetPrimaryPartCFrame(CFrame.new(Part.Position) * GetRotation(Character))
+                            task.wait(0.2)
+                            
+                            for _, Object in pairs(ModelStamp:GetChildren()) do
+                                Object.Anchored = true
+                            end
+        
+                            task.wait(0.1)
+        
+                            pcall(function()
+                                ModelStamp:SetPrimaryPartCFrame(CFrame.new(Args.HRP.Position))
+                            end)
+                        else
+                            ModelStamp.CFrame = CFrame.new(Part.Position) * GetRotation(Character)
                         end
-    
-                        ModelStamp:SetPrimaryPartCFrame(CFrame.new(Part.Position) * GetRotation(Character))
-                        task.wait(0.2)
-                        
-                        for _, Object in pairs(ModelStamp:GetChildren()) do
-                            Object.Anchored = true
-                        end
-    
-                        task.wait(0.1)
-    
-                        pcall(function()
-                            ModelStamp:SetPrimaryPartCFrame(CFrame.new(Args.HRP.Position))
-                        end)
-                    else
-                        ModelStamp.CFrame = CFrame.new(Part.Position) * GetRotation(Character)
-                    end
-                end)
-            end
+                    end)
+                end
+            end)
+        
+            hit.Position = hit.Position + Vector3.new(0, -2.48, 0)
+            task.wait()
+            hit:Destroy()
+            
+            local WoldHit = Instance.new("WeldConstraint", hit)
+            WoldHit.Part0 = Args.HRP
+            WoldHit.Part1 = hit
         end)
     
-        hit.Position = hit.Position + Vector3.new(0, -2.48, 0)
-        task.wait()
-        hit:Destroy()
-        
-        local WoldHit = Instance.new("WeldConstraint", hit)
-        WoldHit.Part0 = Args.HRP
-        WoldHit.Part1 = hit
     
         local Flowers = {}
             if ModelStamp:IsA("Model") then
@@ -161,12 +163,17 @@ local FlowerModule = {} do
         end)
     end
     
-    Remote.FlowerDown.OnClientEvent:Connect(function(Flower,DecAm)
-        local FlowerPos = Flower.Position - Vector3.new(0,DecAm,0)
-        TweenModule:FlowerDown(Flower,FlowerPos)
+
+    Remote.FlowerDownEffect.OnClientEvent:Connect(function(Flower,DecAm)
         Flower.ParticleEmitter.Enabled = true
         task.wait(0.25)
         Flower.ParticleEmitter.Enabled = false
+    end)
+
+    Remote.FlowerDown.OnClientEvent:Connect(function(Flower,DecAm)
+        local FlowerPos = Flower.Position - Vector3.new(0,DecAm,0)
+        print(Flower)
+        TweenModule:FlowerDown(Flower,FlowerPos)
     end)
 
     for _, Field in next, workspace.Map.GameSettings.Fields:GetChildren() do

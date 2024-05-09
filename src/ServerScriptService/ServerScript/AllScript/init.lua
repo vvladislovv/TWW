@@ -224,8 +224,16 @@ function ShopBuyServer(Player,TextButton,TableSettings,CameraType, CameraNow) --
     end
 end
 
+function ConvertServer(plr)
+    local PData = Data:Get(plr)
+    PData.IStats.Coin += PData.IStats.Pollen
+    PData.IStats.Pollen = 0
+    PData:Update('IStats', PData.IStats)
+end
+
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)
 Remotes.BuyShop2.OnServerEvent:Connect(EquipmentServer)
+Remotes.HiveConvert.OnServerEvent:Connect(ConvertServer)
 game.Players.PlayerAdded:Connect(BanSystems)
 task.spawn(Barier)
 

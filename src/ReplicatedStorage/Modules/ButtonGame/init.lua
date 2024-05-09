@@ -3,7 +3,8 @@ local MobuleButton = {}
 local Player = game:GetService("Players").LocalPlayer
 local SoundService = game:GetService("SoundService")
 local character = Player.Character or Player.CharacterAdded:Wait()
-local HumRootPart = character.HumanoidRootPart
+local Humanoid = character:WaitForChild('Humanoid')
+local HumRootPart = character:WaitForChild("HumanoidRootPart")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
@@ -19,7 +20,7 @@ local TableButton = {
 
 
 
-function DistationButton(Button,Distation) -- 
+function DistationButton(Button,Distation) 
     if Distation < 10 then
         --SoundService.OpenButton:Play()
         TweenModule:OpenButton(Button.B)
@@ -63,18 +64,6 @@ end
 
 UserInputService.InputBegan:Connect(KeyCode)
 
-for _, Button in next, workspace.Map.GameSettings.Button:GetChildren() do
-     _G.Button = Button
-     local Distation = nil
- 
-     coroutine.wrap(function() -- Смотрит растояние
-        while true do
-            task.wait()
-            Distation = (Button.Position - HumRootPart.Position).Magnitude
-            _G.Dis = Distation
-            DistationButton(Button,Distation) -- Передаю в другую функциию
-        end
-     end)()
- end
+ReplicatedStorage.Remotes.ButtonCleint.OnClientEvent:Connect(DistationButton)
 
 return MobuleButton
