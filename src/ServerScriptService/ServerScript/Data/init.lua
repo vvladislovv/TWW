@@ -171,6 +171,24 @@ function Data.new(Player)
 		},
 		["clownEvent"] = {
 			Time = 0
+		},
+
+		['Banana'] ={
+			Timer1 = {
+				Time = 60
+			},
+			Timer2 = {
+				Time = 60
+			},
+			Timer3 = {
+				Time = 60
+			},
+			Timer4 = {
+				Time = 60
+			},
+			Timer5 = {
+				Time = 60
+			},
 		}
 	}
 	PData.Bagers = {

@@ -8,11 +8,10 @@ local prefixes = {
     "","k","M","B","T","qd","Qn","Sx","Sp","Oc","N"
 }
 
+
 function Utils:FormatTime(Seconds)
-    print(Seconds)
     local Minutes = (Seconds - Seconds%60)/60
     Seconds = Seconds - Minutes*60
-    print(Minutes)
     local Hours = (Minutes - Minutes%60)/60
     Minutes = Minutes - Hours*60
     

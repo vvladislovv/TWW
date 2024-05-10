@@ -46,8 +46,9 @@ function TokenSystems:SpawnToken(Info)
                     if Token:FindFirstChild('Type').Value == "Drop" then
                         if Token:FindFirstChild('Item').Value == "Coin" then
                             if v1Dop then
+                                task.wait()
                                 v1Dop = false
-                                local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,50)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
+                                local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,25)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
                                 PData.IStats.Coin += AmountOfHoney
                                 PData.TotalItems.CoinTotal += AmountOfHoney
                                 PData.IStats.DailyHoney += AmountOfHoney
