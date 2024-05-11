@@ -129,21 +129,14 @@ function Data.new(Player)
 
 	PData.Inventory = {
 		['Waspik Egg'] = 1,
-		['Strabbery'] = 15,
-		['Send'] = 15,
-		['Banana'] = 0,
-		['Rock'] = 15,
-		['Flower'] = 15,
-		['Gold Egg'] = 1,
-		['Serk'] = 1
 	}
 
 	PData.Equipment = {
-		Tool = "Hammer",
-		Bag = "Big Backpack",
-		Boot = "Vio Boot",
+		Tool = "Shovel",
+		Bag = "Backpack",
+		Boot = "",
 		Belt = "",
-		Hat = "Vio hat",
+		Hat = "",
 		Glove = "",
 		RGuard = "",
 		LGuard = "",
@@ -151,11 +144,11 @@ function Data.new(Player)
 	}
 
 	PData.EquipmentShop = {
-		Tools = {['Hammer'] = true},
-        Bags ={['Big Backpack'] = true},
-		Boots = {['Vio Boot'] = true},
+		Tools = {['Shovel'] = true},
+        Bags ={['Backpack'] = true},
+		Boots = {},
         Belts = {},
-        Hats = {['Vio hat'] = true},
+        Hats = {},
 		Gloves = {},
         RGuards = {},
 		LGuards = {},
@@ -175,19 +168,19 @@ function Data.new(Player)
 
 		['Banana'] ={
 			Timer1 = {
-				Time = 60
+				Time = 0
 			},
 			Timer2 = {
-				Time = 60
+				Time = 0 
 			},
 			Timer3 = {
-				Time = 60
+				Time = 0
 			},
 			Timer4 = {
-				Time = 60
+				Time = 0
 			},
 			Timer5 = {
-				Time = 60
+				Time = 0
 			},
 		}
 	}
@@ -229,8 +222,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test4'
-local ClientKey = 'Data_Client_Test4'
+local MainKey = 'Data_Server_Test6'
+local ClientKey = 'Data_Client_Test6'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 

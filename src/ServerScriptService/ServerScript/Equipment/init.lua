@@ -83,7 +83,6 @@ local AllScript = require(ServerScriptService.ServerScript.AllScript)
     function EquipmentModule:EquipItemsGame(Character, TypeItem, PData,Player)
         local Humanoid = Character:WaitForChild("Humanoid")
         if PData.Equipment[TypeItem] then
-            Remote.UItems:FireClient(Player,TypeItem)
             local ItemPData = PData.Equipment[TypeItem]
             local ItemObj1
             local ItemObj2

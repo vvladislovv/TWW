@@ -72,6 +72,13 @@ function CoinClick()
     end
 end
 
+function StartPlayerGui()
+    _G.PData.Settings.PollenGuiAdd = false
+    _G.PData.Settings.CoinGuiAdd = false
+    Coin.Frame.Frame.TextLabel.Text = Utils:CommaNumber(_G.PData.IStats.Coin)
+    Pollen.CanvasGroup.TextLabel.Text = Utils:CommaNumber(_G.PData.IStats.Pollen)..'/'..Utils:CommaNumber(_G.PData.IStats.Capacity)
+end
+
 Coin.TextButton.MouseEnter:Connect(function()
     IsHovering = true
     IndexText.Text = "Your Coin"
@@ -98,7 +105,7 @@ RunService.RenderStepped:Connect(function()
     IndexText.Position = UDim2.fromOffset(Mouse.X+55,Mouse.Y+30)
     IndexText.Visible = IsHovering
 end)
-
+Remote.StartPlayerCoinPollen.OnClientEvent:Connect(StartPlayerGui)
 Pollen.TextButton.MouseButton1Click:Connect(PollenClick)
 Coin.TextButton.MouseButton1Click:Connect(CoinClick)
 Remote.UItems.OnClientEvent:Connect(ItemsPlayer)

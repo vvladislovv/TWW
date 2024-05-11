@@ -6,6 +6,14 @@ local TweenInfoToken1 = TweenInfo.new(8,Enum.EasingStyle.Elastic,Enum.EasingDire
 local TweenInfoToken2 = TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out,1)
 local TweenInfoToken3 = TweenInfo.new(1.5,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out)
 
+function TweenModule:BillboardGuiOpen(v2)
+    TweenService:Create(v2.BillboardGui, TweenInfo.new(1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size = UDim2.new(3, 0,2, 0)}):Play()
+end
+
+function TweenModule:BillboardGuiClose(v2)
+    TweenService:Create(v2.BillboardGui, TweenInfo.new(1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size = UDim2.new(0,0,0,0)}):Play()--{3, 0},{2, 0}
+end
+
 function TweenModule:OpenButton(Button)
     TweenService:Create(Button,TweenInfo1,{Size = UDim2.new(10,0,5, 0)}):Play()
 end

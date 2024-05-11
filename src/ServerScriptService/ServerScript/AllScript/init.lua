@@ -9,6 +9,26 @@ local Data = require(ServerScriptService.ServerScript.Data)
 local ZonePlus = require(game.ReplicatedStorage:FindFirstChild('Zone'))
 local EquipmentModule = require(ServerScriptService.ServerScript.Equipment)
 
+local TableSettingsGame = {
+    BanPlayer = {
+        [1] = 'dima0tu3',
+        [2] = 'iQlemjo',
+        [3] = 'CblH_Cengdopa',
+        [4] = 'BroNlockLove',
+        [5] = 'dima0tu17',
+        [6] = 'KtotoVBSS',
+        [7] = 'StepanVIP123',
+        --[8] = 'vlad060108',
+    },
+    Testers = {
+        [1] = "BreadDev",
+    },
+    Admins = {
+        [1] = "vlad060108",
+        [2] = "BreadDev"
+    },
+}
+
 function Barier() -- ! Barier location 
     for _, index in next, workspace.Map.GameSettings.Barier:GetChildren() do
         local Zone = ZonePlus.new(index)
@@ -29,18 +49,11 @@ function Barier() -- ! Barier location
 end
 
 function AdminSystems(Player)
-    
-    local TableAdmin = {
-        [1] = 'vlad060108',
-        [2] = 'TOPCIERG',
-    }
 
-    for _, GetTable in next, TableAdmin do
+    for _, GetTable in next, TableSettingsGame.Admins do
         if GetTable == Player.Name then
             local PData = Data:Get(Player)
-            if not PData.Loaded then
-                repeat task.wait() PData = Data:Get(Player) until PData.Loaded
-            end
+            print(PData)
             PData.IStats = {
                 Coin = 99999999999,
                 Pollen = 0,
@@ -48,8 +61,7 @@ function AdminSystems(Player)
                 DailyHoney = 99999999999,
                 Tutorial = false
             }
-            print(PData)
-
+            Remotes.StartPlayerCoinPollen:FireClient(Player)
             PData.Equipment = {
                 Tool = "Hammer",
                 Bag = "Big Backpack",
@@ -80,23 +92,14 @@ end
 function BanSystems(Player)
     task.wait()
     AdminSystems(Player)
-    local TableBanPlayer = {
-        [1] = 'dima0tu3',
-        --[7] = 'vlad060108',
-        [2] = 'iQlemjo',
-        [3] = 'CblH_Cengdopa',
-        [4] = 'BroNlockLove',
-        [5] = 'dima0tu17',
-        [6] = 'KtotoVBSS'
-    }
 
-    for _, GetTable in next, TableBanPlayer do
+    for _, GetTable in next, TableSettingsGame.BanPlayer do
         if GetTable == Player.Name then
             local PData = Data:Get(Player)
             if not PData.Loaded then
                 repeat task.wait() PData = Data:Get(Player) until PData.Loaded
             end
-
+            
             PData.IStats = {
                 Coin = 0,
                 Pollen = 0,
@@ -104,8 +107,10 @@ function BanSystems(Player)
                 DailyHoney = 0,
                 Tutorial = false
             }
-            PData.IStats.Capacity = 0
 
+            Remotes.StartPlayerCoinPollen:FireClient(Player)
+            
+            PData.IStats.Capacity = 0
             PData.Equipment = {
                 Tool = "Shovel",
                 Bag = "Backpack",
@@ -115,7 +120,11 @@ function BanSystems(Player)
                 Glove = "",
                 RGuard = "",
                 LGuard = "",
-                Parachute = ""
+                Parachute = "",
+            }
+
+            PData.Inventory = {
+                ['Waspik Egg'] = 1,
             }
 
             PData.TotalItems = {
@@ -129,11 +138,11 @@ function BanSystems(Player)
             }
 
             PData.Hive = {
-                SlotsAll = 5,
+                SlotsAll = 1,
                 WaspSettings = {
                     [1] = {
                         Name = "Wasp1",
-                        Level = 20,
+                        Level = 1,
                         Rarity = "★",
                         Color = "Red",
                         Band = 0,
@@ -151,6 +160,26 @@ function BanSystems(Player)
                 RGuards = {},
                 LGuards = {},
                 Parachutes = {},
+            }
+
+            PData.TimerTable = { -- таймеры сделать
+                ['Banana'] ={
+                    Timer1 = {
+                        Time = 100000000000
+                    },
+                    Timer2 = {
+                        Time = 100000000000
+                    },
+                    Timer3 = {
+                        Time = 100000000000
+                    },
+                    Timer4 = {
+                        Time = 100000000000
+                    },
+                    Timer5 = {
+                        Time = 100000000000
+                    },
+                }
             }
             --Player:Kick()
         end
