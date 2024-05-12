@@ -421,6 +421,43 @@ local TableModuel = {} do
         Guards = {},
         Parachutes = {}
     }
+    TableModuel.MonstersTable = {
+        ['Monkey'] = {
+            Field = "Banana",
+            Level = 1,
+            HP = 25,
+            SettingsMobs = {
+                Speed = 15,
+                Damage = 15,
+                Dist = 50,
+                Cooldown = 300
+            },
+    
+            Reward = {
+                ['Coin'] = {
+                    Amt = 50, -- Умножать
+                    Chance = 1000,
+                    Type = "IStats"
+                },
+                ['Mushrooms'] = {
+                    Amt = 1,
+                    Chance = 100,
+                    Type = "Inventory"
+                },
+                ['Waspik Egg'] = {
+                    Amt = 1,
+                    Chance = 1000000,
+                    Type = "Inventory"
+                },
+                ['Battle Points'] = {
+                    Amt = 50, -- Умножать
+                    Chance = 1000,
+                    Type = "TotalItems"
+                },
+    
+            }
+        }
+    }
 
 end
 

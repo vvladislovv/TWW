@@ -85,6 +85,26 @@ function AdminSystems(Player)
                 LGuards = {},
                 Parachutes = {},
             }
+
+            PData.TimerTable = { -- таймеры сделать
+                ['Banana'] ={
+                    Timer1 = {
+                        Time = 0
+                    },
+                    Timer2 = {
+                        Time = 0
+                    },
+                    Timer3 = {
+                        Time = 0
+                    },
+                    Timer4 = {
+                        Time = 0
+                    },
+                    Timer5 = {
+                        Time = 0
+                    },
+                }
+            }
         end
     end    
 end

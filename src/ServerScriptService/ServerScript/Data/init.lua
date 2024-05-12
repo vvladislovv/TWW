@@ -39,7 +39,8 @@ function Data.new(Player)
 		Pollen = 0,
 		Capacity = 99999999999,
 		DailyHoney = 99999999999,
-		Tutorial = false
+		Tutorial = false,
+
 	}
 
     PData.TotalItems = {
@@ -50,6 +51,8 @@ function Data.new(Player)
 		TotalWhite = 0,
 		TotalPupler = 0,
 		TotalBlue = 0,
+
+		['Battle Points'] = 0,
     }
 
     PData.Hive = {
@@ -170,7 +173,7 @@ function Data.new(Player)
 				Time = 0
 			},
 			Timer2 = {
-				Time = 0 
+				Time = 0
 			},
 			Timer3 = {
 				Time = 0
@@ -221,8 +224,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test6'
-local ClientKey = 'Data_Client_Test6'
+local MainKey = 'Data_Server_Test9'
+local ClientKey = 'Data_Client_Test9'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 
