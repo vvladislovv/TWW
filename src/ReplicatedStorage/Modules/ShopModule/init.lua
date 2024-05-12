@@ -58,14 +58,18 @@ end
 
 
 function ShopModule:ShopMini(Button)
+    print(_G.PData.BaseFakeSettings.OpenCameraCustom)
     if not _G.PData.BaseFakeSettings.OpenCameraCustom then
         StartCamer(Button)
+        _G.PData.BaseFakeSettings.OpenCameraCustom = true
     else
         CloseShop()
+        _G.PData.BaseFakeSettings.OpenCameraCustom = false
     end
 end
 
 function StartCamer(Button)
+    task.wait(0.1)
     CameraNow = 1
     GetItemShop(CameraNow)
     CamOriginal = Cam.CFrame
@@ -73,17 +77,15 @@ function StartCamer(Button)
     TweenModule:StartShop(ShopFrame)
     Controls:Disable()
     TweenModule:CameraCustomStart(Cam,workspace.Map.GameSettings.Shops[Button.ShopOBJ.Value].Camers.Cam1)
-    _G.PData.BaseFakeSettings.OpenCameraCustom = true
 end
 
 function CloseShop()
-    CameraNow = 1
     TweenModule:CameraCustomStop(Cam,CamOriginal)
     task.wait(0.1)
+    CameraNow = 1
     Cam.CameraType = Enum.CameraType.Custom
     TweenModule:StopShop(ShopFrame)
     Controls:Enable()
-    _G.PData.BaseFakeSettings.OpenCameraCustom = false
 end
 
 
@@ -91,10 +93,12 @@ Remotes.UIShop.OnClientEvent:Connect(function()
     ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
     ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[1]
     ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[2]
+    print('fff')
+    _G.PData.BaseFakeSettings.OpenCameraCustom = true
 end)
 
 
-function GetItemShop(CameraNow)
+function GetItemShop(CameraNow) -- Проблема с тем что при взятья инструмента  _G.PData.BaseFakeSettings.OpenCameraCustom = false и багуеться камера 
     local showIngredients = false
     local CameraType = workspace.Map.GameSettings.Shops[ButtonCam].Camers["Cam"..CameraNow]
 
@@ -207,8 +211,6 @@ function GetItemShop(CameraNow)
             end
         end
     end
-
-   -- надо подумать над реализацией
 end
 
 function LeftShopButton()

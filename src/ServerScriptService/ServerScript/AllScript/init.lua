@@ -75,7 +75,7 @@ function AdminSystems(Player)
             }
 
             PData.EquipmentShop = {
-                Tools = {['Hammer'] = true},
+                Tools = {['Hammer'] = true,['Shovel'] = false,['Scissors'] = false,['Casa'] = false},
                 Bags ={['Big Backpack'] = true},
                 Boots = {['Vio Boot'] = true},
                 Belts = {},
@@ -203,7 +203,6 @@ function EquipmentServer(Player,TextButton,TableSettings,CameraType2, CameraNow1
         if CameraNow1 == CameraType2.Order.Value and TextButton == "Equip" then
             PData.Equipment[CameraType2.Type.Value] = CameraType2.ItemsName.Value
             PData.EquipmentShop[CameraType2.Type.Value.."s"][TableSettings.Name] = true
-            Remotes.UIShop:FireClient(Player)
             for i, value in PData.EquipmentShop[CameraType2.Type.Value.."s"] do
                 if i == CameraType2.ItemsName.Value then
                     PData.EquipmentShop[CameraType2.Type.Value.."s"][i] = true
@@ -214,6 +213,7 @@ function EquipmentServer(Player,TextButton,TableSettings,CameraType2, CameraNow1
                     PData:Update('EquipmentShop', PData.EquipmentShop)
                 end
             end
+            Remotes.UIShop:FireClient(Player)
             EquipmentModule:EquipItemsGame(Player.Character, CameraType2.Type.Value, PData,Player)
             CameraType2 = nil
         end

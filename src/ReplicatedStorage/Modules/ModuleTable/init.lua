@@ -201,9 +201,9 @@ local TableModuel = {} do
                 SpeedCoper = 0.75,
                 Collecting = 12,
                 PowerTools = 0.3,
-                Stamp = "2x1",
+                Stamp = "Shovel",
                 ColorTools = "None",
-                AnimTools = "",
+                AnimTools = "rbxassetid://17469220213",
 
 
                 ShopBuy = {
@@ -223,9 +223,9 @@ local TableModuel = {} do
                 SpeedCoper = 0.5,
                 Collecting = 75,
                 PowerTools = 0.35,
-                Stamp = "Test",
+                Stamp = "Hammer",
                 ColorTools = "None",
-                AnimTools = "rbxassetid://17191882664",
+                AnimTools = "rbxassetid://17468307876",
 
 
                 ShopBuy = {
@@ -248,9 +248,10 @@ local TableModuel = {} do
                 Coouldown = 0.45,
                 SpeedCoper = 0.75,
                 Collecting = 25,
-                Stamp = "2x1",
+                PowerTools = 0.35,
+                Stamp = "Scissors",
                 ColorTools = "None",
-                AnimTools = "",
+                AnimTools = "rbxassetid://17468918803",
 
 
                 ShopBuy = {
@@ -268,10 +269,11 @@ local TableModuel = {} do
                 Type = 'PlayerData',
                 Coouldown = 0.2,
                 SpeedCoper = 0.75,
-                Collecting = 45,
-                Stamp = "2x1",
+                Collecting = 12,
+                PowerTools = 0.3,
+                Stamp = "Casa",
                 ColorTools = "None",
-                AnimTools = "",
+                AnimTools = "rbxassetid://17468684067",
 
 
                 ShopBuy = {
