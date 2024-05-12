@@ -20,7 +20,6 @@ function Data.new(Player)
 		HiveNumberOwner = "",
 		OpenCameraCustomHive = false,
 		OpenCameraCustom = false,
-		OpenShop = false,
 		FieldVars = "",
 		FieldNameSettings = "",
 		GuiField = false,

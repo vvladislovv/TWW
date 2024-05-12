@@ -35,14 +35,14 @@ function ShopModule:StartModule(input) -- тут еще бесконечный �
             task.spawn(function()
                 Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
                 SoundService.OpenButton:Play()
-        
+
                 while UserInputService:IsKeyDown(input.KeyCode.EnumType.E) do
                     task.wait()
                     CameraNow = 1
                     Button.B.ButtonE.ImageColor3 = Color3.fromRGB(166, 166, 166)
                     TweenModule:KeyCode(Button.B)
                 end
-        
+
                 if not UserInputService:IsKeyDown(input.KeyCode.EnumType.E) then
                     --SoundService.CloseButton:Play()
                     SoundService.OpenButton:Play()
@@ -58,18 +58,17 @@ end
 
 
 function ShopModule:ShopMini(Button)
-    print(_G.PData.BaseFakeSettings.OpenCameraCustom)
     if not _G.PData.BaseFakeSettings.OpenCameraCustom then
-        StartCamer(Button)
         _G.PData.BaseFakeSettings.OpenCameraCustom = true
+        Remotes.RemoteShop:FireServer(true)
+        StartCamer(Button)
     else
+        Remotes.RemoteShop:FireServer(false)
         CloseShop()
-        _G.PData.BaseFakeSettings.OpenCameraCustom = false
     end
 end
 
 function StartCamer(Button)
-    task.wait(0.1)
     CameraNow = 1
     GetItemShop(CameraNow)
     CamOriginal = Cam.CFrame
@@ -77,15 +76,19 @@ function StartCamer(Button)
     TweenModule:StartShop(ShopFrame)
     Controls:Disable()
     TweenModule:CameraCustomStart(Cam,workspace.Map.GameSettings.Shops[Button.ShopOBJ.Value].Camers.Cam1)
+    _G.PData.BaseFakeSettings.OpenCameraCustom = true
+    --print(_G.PData.BaseFakeSettings.OpenCameraCustom)
 end
 
 function CloseShop()
+    print('fff')
+    CameraNow = 1
     TweenModule:CameraCustomStop(Cam,CamOriginal)
     task.wait(0.1)
-    CameraNow = 1
     Cam.CameraType = Enum.CameraType.Custom
     TweenModule:StopShop(ShopFrame)
     Controls:Enable()
+    _G.PData.BaseFakeSettings.OpenCameraCustom = false
 end
 
 
@@ -93,12 +96,10 @@ Remotes.UIShop.OnClientEvent:Connect(function()
     ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
     ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[1]
     ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[2]
-    print('fff')
-    _G.PData.BaseFakeSettings.OpenCameraCustom = true
 end)
 
 
-function GetItemShop(CameraNow) -- Проблема с тем что при взятья инструмента  _G.PData.BaseFakeSettings.OpenCameraCustom = false и багуеться камера 
+function GetItemShop(CameraNow)
     local showIngredients = false
     local CameraType = workspace.Map.GameSettings.Shops[ButtonCam].Camers["Cam"..CameraNow]
 
@@ -128,7 +129,10 @@ function GetItemShop(CameraNow) -- Проблема с тем что при вз
 
                                 ShopFrame.BuyButton.Frame.Frame.TextButton.MouseButton1Click:Connect(function()
                                     local TextBuy = ShopFrame.BuyButton.Frame.Frame.TextButton.Text
-                                    Remotes.BuyShop2:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow)
+                                    if _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == false and CameraNow == CameraType.Order.Value and ShopFrame.BuyButton.Frame.Frame.TextButton.Text == "Equip" then
+                                        ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
+                                        Remotes.BuyShop2:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow,ModuleTable)
+                                    end
                                 end)
 
                             elseif _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == true then -- Equipped
@@ -142,9 +146,10 @@ function GetItemShop(CameraNow) -- Проблема с тем что при вз
                                 ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Purchase"
                                 ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[1]
                                 ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[2]
-                                
+
                                 ShopFrame.BuyButton.Frame.Frame.TextButton.MouseButton1Click:Connect(function()
                                     local TextBuy = ShopFrame.BuyButton.Frame.Frame.TextButton.Text
+                                    ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
                                     Remotes.BuyShop:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow)
                                 end)
 
@@ -168,12 +173,15 @@ function GetItemShop(CameraNow) -- Проблема с тем что при вз
                     else
                         if _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == false then -- Equip
                             updateItemDisplay(TableItems, showIngredients)
+                            print(CameraType.ItemsName.Value)
                             ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equip"
                             ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Equip[1]
                             ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Equip[2]
                             ShopFrame.BuyButton.Frame.Frame.TextButton.MouseButton1Click:Connect(function()
                                 local TextBuy = ShopFrame.BuyButton.Frame.Frame.TextButton.Text
                                 if _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == false and CameraNow == CameraType.Order.Value and ShopFrame.BuyButton.Frame.Frame.TextButton.Text == "Equip" then
+                                    print(CameraType.ItemsName.Value)
+                                    ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
                                     Remotes.BuyShop2:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow,ModuleTable)
                                 end
                             end)
@@ -189,10 +197,11 @@ function GetItemShop(CameraNow) -- Проблема с тем что при вз
                             ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Purchase"
                             ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[1]
                             ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Purchase[2]
-                            
+
                             ShopFrame.BuyButton.Frame.Frame.TextButton.MouseButton1Click:Connect(function()
                                 local TextBuy = ShopFrame.BuyButton.Frame.Frame.TextButton.Text
                                 if CameraNow == CameraType.Order.Value and ShopFrame.BuyButton.Frame.Frame.TextButton.Text == "Purchase" then
+                                    ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
                                     Remotes.BuyShop:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow)
                                 end
                             end)
@@ -207,10 +216,11 @@ function GetItemShop(CameraNow) -- Проблема с тем что при вз
                     end
                     updateItemDisplay(TableItems, showIngredients)
                 end
-                
             end
         end
     end
+
+   -- надо подумать над реализацией
 end
 
 function LeftShopButton()

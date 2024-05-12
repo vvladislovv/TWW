@@ -56,6 +56,7 @@ function KeyCode(input, GPE)
             if TableButton.Hive then
                 require(ReplicatedStorage.Modules.HiveModule):StatModule(input)
             elseif TableButton.Shop then
+                print('fff')
                 require(ReplicatedStorage.Modules.ShopModule):StartModule(input)
             end
         end

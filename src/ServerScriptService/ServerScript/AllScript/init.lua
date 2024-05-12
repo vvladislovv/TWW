@@ -199,7 +199,7 @@ function EquipmentServer(Player,TextButton,TableSettings,CameraType2, CameraNow1
     local UIs = PlayerGui:WaitForChild('UIs')
     local ShopFrame = UIs:WaitForChild('ShopFrame')
 
-    DeleteItems(Player.Character, CameraType2.Type.Value, TableSettings.Name, PData)
+        DeleteItems(Player.Character, CameraType2.Type.Value, TableSettings.Name, PData)
         if CameraNow1 == CameraType2.Order.Value and TextButton == "Equip" then
             PData.Equipment[CameraType2.Type.Value] = CameraType2.ItemsName.Value
             PData.EquipmentShop[CameraType2.Type.Value.."s"][TableSettings.Name] = true
@@ -260,6 +260,18 @@ function ConvertServer(plr)
     PData:Update('IStats', PData.IStats)
 end
 
+function ShopCheckOpen(plr,Bool)
+    local PData = Data:Get(plr)
+    if Bool == true then
+        PData.BaseFakeSettings.OpenCameraCustom = true
+        PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
+    else
+        PData.BaseFakeSettings.OpenCameraCustom = false
+        PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
+    end
+end
+
+Remotes.RemoteShop.OnServerEvent:Connect(ShopCheckOpen)
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)
 Remotes.BuyShop2.OnServerEvent:Connect(EquipmentServer)
 Remotes.HiveConvert.OnServerEvent:Connect(ConvertServer)
