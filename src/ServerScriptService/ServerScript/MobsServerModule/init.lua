@@ -81,26 +81,28 @@ function ModuleMobs.MobsAttack(Mob, Player, Field)
     local Character = game.Workspace:FindFirstChild(Player.Name)
     local PData = Data:Get(Player)
     local Distance = (Mob.UpperTorso.Position - Character.PrimaryPart.Position).Magnitude
-
     task.spawn(function()
-        while true do
+        while FolderMobs:FindFirstChild(Player.Name) ~= nil do
             task.wait()
-            if workspace:WaitForChild(Player.Name) then
+            if workspace:WaitForChild(Player.Name) and FolderMobs:FindFirstChild(Player.Name) ~= nil then
                 local Character = workspace:FindFirstChild(Player.Name)
                 if Distance > 6 then
                     repeat game:GetService('RunService').Heartbeat:Wait()
-                        Distance = (Mob:WaitForChild('HumanoidRootPart').Position - Character.PrimaryPart.Position).Magnitude
-                        Mob.Humanoid:MoveTo(Character.PrimaryPart.Position)
-                    until Distance <= 6 or PData.BaseFakeSettings.MonsterZone == false
-
-                    Mob.Humanoid:MoveTo(Mob.HumanoidRootPart.Position)
-
-                    if Mob.SpawnMobs.Value ~= nil then
+                        if FolderMobs:FindFirstChild(Player.Name) ~= nil then
+                            Distance = (Mob:WaitForChild('HumanoidRootPart').Position - Character.PrimaryPart.Position).Magnitude
+                            Mob.Humanoid:MoveTo(Character.PrimaryPart.Position) 
+                        end
+                    until Distance <= 3 or PData.BaseFakeSettings.MonsterZone == false
+                    if FolderMobs:FindFirstChild(Player.Name) ~= nil and Mob.SpawnMobs.Value ~= nil then
+                        Mob.Humanoid:MoveTo(Mob.HumanoidRootPart.Position)
+                    end
+                    if FolderMobs:FindFirstChild(Player.Name) ~= nil and Mob.SpawnMobs.Value ~= nil and Distance >= 3 then
                         Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                     end
-                    
-                    Distance = (Mob.HumanoidRootPart.Position - Field.Pos1.SpawnMobs1.Position).Magnitude
-                    if Distance <= 10 then
+                    if FolderMobs:FindFirstChild(Player.Name) ~= nil then
+                        Distance = (Mob.HumanoidRootPart.Position - Field.Pos1.SpawnMobs1.Position).Magnitude 
+                    end
+                    if Distance <= 6 and FolderMobs:FindFirstChild(Player.Name) ~= nil then
                         Mob:Destroy()
                         if FolderMobs ~= nil then
                             for i, Index in next, FolderMobs:GetChildren() do
@@ -112,28 +114,48 @@ function ModuleMobs.MobsAttack(Mob, Player, Field)
                     end
                 end
             end
-
-            if (Mob:WaitForChild('UpperTorso').Position - Player.Character.PrimaryPart.Position).Magnitude <= 5 then
-                task.wait(0.3)
-                Player.Character.Humanoid.Health -= ModuleTable.MonstersTable[Mob.Name].SettingsMobs.Damage
-                Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
-                Field.Pos2.Spawn.Value = false
-                Field.Pos1.Spawn.Value = false
+            if Player.Character ~= nil and FolderMobs:FindFirstChild(Player.Name) ~= nil then
+                if (Mob:WaitForChild('UpperTorso').Position - Player.Character.PrimaryPart.Position).Magnitude <= 5 then -- Возможна ошибка Player.Character.PrimaryPart == nil
+                    task.wait(0.3)
+                    Player.Character.Humanoid.Health -= ModuleTable.MonstersTable[Mob.Name].SettingsMobs.Damage
+                    Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
+                    Field.Pos2.Spawn.Value = false
+                    Field.Pos1.Spawn.Value = false
+                end 
             end
-
         end
     end)
-
-
 end
 
-function ModuleMobs:CreateMobs(Player,Field)
+local function Configer(Player,Mob)
+    local Configuration = Config:Clone()
+    Configuration.Parent = Mob
+    Configuration.Player.Value = Player.Name
+    Configuration.HP.Value = ModuleTable.MonstersTable[Mob.Name].HP
+    Configuration.MaxHP.Value = ModuleTable.MonstersTable[Mob.Name].HP
+    Configuration.Level.Value = ModuleTable.MonstersTable[Mob.Name].Level
+    return Configuration
+end
+
+local function Billboard(Mob,Configuration)
+    local BillboardGui = MobsBilldingGui:Clone() -- гугка по HP
+    BillboardGui.Parent = Mob.ModelBag.Head
+    BillboardGui.MobName.Text = Mob.Name.." (Lvl "..Configuration.Level.Value..")"
+    BillboardGui.Bar.TextLabel.Text = "HP:"..Configuration.MaxHP.Value
+    BillboardGui.Bar.FB.Size = UDim2.new(1,0,1,0)
+    BillboardGui.Name = "BG"
+    BillboardGui.StudsOffsetWorldSpace = Vector3.new(0,Mob.PrimaryPart.Size.Y, 0)
+    BillboardGui.AlwaysOnTop = true
+    BillboardGui.MaxDistance = ModuleTable.MonstersTable[Mob.Name].SettingsMobs.Dist * 1.5
+    return BillboardGui
+end
+
+function ModuleMobs:CreateMobs(Player,Field) -- Посмотреть и решить проблему с появлением 
     task.spawn(function()
         local PData = Data:Get(Player)
         for i, index in next, Field:GetChildren() do
-            print(index)
-			if index.Name == "Pos1" or index.Name == "Pos2"  then -- *Просмотр сколько штук есть
-                if not Field.Pos2.Spawn.Value and not Field.Pos1.Spawn.Value then -- Проблема, в том что нескольно 5 проверяет и из-за этого багуеться
+			if Field.PosCollect.Value == 1 then -- *Просмотр сколько штук есть
+                if not Field.Pos1.Spawn.Value then -- Проблема, в том что нескольно 5 проверяет и из-за этого багуеться
                     local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
                     CollisionMob(Mob)
                     if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
@@ -141,44 +163,53 @@ function ModuleMobs:CreateMobs(Player,Field)
                         Folder.Name = Player.Name
                     end
                 
-                PData.BaseFakeSettings.Attack = true
-    
-                local Configuration = Config:Clone()
-                Configuration.Parent = Mob
-                Configuration.Player.Value = Player.Name
-                Configuration.HP.Value = ModuleTable.MonstersTable[Mob.Name].HP
-                Configuration.MaxHP.Value = ModuleTable.MonstersTable[Mob.Name].HP
-                Configuration.Level.Value = ModuleTable.MonstersTable[Mob.Name].Level
-    
-                Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
-                print(Field)
-                if not Field.Pos1.Spawn.Value then -- ! Если false то ставим в первую
-                    print('fff')
-                    Mob:MoveTo(Field:FindFirstChild("Pos1").WorldPosition)
-                    Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1 -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
-                    Field.Pos1.Spawn.Value = true
-                elseif not Field.Pos2.Spawn.Value then
-                    print('fff')
-                    Mob:MoveTo(Field:FindFirstChild("Pos2").WorldPosition)
-                    Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2 -- Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1
-                    Field.Pos2.Spawn.Value = true
+                    PData.BaseFakeSettings.Attack = true
+        
+                    local Configuration = Configer(Player,Mob)
+        
+                    Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+                    if not Field.Pos1.Spawn.Value then -- ! Если false то ставим в первую
+                        Mob:MoveTo(Field:FindFirstChild("Pos1").WorldPosition)
+                        Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1 -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
+                        Field.Pos1.Spawn.Value = true
+                    end
+                    
+                    local BillboardGui = Billboard(Mob,Configuration)
+        
+                    ModuleMobs.MobsAttack(Mob, Player, Field) -- Аттака на игрока
+        
+                    ModuleMobs.UpdateGui(Mob, Configuration, Player, Field)
+
                 end
-    
-                local BillboardGui = MobsBilldingGui:Clone() -- гугка по HP
-                BillboardGui.Parent = Mob.PrimaryPart
-                BillboardGui.MobName.Text = Mob.Name.." (Lvl "..Configuration.Level.Value..")"
-                BillboardGui.Bar.TextLabel.Text = "HP:"..Configuration.MaxHP.Value
-                BillboardGui.Bar.FB.Size = UDim2.new(1,0,1,0)
-                BillboardGui.Name = "BG"
-                BillboardGui.StudsOffsetWorldSpace = Vector3.new(0,Mob.PrimaryPart.Size.Y, 0)
-                BillboardGui.AlwaysOnTop = true
-                BillboardGui.MaxDistance = ModuleTable.MonstersTable[Mob.Name].SettingsMobs.Dist * 1.5
-    
-                ModuleMobs.MobsAttack(Mob, Player, Field) -- Аттака на игрока
-    
-                ModuleMobs.UpdateGui(Mob, Configuration, Player, Field) 
-    
-                end
+            elseif Field.PosCollect.Value > 1 then
+                elseif not Field.Pos1.Spawn.Value and Field.Pos2.Spawn.Value then -- Может быть баг
+                    local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
+                    CollisionMob(Mob)
+                    if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
+                        local Folder = Instance.new("Folder", FolderMobs)
+                        Folder.Name = Player.Name
+                    end
+                
+                    PData.BaseFakeSettings.Attack = true
+        
+                    local Configuration = Configer(Player,Mob)
+        
+                    Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+                    if not Field.Pos1.Spawn.Value then -- ! Если false то ставим в первую
+                        Mob:MoveTo(Field:FindFirstChild("Pos1").WorldPosition)
+                        Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1 -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
+                        Field.Pos1.Spawn.Value = true
+                    elseif not Field.Pos2.Spawn.Value then
+                        Mob:MoveTo(Field:FindFirstChild("Pos2").WorldPosition)
+                        Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2 -- Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1
+                        Field.Pos2.Spawn.Value = true
+                    end
+                    
+                    local BillboardGui = Billboard(Mob,Configuration)
+        
+                    ModuleMobs.MobsAttack(Mob, Player, Field) -- Аттака на игрока
+        
+                    ModuleMobs.UpdateGui(Mob, Configuration, Player, Field)
             end
         end
     end)
@@ -217,7 +248,7 @@ for _, Zoneier in next, workspace.Map.GameSettings.FieldBarierMobs:GetChildren()
                 for i,v2 in next, ZoneBarier:GetChildren() do
                     if PData.TimerTable[ZoneBarier.Name][v2.Name].Time <= 0 then
                         PData.BaseFakeSettings.MonsterZone = true
-                        PData.BaseFakeSettings.FieldMods = FieldGame.Correspondant[ZoneBarier.Name]
+                        PData.BaseFakeSettings.FieldMods = ZoneBarier.Name
                         if PData.TimerTable[ZoneBarier.Name][v2.Name].Time - os.time() <= 0 then
                             ModuleMobs:CreateMobs(Player,Zoneier)
                         end

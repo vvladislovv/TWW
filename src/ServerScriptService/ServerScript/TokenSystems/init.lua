@@ -59,7 +59,11 @@ function TokenSystems:SpawnToken(Info)
                         else
                             if v1 then
                                 v1 = false
-                                PData.Inventory[Token.Item.Value] += Token.Amount.Value
+                                if PData.Inventory[Token.Item.Value] == nil then
+                                    PData.Inventory[Token.Item.Value] = Token.Amount.Value
+                                else
+                                    PData.Inventory[Token.Item.Value] += Token.Amount.Value
+                                end
                                 PData:Update('Inventory', PData.Inventory)
                             end
                         end

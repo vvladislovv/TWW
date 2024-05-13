@@ -423,7 +423,7 @@ local TableModuel = {} do
     }
     TableModuel.MonstersTable = {
         ['Monkey'] = {
-            Field = "Banana",
+            Field = {'BananaPath1','BananaPath2','BananaPath3',},
             Level = 1,
             HP = 25,
             SettingsMobs = {
