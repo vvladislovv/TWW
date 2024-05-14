@@ -18,7 +18,8 @@ local TableSettingsGame = {
         [5] = 'dima0tu17',
         [6] = 'KtotoVBSS',
         [7] = 'StepanVIP123',
-        --[8] = 'vlad060108',
+        [8] = 'Nerason_Dev',
+        --[9] = 'vlad060108',
     },
     Testers = {
         [1] = "BreadDev",
@@ -53,7 +54,6 @@ function AdminSystems(Player)
     for _, GetTable in next, TableSettingsGame.Admins do
         if GetTable == Player.Name then
             local PData = Data:Get(Player)
-            print(PData)
             PData.IStats = {
                 Coin = 99999999999,
                 Pollen = 0,

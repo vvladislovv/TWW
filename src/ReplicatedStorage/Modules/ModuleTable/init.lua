@@ -435,23 +435,45 @@ local TableModuel = {} do
     
             Reward = {
                 ['Coin'] = {
+                    Name = "Coin",
                     Amt = 50, -- Умножать
-                    Chance = 1000,
+                    Chance = math.random(50,100),
                     Type = "IStats"
                 },
-                ['Mushrooms'] = {
+                ['Banana'] = {
+                    Name = "Banana",
                     Amt = 1,
-                    Chance = 100,
+                    Chance = math.random(50,100),
+                    Type = "Inventory"
+                },
+                ['Flower'] = {
+                    Name = "Flower",
+                    Amt = 1,
+                    Chance = math.random(1,50),
                     Type = "Inventory"
                 },
                 ['Waspik Egg'] = {
+                    Name = "Waspik Egg",
                     Amt = 1,
-                    Chance = 1000000,
+                    Chance = math.random(1,5),
+                    Type = "Inventory"
+                },
+                ['Send'] = {
+                    Name = "Send",
+                    Amt = 1,
+                    Chance = math.random(1,50),
+                    Type = "Inventory"
+                },
+                ['Serk'] = {
+                    Name = "Serk",
+                    Amt = 1,
+                    Chance = math.random(1,50),
                     Type = "Inventory"
                 },
                 ['Battle Points'] = {
+                    Name = "Battle Points",
                     Amt = 50, -- Умножать
-                    Chance = 1000,
+                    Chance = 100,
                     Type = "TotalItems"
                 },
     
