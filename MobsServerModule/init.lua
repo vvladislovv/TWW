@@ -5,7 +5,7 @@ local Remotes = ReplicatedStorage:WaitForChild('Remotes')
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local ZonePlus = require(ReplicatedStorage.Zone)
 local Data = require(ServerScriptService.ServerScript.Data)
-local Utils = require(ReplicatedStorage.Libary.Utils)
+--local Utils = require(ReplicatedStorage.Libary.Utils)
 local FieldGame = require(ServerScriptService.ServerScript.FieldModule)
 local TokenSystems = require(ServerScriptService.ServerScript.TokenSystems)
 local MobsBilldingGui = ReplicatedStorage:WaitForChild('Assert').MobsBilldingGui
@@ -58,6 +58,27 @@ function ModuleMobs:TimerMobs(Player,ZoneBarier)
                 end
             else
                 Remotes.MobsNoTimer:FireClient(Player,v2)
+            end
+        end
+    end
+end
+
+function MobsServer(Player)
+    local PData = Data:Get(Player)
+    local CollectTimer = 0
+
+    for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()) do
+        for _, index in next, Zoneier:GetChildren() do
+            if index:IsA('Attachment') then
+                print(index.Name)
+                if PData.BaseFakeSettings.FieldMods == Zoneier.Name then
+                    CollectTimer += 1
+                    local Timer2 = Zoneier["Pos"..CollectTimer].TimerName.Value
+                    Timer2.Mobs.Value = false
+                    Timer2.Timer.Value = false
+                    print(CollectTimer)
+                    ModuleMobs:CreateMobs(Player,Zoneier,CollectTimer)
+                end
             end
         end
     end
@@ -136,7 +157,6 @@ function ModuleMobs.GetRewards(Mob, Player, Field,SpawnMobs)
     local FieldFormat = FieldGame.Correspondant[Field.Name]
     local Timer = Field["Pos"..SpawnMobs].TimerName.Value
     local RewardMobs = nil
-    local TableToken = {}
     if Field.Pos1 ~= nil then
         PData.TimerTable[FieldFormat][Timer.Name] = {Time = ModuleTable.MonstersTable[Field.Monster.Value].SettingsMobs.Cooldown} -- Ставим время
         Timer.Mobs.Value = true
@@ -152,7 +172,7 @@ function ModuleMobs.GetRewards(Mob, Player, Field,SpawnMobs)
             end
         end
         RewardMobs = table.clone(ModuleTable.MonstersTable[Field.Monster.Value].Reward)
-        print(Mob)
+        --print(Mob)
         task.spawn(function()
             if RewardMobs ~= nil then
                 if RewardNumber == 3 then
@@ -231,7 +251,7 @@ function ModuleMobs.MobsAttack(Mob, Player, Field,NumberField) --! error
                         Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                     end
                     if FolderMobs:FindFirstChild(Player.Name) ~= nil then
-                        Distance = (Mob.HumanoidRootPart.Position - Field.Pos1.SpawnMobs1.Position).Magnitude
+                        Distance = (Mob.HumanoidRootPart.Position - Field.Pos1.SpawnMobs.Position).Magnitude
                     end
                     if Distance <= 6 and FolderMobs:FindFirstChild(Player.Name) ~= nil then --! не забыть поменять 
                         Mob:Destroy()
@@ -298,100 +318,108 @@ local function Billboard(Mob,Field,Configuration)
     return BillboardGui
 end
 
-function ModuleMobs:CreateMobs(Player,Field,v2) -- Посмотреть и решить проблему с появлением
+function ModuleMobs:CreateMobs(Player,Field,score) -- Посмотреть и решить проблему с появлением
     task.spawn(function()
         local PData = Data:Get(Player)
-        for i, index in next, Field:GetChildren() do
-			if Field.PosCollect.Value == 1 then -- *Просмотр сколько штук есть
-                local FieldSpawn = 0
-                local Mob
-                if not Field.Pos1.Spawn.Value then -- Проблема, в том что нескольно 5 проверяет и из-за этого багуеться
-                    if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
-                        local Folder = Instance.new("Folder", FolderMobs)
-                        Folder.Name = Player.Name
-                    end
+            if PData.BaseFakeSettings.FieldMods == Field.Name then
+                for _, index in next, Field:GetChildren() do
+                    if index:IsA('Attachment') then
+                        print(score)
+                        if index.Name == Field['Pos'..score].Name then
+                            if Field.PosCollect.Value == 1 then -- *Просмотр сколько штук есть
+                                if not Field['Pos'..score].Spawn.Value then -- Проблема, в том что нескольно 5 проверяет и из-за этого багуеться
+                                    local FieldSpawn = 1
+                                    local Timer = Field["Pos"..FieldSpawn].TimerName.Value
+                                    local Mob
+                                    if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
+                                        local Folder = Instance.new("Folder", FolderMobs)
+                                        Folder.Name = Player.Name
+                                    end
+                
+                                    repeat task.wait()
+                                        if not Field['Pos'..FieldSpawn].Spawn.Value and not Timer.Mobs.Value then -- ! Если false то ставим в первую
+                                            Field['Pos'..FieldSpawn].Spawn.Value = true
+                                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
+                                            Mob.Name = Field.Monster.Value..FieldSpawn
+                                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+                                            CollisionMob(Mob)
+                
+                                            PData.BaseFakeSettings.Attack = true
+                                            print(Field.Monster.Value)
+                                            local Configuration = Configer(Player,Field,Mob)
+                                    
+                                            Billboard(Mob,Field,Configuration)
+                
+                                            Test(Configuration)
+                                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
+                                            print(Field.Monster.Value)
+                                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
+                                            Mob:MoveTo(Field['Pos'..FieldSpawn].WorldPosition)
+                                            Mob.SpawnMobs.Value = Field['Pos'..FieldSpawn].SpawnMobs -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
+                                            --FieldSpawn = 2
+                                        end
+                                    until Field['Pos'..FieldSpawn].Spawn.Value == true
+                                    
+                                end
+                            elseif Field.PosCollect.Value > 1 then
+                                if not Field['Pos'..score].Spawn.Value then -- Может быть баг
+                                    local FieldSpawn = 1
+                                    local Timer = Field["Pos"..FieldSpawn].TimerName.Value
 
-                    repeat task.wait()
-                        if not Field.Pos1.Spawn.Value then -- ! Если false то ставим в первую
-                            FieldSpawn = 1
-                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
-                            Mob.Name = Field.Monster.Value..FieldSpawn
-                            print(Mob.Name)
-                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
-                            CollisionMob(Mob)
-
-                            PData.BaseFakeSettings.Attack = true
-                            
-                            local Configuration = Configer(Player,Field,Mob)
-                    
-                            local BillboardGui = Billboard(Mob,Field,Configuration)
-
-                            Test(Configuration)
-                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
-                            print(Field.Monster.Value)
-                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
-                            Mob:MoveTo(Field:FindFirstChild("Pos1").WorldPosition)
-                            Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1 -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
-                            Field.Pos1.Spawn.Value = true
+                                    local Mob
+                                    if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
+                                        local Folder = Instance.new("Folder", FolderMobs)
+                                        Folder.Name = Player.Name
+                                    end
+                                    
+                                    repeat task.wait()
+                                        if not Field['Pos'..FieldSpawn].Spawn.Value and not Timer.Mobs.Value then -- ! Если false то ставим в первую
+                                            Field['Pos'..FieldSpawn].Spawn.Value = true
+                                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
+                                            Mob.Name = Field.Monster.Value..FieldSpawn
+                                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+                                            CollisionMob(Mob)
+                
+                                            PData.BaseFakeSettings.Attack = true
+                                            print(Field.Monster.Value)
+                                            local Configuration = Configer(Player,Field,Mob)
+                                    
+                                            Billboard(Mob,Field,Configuration)
+                
+                                            Test(Configuration)
+                                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
+                                            print(Field.Monster.Value)
+                                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
+                                            Mob:MoveTo(Field['Pos'..FieldSpawn].WorldPosition)
+                                            Mob.SpawnMobs.Value = Field['Pos'..FieldSpawn].SpawnMobs -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
+                                            FieldSpawn = 2
+                                        elseif not Field['Pos'..FieldSpawn].Spawn.Value and not Timer.Mobs.Value then
+                                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
+                                            Mob.Name = Field.Monster.Value..FieldSpawn
+                                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+                                            CollisionMob(Mob)
+                
+                                            PData.BaseFakeSettings.Attack = true
+                
+                                            local Configuration = Configer(Player,Field,Mob)
+                                    
+                                            Billboard(Mob,Field,Configuration)
+                
+                                            Test(Configuration)
+                                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
+                                            print(Field.Monster.Value)
+                                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
+                                            Mob:MoveTo(Field['Pos'..score].WorldPosition)
+                                            Mob.SpawnMobs.Value = Field['Pos'..FieldSpawn].SpawnMobs-- Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1
+                                            Field['Pos'..FieldSpawn].Spawn.Value = true
+                                        end
+                                    until Field['Pos'..FieldSpawn].Spawn.Value == true and Field['Pos'..FieldSpawn].Spawn.Value == true
+                                end
+                            end
                         end
-                    until Field.Pos1.Spawn.Value == true 
-                    
-                end
-            elseif Field.PosCollect.Value > 1 then
-                if not Field.Pos1.Spawn.Value and not Field.Pos2.Spawn.Value then -- Может быть баг
-                    local FieldSpawn = 0
-                    local Mob
-
-                    if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
-                        local Folder = Instance.new("Folder", FolderMobs)
-                        Folder.Name = Player.Name
-                    end
-                    repeat task.wait()
-                        if not Field.Pos1.Spawn.Value and not v2.Timer.value then -- ! Если false то ставим в первую
-                            FieldSpawn = 1
-                            Field.Pos1.Spawn.Value = true
-                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
-                            Mob.Name = Field.Monster.Value..FieldSpawn
-                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
-                            CollisionMob(Mob)
-
-                            PData.BaseFakeSettings.Attack = true
-                            print(Field.Monster.Value)
-                            local Configuration = Configer(Player,Field,Mob)
-                    
-                            local BillboardGui = Billboard(Mob,Field,Configuration)
-
-                            Test(Configuration)
-                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
-                            print(Field.Monster.Value)
-                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
-                            Mob:MoveTo(Field:FindFirstChild("Pos1").WorldPosition)
-                            Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1 -- Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2
-                        elseif not Field.Pos2.Spawn.Value and not v2.Timer.value then
-                            FieldSpawn = 2
-                            Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
-                            Mob.Name = Field.Monster.Value..FieldSpawn
-                            Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
-                            CollisionMob(Mob)
-
-                            PData.BaseFakeSettings.Attack = true
-
-                            local Configuration = Configer(Player,Field,Mob)
-                    
-                            local BillboardGui = Billboard(Mob,Field,Configuration)
-
-                            Test(Configuration)
-                            ModuleMobs.MobsAttack(Mob, Player, Field,Field.PosCollect.Value)
-                            print(Field.Monster.Value)
-                            ModuleMobs.UpdateGui(Mob, Configuration, Player, Field,FieldSpawn)
-                            Mob:MoveTo(Field:FindFirstChild("Pos2").WorldPosition)
-                            Mob.SpawnMobs.Value = Field.Pos2.SpawnMobs2 -- Mob.SpawnMobs.Value = Field.Pos1.SpawnMobs1
-                            Field.Pos2.Spawn.Value = true
-                        end
-                    until Field.Pos1.Spawn.Value == true and Field.Pos2.Spawn.Value == true
+                    end 
                 end
             end
-        end
     end)
 end
 
@@ -442,25 +470,41 @@ function ModuleMobs.UpdateGui(Mob, Configuration, Player, Field, FieldSpawn)
     end)
 end
 
-for _, Zoneier in next, workspace.Map.GameSettings.FieldBarierMobs:GetChildren() do
+for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()) do
+    local score = 0
+    local scoree = 0
     local Zone = ZonePlus.new(Zoneier)
     Zone.playerEntered:Connect(function(Player)
         local PData = Data:Get(Player)
-        for i,ZoneBarier in next, workspace.Map.GameSettings.TimerMobs:GetChildren() do
+        for i,ZoneBarier in pairs(workspace.Map.GameSettings.TimerMobs:GetChildren()) do
             if PData.TimerTable[ZoneBarier.Name] then
-                for i,v2 in next, ZoneBarier:GetChildren() do
-                    if PData.TimerTable[ZoneBarier.Name][v2.Name].Time <= 0 then
-                        PData.BaseFakeSettings.MonsterZone = true
-                        PData.BaseFakeSettings.FieldMods = ZoneBarier.Name
-                        if PData.TimerTable[ZoneBarier.Name][v2.Name].Time <= 0 and not v2.Timer.value then
-                            print(v2.Timer.value)
-                            ModuleMobs:CreateMobs(Player,Zoneier,v2)
+                for _,v2 in pairs(ZoneBarier:GetChildren()) do
+                    score += 1
+                end
+                if PData.TimerTable[ZoneBarier.Name]['Timer'..score].Time <= 0 then
+                    PData.BaseFakeSettings.MonsterZone = true
+                    PData.BaseFakeSettings.FieldMods = Zoneier.Name
+                    if PData.BaseFakeSettings.FieldMods == Zoneier.Name then
+                        for _, index in next, Zoneier:GetChildren() do
+                            if index:IsA('Attachment') then
+                                scoree += 1
+                                ModuleMobs:CreateMobs(Player,Zoneier,scoree)
+                            end
                         end
-                    elseif PData.TimerTable[ZoneBarier.Name][v2.Name].Time >= 0 then
-                        PData.BaseFakeSettings.MonsterZone = true
-                        ModuleMobs:TimerMobs(Player,ZoneBarier)
-                        PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
                     end
+                elseif PData.TimerTable[ZoneBarier.Name]['Timer'..score].Time >= 0 then
+                    if PData.BaseFakeSettings.FieldMods == Zoneier.Name then
+                        for i, index in next, Zoneier:GetChildren() do
+                            if index:IsA('Attachment') then
+                                scoree += 1
+                                ModuleMobs:CreateMobs(Player,Zoneier,scoree)
+                            end
+                        end
+                    end
+
+                    PData.BaseFakeSettings.MonsterZone = true
+                    ModuleMobs:TimerMobs(Player,ZoneBarier)
+                    PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
                 end
             end
         end
@@ -468,6 +512,8 @@ for _, Zoneier in next, workspace.Map.GameSettings.FieldBarierMobs:GetChildren()
 
     Zone.playerExited:Connect(function(Player)
         local PData = Data:Get(Player)
+        score = 0
+        scoree = 0
         PData.BaseFakeSettings.MonsterZone = false
         PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
     end)
@@ -502,5 +548,5 @@ game.Players.PlayerAdded:Connect(function(Player)
     end
 end)
 
-
+Remotes.ServerMobsNoffical.OnServerEvent:Connect(MobsServer)
 return ModuleMobs

@@ -22,11 +22,11 @@ local TableSettingsGame = {
         --[9] = 'vlad060108',
     },
     Testers = {
-        [1] = "BreadDev",
+      --  [1] = "BreadDev",
     },
     Admins = {
-        [1] = "vlad060108",
-        [2] = "BreadDev"
+       -- [1] = "vlad060108",
+       ---- [2] = "BreadDev"
     },
 }
 

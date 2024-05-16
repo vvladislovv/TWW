@@ -430,7 +430,7 @@ local TableModuel = {} do
                 Speed = 15,
                 Damage = 15,
                 Dist = 50,
-                Cooldown = 300
+                Cooldown = 15
             },
     
             Reward = {

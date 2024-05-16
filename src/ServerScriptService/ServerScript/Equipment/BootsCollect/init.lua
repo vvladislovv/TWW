@@ -15,7 +15,7 @@ function BootsCollect:BootsCollectings(Player, Character)
         local PData = Data:Get(Player)
         Character.RightUpperLeg.Touched:Connect(function(Flower)
             if Flower.Name == "Flower" and PData.BaseFakeSettings.FieldVars ~= "" then
-                if Character.Humanoid.MoveDirection.Magnitude > 0 and PData.Boost.PlayerBoost["Movement Collection"] >= 0 then
+                if Character.Humanoid.MoveDirection.Magnitude > 0 and PData.Boost.PlayerBoost["Movement Collection"] >= 0 and PData.Equipment.Boot ~= "" then
                     if PData.IStats.Pollen < PData.IStats.Capacity then
                         if not table.find(Flowers, Flower) and Touched == false then
                             Touched = true

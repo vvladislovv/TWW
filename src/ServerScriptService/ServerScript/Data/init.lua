@@ -168,21 +168,27 @@ function Data.new(Player)
 			Time = 0
 		},
 
-		['Banana'] ={
-			Timer1 = {
-				Time = 0
+		Field = {
+			['BananaPath1'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
 			},
-			Timer2 = {
-				Time = 0
+			['BananaPath2'] = {
+				Timer1 = {
+					Time = 0
+				},
 			},
-			Timer3 = {
-				Time = 0
-			},
-			Timer4 = {
-				Time = 0
-			},
-			Timer5 = {
-				Time = 0
+			['BananaPath3'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
 			},
 		}
 	}
@@ -224,8 +230,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test9'
-local ClientKey = 'Data_Client_Test9'
+local MainKey = 'Data_Server_Test10'
+local ClientKey = 'Data_Client_Test10'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 
