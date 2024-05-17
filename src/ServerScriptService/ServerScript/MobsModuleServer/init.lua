@@ -32,7 +32,7 @@ for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()
                     if FieldData[Index.Name] ~= nil then
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
                             PData.BaseFakeSettings.MonsterZone = true
-                            require(script.CreateMob):CreatersMobsField(Player,Zoneier,CollectTimers)
+                            require(script.CreateMob):CreatersMobsField(Player,Zoneier,Index,CollectTimers)
                         elseif FieldData[Index.Name].Time >= 0 then -- Если таймер не ноль
                             PData.BaseFakeSettings.MonsterZone = false
                         end

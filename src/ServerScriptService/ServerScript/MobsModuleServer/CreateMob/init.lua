@@ -42,25 +42,26 @@ function Billboard(Mob,Field,Configuration)
     return BillboardGui
 end
 
-function MobsCreatServer(Player)
-    local PData = Data:Get(Player)
+function MobsCreatServer(Player,FieldPlayer)
     local CollectTimers = 0
+    local PData = Data:Get(Player)
     for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()) do
-        if PData.TimerTable.Field[Zoneier.Name] then
-            PData.BaseFakeSettings.FieldMods = Zoneier.Name
+        if Zoneier.name == FieldPlayer then
             for _, Index in Zoneier:GetChildren() do
                 if Index:IsA('BasePart') then
-                    CollectTimers += 1 -- ! ТУТ 3  НАДО РЕШИТЬ
-                    print(CollectTimers)
-                    local FieldData = PData.TimerTable.Field[Zoneier.Name]
-                    if FieldData[Index.Name] ~= nil then
-                        CreateMob:CreatersMobsField(Player,Zoneier,CollectTimers)
+                    CollectTimers += 1
+                    local FieldData = PData.TimerTable.Field[FieldPlayer]
+                    FieldData[Index.Name].Time = 0
+                    Zoneier[Index.Name].TimerStart.Value = false
+                    if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == Field.Name then
+                        if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
+                            CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
+                        end
                     end
                 end 
             end
         end
     end
-    CollectTimers = 0
 end
 
 function Test(Configuration)
@@ -109,6 +110,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
                         for i, Index in next, FolderMobs:GetChildren() do
                             if Index:GetChildren() == nil then
                                 Index:Destroy()
+                                SpawnMobsMax = 0
                             end
                         end
                     end
@@ -119,14 +121,14 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
     end)
 end
 
-function CreateMob:CreatersMobsField(Player,Field,CollectTimers)
+function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
     local PData = Data:Get(Player)
-    if not Field['Timer'..CollectTimers].TimerStart.Value then
-        if not FolderMobs:FindFirstChild(Player.Name) then -- Создаем папку для спавна монстра
+    if not Field[Index.Name].TimerStart.Value then
+        if not FolderMobs:FindFirstChild(Player.Name) and PData.BaseFakeSettings.MonsterZone and PData.BaseFakeSettings.FieldMods == Field.Name then -- Создаем папку для спавна монстра
             local Folder = Instance.new("Folder", FolderMobs)
             Folder.Name = Player.Name
         end
-
+        --Field[Index.Name].TimerStart.Value = true
         if not Field['Pos'..CollectTimers].Spawn.Value then
             Field['Pos'..CollectTimers].Spawn.Value = true
     
@@ -152,7 +154,7 @@ function CreateMob:CreatersMobsField(Player,Field,CollectTimers)
 
             CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
         end
-       -- CollectTimers = 0
+        CollectTimers = 0
     end
 end
 
