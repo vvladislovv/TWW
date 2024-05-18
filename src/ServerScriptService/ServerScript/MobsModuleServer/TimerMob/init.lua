@@ -15,10 +15,8 @@ function TimerMob:CreateTimerMobs(Player,Field)
                 if Index:IsA('BasePart') then
                     local FieldData = PData.TimerTable.Field[Zoneier.Name]
                     if FieldData[Index.Name] ~= nil then
-                        if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
-                            continue
-                        elseif FieldData[Index.Name].Time >= 0 and PData.BaseFakeSettings.FieldMods == Zoneier.Name then -- Если таймер не ноль
-                            Remotes.MobsTimer:FireClient(Player,PData,Field,Zoneier[Index.Name])
+                        if FieldData[Index.Name].Time >= 0 and PData.BaseFakeSettings.FieldMods == Zoneier.Name then -- Если таймер не ноль
+                            Remotes.MobsTimer:FireClient(Player,PData,Field,Zoneier[Index.Name]) -- Если таймер ноль
                         end
                     end
                 end 

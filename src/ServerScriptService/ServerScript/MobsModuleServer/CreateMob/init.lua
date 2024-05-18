@@ -53,8 +53,10 @@ function MobsCreatServer(Player,FieldPlayer)
                     local FieldData = PData.TimerTable.Field[FieldPlayer]
                     FieldData[Index.Name].Time = 0
                     Zoneier[Index.Name].TimerStart.Value = false
-                    if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == Field.Name then
+                    if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == FieldPlayer.Name then
+                        print(FieldData[Index.Name].Time <= 0)
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
+                            print(FieldData[Index.Name].Time)
                             CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
                         end
                     end
@@ -102,6 +104,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
                                 --ModuleMobs.GetRewards(index[Field.Monster.Value..SpawnMobs], Player, Field,SpawnMobs) -- Написать
                                 require(script.Parent.RewardsMob):GetReward(Player, index[Field.Monster.Value..SpawnMobs], Field, SpawnMobs)
                             task.wait(1)
+                            PData.BaseFakeSettings.PlayerAttack = false
                             index[Field.Monster.Value..SpawnMobs]:Destroy()
                         end
                     until SpawnMobsMax == SpawnMobs
@@ -110,6 +113,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
                         for i, Index in next, FolderMobs:GetChildren() do
                             if Index:GetChildren() == nil then
                                 Index:Destroy()
+                                PData.BaseFakeSettings.PlayerAttack = false
                                 SpawnMobsMax = 0
                             end
                         end
@@ -131,6 +135,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
         --Field[Index.Name].TimerStart.Value = true
         if not Field['Pos'..CollectTimers].Spawn.Value then
             Field['Pos'..CollectTimers].Spawn.Value = true
+            PData.BaseFakeSettings.PlayerAttack = true
     
             local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
             Mob.Name = Field.Monster.Value..CollectTimers
@@ -151,7 +156,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
 
             Mob:MoveTo(Field['Pos'..CollectTimers].WorldPosition)
             Mob.SpawnMobs.Value = Field['Pos'..CollectTimers].SpawnMobs
-
+            require(script.Parent.AttackMob):MobsGo(Player,Mob,Field)
             CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
         end
         CollectTimers = 0

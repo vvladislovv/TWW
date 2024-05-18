@@ -8,26 +8,22 @@ local RewardsMob = {}
 
 function RToken(Field) --! ERROR CHANCE
     local Data = ModuleTable.MonstersTable[Field.Monster.Value].Reward
-    local TotalWeight = 100
+    local TotalWeight = 0
+    
+    for i,v in pairs(Data) do
+        TotalWeight += v.Chance
+    end
     
     local Chance = math.random(1, TotalWeight)
     local coun = 0
 
     for i,v in pairs(Data) do
         coun += v.Chance
-        --print(Chance)
-       -- print(coun)
-        if coun >= 100 then
-            coun = 100
-        end
         if coun >= Chance and i ~= "Battle Points" then
-            --print(v.Name)
-            coun = 0
             return v.Name
         end
     end
 end
-
 
 function RewardsMob:TokenSpawn(Player,Field,StartVector3, amountofitems,Arclength)
     local AngleBetweenInDegrees = 360/amountofitems

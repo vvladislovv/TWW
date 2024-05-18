@@ -26,6 +26,7 @@ function Data.new(Player)
 		FieldVarsOld = "",
 
 		MonsterZone = false,
+		PlayerAttack = false,
 		FieldMods = ""
 	}
 
