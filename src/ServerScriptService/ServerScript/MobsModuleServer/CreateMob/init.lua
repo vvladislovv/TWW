@@ -53,7 +53,7 @@ function MobsCreatServer(Player,FieldPlayer)
                     local FieldData = PData.TimerTable.Field[FieldPlayer]
                     FieldData[Index.Name].Time = 0
                     Zoneier[Index.Name].TimerStart.Value = false
-                    if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == FieldPlayer.Name then
+                    if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == FieldPlayer then
                         print(FieldData[Index.Name].Time <= 0)
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
                             print(FieldData[Index.Name].Time)
@@ -132,7 +132,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
             local Folder = Instance.new("Folder", FolderMobs)
             Folder.Name = Player.Name
         end
-        --Field[Index.Name].TimerStart.Value = true
+        
         if not Field['Pos'..CollectTimers].Spawn.Value then
             Field['Pos'..CollectTimers].Spawn.Value = true
             PData.BaseFakeSettings.PlayerAttack = true
@@ -140,6 +140,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
             local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
             Mob.Name = Field.Monster.Value..CollectTimers
             Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+            Field[Index.Name].NameMonster.Value = Mob.Name
 
             for _, index in next, FolderMobs:GetChildren() do
                 for _, value in next, index[Field.Monster.Value..CollectTimers].ModelBag:GetChildren() do

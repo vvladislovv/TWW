@@ -35,7 +35,7 @@ function DestroyMobs(Player,PData,SpawnMobs,SpawnMobsMax,Field)
                 end 
                     Field['Pos'..SpawnMobs].Spawn.Value = false
                     --ModuleMobs.GetRewards(index[Field.Monster.Value..SpawnMobs], Player, Field,SpawnMobs) -- Написать
-                    require(script.Parent.RewardsMob):GetReward(Player, index[Field.Monster.Value..SpawnMobs], Field, SpawnMobs)
+                    --require(script.Parent.RewardsMob):GetReward(Player, index[Field.Monster.Value..SpawnMobs], Field, SpawnMobs)
                 task.wait(1)
                 PData.BaseFakeSettings.PlayerAttack = false
                 index[Field.Monster.Value..SpawnMobs]:Destroy()
@@ -54,15 +54,18 @@ function MobsAttaker(Player,Character,Mob,Field)
         task.wait()
         if workspace:WaitForChild(Player.Name) and PData.BaseFakeSettings.FieldMods == Field.Name and Mob ~= nil and Mob.Configuration.HP.Value > 0 then
             if Distation(Mob,Character)() <= 40 then
-                coroutine.wrap(function() 
-                    repeat task.wait()
+                coroutine.wrap(function()
+                    if PData.BaseFakeSettings.PlayerAttack then
+                        Mob.Humanoid:MoveTo(Character.PrimaryPart.Position)
+                    end
+                    --[[repeat task.wait()
                         if PData.BaseFakeSettings.PlayerAttack then
                             Mob.Humanoid:MoveTo(Character.PrimaryPart.Position)
                         end
-                    until Distation(Mob,Character)() > 10 or Mob.Configuration.HP.Value > 0 or PData.BaseFakeSettings.FieldMods == "" or not PData.BaseFakeSettings.PlayerAttack 
+                    until Mob.Configuration.HP.Value > 0 or PData.BaseFakeSettings.FieldMods == "" or not PData.BaseFakeSettings.PlayerAttack ]]
                 end)()
             end
-            if DistationSpawn(Mob,Character)() > 50 or PData.BaseFakeSettings.FieldMods == "" then
+            if DistationSpawn(Mob,Character)() > 70 or PData.BaseFakeSettings.FieldMods == "" then
                 Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
             end
 
@@ -75,7 +78,7 @@ function MobsAttaker(Player,Character,Mob,Field)
             end)
 
             coroutine.wrap(function()
-                print(DistationSpawn(Mob,Character)())
+                --print(DistationSpawn(Mob,Character)())
                 if DistationSpawn(Mob,Character)() < 15 or PData.BaseFakeSettings.FieldMods == "" or not PData.BaseFakeSettings.PlayerAttack then
                     DestroyMobs(Player,PData,SpawnMobs,SpawnMobsMax,Field)
                 end

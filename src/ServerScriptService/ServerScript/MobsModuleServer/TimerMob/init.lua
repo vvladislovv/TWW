@@ -5,21 +5,15 @@ local Data = require(ServerScriptService.ServerScript.Data)
 
 local TimerMob = {}
 
-function TimerMob:CreateTimerMobs(Player,Field)
+function TimerMob:CreateTimerMobs(Player,Field1,Mob)
     local PData = Data:Get(Player)
-    for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()) do
-        print(PData.TimerTable.Field[Zoneier.Name])
-        if PData.TimerTable.Field[Zoneier.Name] then
-            PData.BaseFakeSettings.FieldMods = Zoneier.Name
-            for _, Index in Zoneier:GetChildren() do
-                if Index:IsA('BasePart') then
-                    local FieldData = PData.TimerTable.Field[Zoneier.Name]
-                    if FieldData[Index.Name] ~= nil then
-                        if FieldData[Index.Name].Time >= 0 and PData.BaseFakeSettings.FieldMods == Zoneier.Name then -- Если таймер не ноль
-                            Remotes.MobsTimer:FireClient(Player,PData,Field,Zoneier[Index.Name]) -- Если таймер ноль
-                        end
-                    end
-                end 
+    if Field1:IsA('BasePart') then
+        local FieldData = PData.TimerTable.Field[Field1.Name]
+        for i, TimerData in FieldData do
+            if TimerData ~= nil then
+                if TimerData.Time >= 0 and PData.BaseFakeSettings.FieldMods == Field1.Name then -- Если таймер не ноль
+                    Remotes.MobsTimer:FireClient(Player,PData, TimerData, Field1, i, Mob) -- Если таймер ноль
+                end
             end
         end
     end

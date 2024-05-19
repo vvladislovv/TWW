@@ -31,9 +31,6 @@ function RewardsMob:TokenSpawn(Player,Field,StartVector3, amountofitems,Arclengt
 	local Radius = Arclength/AngleBetweenInRad + 1
 	local tab = {}
 	local currentangle = 0
-    
-    require(script.Parent.TimerMob):CreateTimerMobs(Player,Field)
-
 	for num = 1, amountofitems do
 		currentangle +=  AngleBetweenInRad
 		local z = math.cos(currentangle)*Radius
@@ -66,9 +63,10 @@ function RewardsMob:GetReward(Player,Mob,Field,SpawnMobs)
     local PData = Data:Get(Player)
     local RewardNumber = 0
     local RewardMobs = nil
+    local Start = true
     if not Field['Timer'..SpawnMobs].TimerStart.Value then
         PData.TimerTable.Field[Field.Name]['Timer'..SpawnMobs] = {Time = ModuleTable.MonstersTable[Field.Monster.Value].SettingsMobs.Cooldown + os.time()} -- Ставим время
-       
+        print(PData.TimerTable.Field[Field.Name]['Timer'..SpawnMobs])
         for _,v in pairs(ModuleTable.MonstersTable[Field.Monster.Value].Reward) do
             if v ~= "Battle Points" then
                 RewardNumber += 1
@@ -78,6 +76,8 @@ function RewardsMob:GetReward(Player,Mob,Field,SpawnMobs)
         RewardMobs = table.clone(ModuleTable.MonstersTable[Field.Monster.Value].Reward)
 
         task.spawn(function()
+            require(script.Parent.TimerMob):CreateTimerMobs(Player,Field,Mob)
+
             if RewardMobs ~= nil then
                 if RewardNumber == 3 then
                     RewardsMob:TokenSpawn(Player, Field, Mob.LowerTorso.Position, RewardNumber, 3)

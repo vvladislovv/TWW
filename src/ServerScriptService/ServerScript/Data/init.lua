@@ -209,7 +209,8 @@ function Data.new(Player)
         ['Sound'] = true,
         ['Pollen Text'] = true,
 		['PollenGuiAdd'] = false,
-		['CoinGuiAdd'] = false
+		['CoinGuiAdd'] = false,
+		['MenuFixed'] = false,
     }
 	
 	function PData:Update(key, value)
