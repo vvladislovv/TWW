@@ -14,6 +14,7 @@ local Coin = UIs:WaitForChild('Coin')
 local BoostIcon = UIs:WaitForChild('BoostIcon')
 local Menu = UIs:WaitForChild('Menu')
 local FrameBlock = UIs:WaitForChild('FrameBlock')
+local HP = UIs:WaitForChild('HP')
 
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local TweenModule = require(ReplicatedStorage.Libary.TweenModule)
@@ -37,6 +38,7 @@ local TableSizeTween = {
 
     Start5 = UDim2.new(0.077, 0,0.505, 0), -- Pos
     End5 =  UDim2.new(0.01, 0,0.505, 0), -- Pos
+
 }
 
 
@@ -121,6 +123,14 @@ for i, value in next, FrameBlock:GetChildren() do
         value:TweenSize(TableSizeTween.Start4, Enum.EasingDirection.Out, Enum.EasingStyle.Sine,.25,true)
     end)
 end
+
+HP.MouseEnter:Connect(function()
+    IsHovering = true
+    IndexText.Text = "Your HP "..Player.Character.Humanoid.Health
+end)
+HP.MouseLeave:Connect(function()
+    IsHovering = false
+end)
 
 Menu.MenuCrol.MouseEnter:Connect(function()
     IsHovering = true

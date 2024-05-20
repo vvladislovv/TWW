@@ -15,7 +15,8 @@ local SoundIndicator2 = true
 
 local TableButton = {
     Hive = false,
-    Shop = false
+    Shop = false,
+    Quest = false
 }
 
 
@@ -34,6 +35,8 @@ function DistationButton(Button,Distation)
             end
         elseif Button.Name == "Shop" then
             TableButton.Shop = true
+        elseif Button.Name == "Quest" then
+            TableButton.Quest = true
         end
 
     elseif Distation > 10 then
@@ -41,10 +44,10 @@ function DistationButton(Button,Distation)
         TweenModule:CloseButton(Button.B)
         if Button.Name == "Hive" then
             TableButton.Hive = false
-
         elseif Button.Name == "Shop" then
             TableButton.Shop = false
-
+        elseif Button.Name == "Quest" then
+            TableButton.Quest = false
         end
     end
 end
@@ -57,6 +60,8 @@ function KeyCode(input, GPE)
                 require(ReplicatedStorage.Modules.HiveModule):StatModule(input)
             elseif TableButton.Shop then
                 require(ReplicatedStorage.Modules.ShopModule):StartModule(input)
+            elseif TableButton.Quest then
+                require(ReplicatedStorage.Modules.QuestModule):StartModule(input)
             end
         end
     end

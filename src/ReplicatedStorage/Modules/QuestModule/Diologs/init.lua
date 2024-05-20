@@ -1,0 +1,3 @@
+local Diologs = {}
+
+return Diologs 

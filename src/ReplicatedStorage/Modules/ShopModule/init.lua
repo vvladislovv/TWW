@@ -30,7 +30,7 @@ end
 
 function ShopModule:StartModule(input) -- тут еще бесконечный цикл (Нужно придумать как цикл останавливать почить на дефорумах)
     for _, Button in next, workspace.Map.GameSettings.Button:GetChildren() do
-        if Button.Name ~= "Hive" then
+        if Button.Name == "Shop" then
 
             task.spawn(function()
                 Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
