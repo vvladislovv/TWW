@@ -132,7 +132,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
             local Folder = Instance.new("Folder", FolderMobs)
             Folder.Name = Player.Name
         end
-        
+        Field['Pos'..CollectTimers].Spawn.Value  = false
         if not Field['Pos'..CollectTimers].Spawn.Value then
             Field['Pos'..CollectTimers].Spawn.Value = true
             PData.BaseFakeSettings.PlayerAttack = true
