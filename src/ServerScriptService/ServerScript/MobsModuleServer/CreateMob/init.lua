@@ -66,10 +66,12 @@ function MobsCreatServer(Player,FieldPlayer)
     end
 end
 
-function Test(Configuration)
+function Test(PData,Configuration)
     task.spawn(function()
         repeat task.wait(1)
-            Configuration.HP.Value -= 5
+            if PData.BaseFakeSettings.FieldMods ~= "" then
+                Configuration.HP.Value -= 5
+            end
         until Configuration.HP.Value == 0
     end)
 end
@@ -98,12 +100,12 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
                             SpawnMobs += 1
                             index[Field.Monster.Value..SpawnMobs].ModelBag.Head:FindFirstChild('BG').Enabled = false
                             for _, value in next, index[Field.Monster.Value..SpawnMobs].ModelBag:GetChildren() do
-                                TweenService:Create(value, TweenInfo.new(1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 1}):Play()                                                                        
+                                TweenService:Create(value, TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 1}):Play()                                                                        
                             end 
                                 Field['Pos'..SpawnMobs].Spawn.Value = false
                                 --ModuleMobs.GetRewards(index[Field.Monster.Value..SpawnMobs], Player, Field,SpawnMobs) -- Написать
                                 require(script.Parent.RewardsMob):GetReward(Player, index[Field.Monster.Value..SpawnMobs], Field, SpawnMobs)
-                            task.wait(1)
+                            task.wait(0.3)
                             PData.BaseFakeSettings.PlayerAttack = false
                             index[Field.Monster.Value..SpawnMobs]:Destroy()
                         end
@@ -125,33 +127,38 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
     end)
 end
 
-function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers)
+function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
     local PData = Data:Get(Player)
-    if not Field[Index.Name].TimerStart.Value then
+    print(CollectTimers)
+    if not Field[Index.Name].TimerStart.Value and not Field['Pos'..CollectTimers].Spawn.Value then
         if not FolderMobs:FindFirstChild(Player.Name) and PData.BaseFakeSettings.MonsterZone and PData.BaseFakeSettings.FieldMods == Field.Name then -- Создаем папку для спавна монстра
             local Folder = Instance.new("Folder", FolderMobs)
             Folder.Name = Player.Name
         end
         Field['Pos'..CollectTimers].Spawn.Value  = false
-        if not Field['Pos'..CollectTimers].Spawn.Value then
+        if not Field['Pos'..CollectTimers].Spawn.Value and PData.BaseFakeSettings.MonsterZone then
             Field['Pos'..CollectTimers].Spawn.Value = true
             PData.BaseFakeSettings.PlayerAttack = true
     
             local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
             Mob.Name = Field.Monster.Value..CollectTimers
             Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+            Mob.SpawnMobs.Value = Field
             Field[Index.Name].NameMonster.Value = Mob.Name
 
             for _, index in next, FolderMobs:GetChildren() do
+                print(CollectTimers)
                 for _, value in next, index[Field.Monster.Value..CollectTimers].ModelBag:GetChildren() do
-                    TweenService:Create(value, TweenInfo.new(1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 0}):Play()                                                                        
+                    if value.Transparency == 1 then
+                        TweenService:Create(value, TweenInfo.new(0.4,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 0}):Play()                    
+                    end
                 end
             end
 
             CollisionMob(Mob)
             local Configuration = Configer(Player,Field,Mob)
             Billboard(Mob,Field,Configuration)
-            Test(Configuration)
+            Test(PData,Configuration)
             
             PData.BaseFakeSettings.Attack = true
 

@@ -7,8 +7,9 @@ local MobsModule = {}
 
 
 function TimerClient(PData, TimerData, Field1, i, Mob)
-    if TimerData ~= nil and PData.BaseFakeSettings.FieldMods == Field1.Name and Field1[i].NameMonster.Value == Mob.Name then
+    print(Field1[i].NameMonster.Value == Mob.Name)
 
+    if TimerData ~= nil and PData.BaseFakeSettings.FieldVarsOld == Field1.Name and Field1[i].NameMonster.Value == Mob.Name then
         Field1[i].BillboardGui.Enabled = true
         TweenModule:BillboardGuiOpen(Field1[i])
 

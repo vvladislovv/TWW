@@ -74,10 +74,8 @@ function RewardsMob:GetReward(Player,Mob,Field,SpawnMobs)
         end
 
         RewardMobs = table.clone(ModuleTable.MonstersTable[Field.Monster.Value].Reward)
-
+        require(script.Parent.TimerMob):CreateTimerMobs(Player,Field,Mob)
         task.spawn(function()
-            require(script.Parent.TimerMob):CreateTimerMobs(Player,Field,Mob)
-
             if RewardMobs ~= nil then
                 if RewardNumber == 3 then
                     RewardsMob:TokenSpawn(Player, Field, Mob.LowerTorso.Position, RewardNumber, 3)

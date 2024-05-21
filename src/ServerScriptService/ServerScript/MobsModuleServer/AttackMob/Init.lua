@@ -1,7 +1,9 @@
 local ServerScriptService = game:GetService("ServerScriptService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
 local Data = require(ServerScriptService.ServerScript.Data)
+local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local FolderMobs = workspace.Map.GameSettings.GameOnline.PlayeMobs
 
 local AttackMob = {}
@@ -26,34 +28,48 @@ function DistationSpawn(Mob,Character)
 end
 
 
-function DestroyMobs(Player,Mob,PData,SpawnMobs,SpawnMobsMax,Field)
+function DestroyMobs(Player,Mob,PData,Field)
     for _, index in next, FolderMobs:GetChildren() do
-        SpawnMobs += 1
         index[Mob.Name].ModelBag.Head:FindFirstChild('BG').Enabled = false
         for _, value in next, index[Mob.Name].ModelBag:GetChildren() do
-            TweenService:Create(value, TweenInfo.new(0.5,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 1}):Play()                                                                        
+            TweenService:Create(value, TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 1}):Play()                                                                        
+        end
+        for _, value in next, workspace.Map.GameSettings.FieldBarierMobs[Field.Name]:GetChildren() do
+            if value:IsA('Attachment') then
+                value.Spawn.Value = false
+            end
         end
 
-        Field['Pos'..SpawnMobs].Spawn.Value = false
-        task.wait(1)
-
-        if index ~= nil then
-            index[Mob.Name]:Destroy()
+        coroutine.wrap(function()
+            while true do
+                task.wait()
+                for _, value in next, workspace.Map.GameSettings.FieldBarierMobs[Field.Name]:GetChildren() do
+                    if value:IsA('Attachment') then
+                        if value.Spawn.Value and index[Mob.Name] == nil then
+                            value.Spawn.Value = false
+                            index:Destroy()
+                            break
+                        end
+                    end
+                end
+            end
+        end)
+        if index ~= nil and Mob.PrimaryPart ~= nil then
+            print(Mob.Name)
+            task.wait(0.3)
             PData.BaseFakeSettings.PlayerAttack = false
+            index[Mob.Name]:Destroy()
         end
-        
     end
 end
 
 function MobsAttaker(Player,Character,Mob,Field)
-    local SpawnMobs = 0
-    local SpawnMobsMax = 0
 
     local PData = Data:Get(Player)
 
         while task.wait() do
             task.wait()
-            if Mob ~= nil and Mob:WaitForChild('Configuration') ~= nil then
+            if Mob ~= nil and Mob:WaitForChild('Configuration',1) ~= nil then
                 if workspace:WaitForChild(Player.Name) and Mob ~= nil and Mob.Configuration.HP.Value > 0 then
 
                     if PData.BaseFakeSettings.FieldMods == Field.Name then
@@ -63,22 +79,20 @@ function MobsAttaker(Player,Character,Mob,Field)
                             end
                         end)()
                     end
-
-                    if PData.BaseFakeSettings.FieldMods == "" then
-                        Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
-                    end
-        
-                    task.spawn(function()
-                        for _, index in next, Field:GetChildren() do
-                            if index:IsA('BasePart') then
-                                SpawnMobsMax += 1
-                            end
+                    coroutine.wrap(function()
+                        if (Mob:WaitForChild('UpperTorso').Position - Player.Character.PrimaryPart.Position).Magnitude <= 5 then
+                            task.wait(0.3)
+                            Player.Character.Humanoid.Health -= ModuleTable.MonstersTable[Field.Monster.Value].SettingsMobs.Damage
+                            Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                         end
                     end)
+
+                    if PData.BaseFakeSettings.FieldMods == "" and Mob.Configuration.HP.Value > 0 then
+                        Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
+                    end
                                     
                     if DistationSpawn(Mob,Character)() <= 6 and PData.BaseFakeSettings.FieldMods == "" then
-                        print(Mob.Name)
-                        DestroyMobs(Player,Mob,PData,SpawnMobs,SpawnMobsMax,Field)
+                        DestroyMobs(Player,Mob,PData,Field)
                     end
 
                 end
