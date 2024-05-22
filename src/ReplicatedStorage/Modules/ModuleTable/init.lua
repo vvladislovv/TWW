@@ -1,5 +1,26 @@
 local TableModuel = {} do
     
+    TableModuel.PlayerGame = {
+        Admins = {
+            --[1] = 'vlad060108'
+        },
+        Testers = {
+           -- [1] = 'TOPCIERG',
+        },
+        BanPlayer = {
+            [1] = 'dima0tu3',
+            [2] = 'iQlemjo',
+            [3] = 'CblH_Cengdopa',
+            [4] = 'BroNlockLove',
+            [5] = 'dima0tu17',
+            [6] = 'KtotoVBSS',
+            [7] = 'StepanVIP123',
+            [8] = 'Nerason_Dev',
+            [9] = 'TOPCIERG',
+            [10] = 'vlad060108',
+        }
+    }
+
     TableModuel.Rarity = {
         ["★"] = {[1] = "Сommon", [2] = Color3.fromRGB(148, 102, 50)}, 
         ["★★"] = {[1] = "Rare", [2] = Color3.fromRGB(126, 126, 126)},

@@ -9,26 +9,7 @@ local Data = require(ServerScriptService.ServerScript.Data)
 local ZonePlus = require(game.ReplicatedStorage:FindFirstChild('Zone'))
 local EquipmentModule = require(ServerScriptService.ServerScript.Equipment)
 
-local TableSettingsGame = {
-    BanPlayer = {
-        [1] = 'dima0tu3',
-        [2] = 'iQlemjo',
-        [3] = 'CblH_Cengdopa',
-        [4] = 'BroNlockLove',
-        [5] = 'dima0tu17',
-        [6] = 'KtotoVBSS',
-        [7] = 'StepanVIP123',
-        [8] = 'Nerason_Dev',
-        --[9] = 'vlad060108',
-    },
-    Testers = {
-      --  [1] = "BreadDev",
-    },
-    Admins = {
-       -- [1] = "vlad060108",
-       ---- [2] = "BreadDev"
-    },
-}
+
 
 function Barier() -- ! Barier location 
     for _, index in next, workspace.Map.GameSettings.Barier:GetChildren() do
@@ -49,162 +30,6 @@ function Barier() -- ! Barier location
     end
 end
 
-function AdminSystems(Player)
-
-    for _, GetTable in next, TableSettingsGame.Admins do
-        if GetTable == Player.Name then
-            local PData = Data:Get(Player)
-            PData.IStats = {
-                Coin = 99999999999,
-                Pollen = 0,
-                Capacity = 99999999999,
-                DailyHoney = 99999999999,
-                Tutorial = false
-            }
-            Remotes.StartPlayerCoinPollen:FireClient(Player)
-            PData.Equipment = {
-                Tool = "Hammer",
-                Bag = "Big Backpack",
-                Boot = "Vio Boot",
-                Belt = "",
-                Hat = "Vio hat",
-                Glove = "",
-                RGuard = "",
-                LGuard = "",
-                Parachute = "",
-            }
-
-            PData.EquipmentShop = {
-                Tools = {['Hammer'] = true,['Shovel'] = false,['Scissors'] = false,['Casa'] = false},
-                Bags ={['Big Backpack'] = true},
-                Boots = {['Vio Boot'] = true},
-                Belts = {},
-                Hats = {['Vio hat'] = true},
-                Gloves = {},
-                RGuards = {},
-                LGuards = {},
-                Parachutes = {},
-            }
-
-            PData.TimerTable = { -- таймеры сделать
-                ['Banana'] ={
-                    Timer1 = {
-                        Time = 0
-                    },
-                    Timer2 = {
-                        Time = 0
-                    },
-                    Timer3 = {
-                        Time = 0
-                    },
-                    Timer4 = {
-                        Time = 0
-                    },
-                    Timer5 = {
-                        Time = 0
-                    },
-                }
-            }
-        end
-    end    
-end
-
-function BanSystems(Player)
-    task.wait()
-    AdminSystems(Player)
-
-    for _, GetTable in next, TableSettingsGame.BanPlayer do
-        if GetTable == Player.Name then
-            local PData = Data:Get(Player)
-            if not PData.Loaded then
-                repeat task.wait() PData = Data:Get(Player) until PData.Loaded
-            end
-            
-            PData.IStats = {
-                Coin = 0,
-                Pollen = 0,
-                Capacity = 300,
-                DailyHoney = 0,
-                Tutorial = false
-            }
-
-            Remotes.StartPlayerCoinPollen:FireClient(Player)
-            
-            PData.IStats.Capacity = 0
-            PData.Equipment = {
-                Tool = "Shovel",
-                Bag = "Backpack",
-                Boot = "",
-                Belt = "",
-                Hat = "",
-                Glove = "",
-                RGuard = "",
-                LGuard = "",
-                Parachute = "",
-            }
-
-            PData.Inventory = {
-                ['Waspik Egg'] = 1,
-            }
-
-            PData.TotalItems = {
-                TotalQuestAll = 0,
-                CoinTotal = 0,
-                PollenTotal = 0,
-                WaspTotal = 0,
-                TotalWhite = 0,
-                TotalPupler = 0,
-                TotalBlue = 0,
-            }
-
-            PData.Hive = {
-                SlotsAll = 1,
-                WaspSettings = {
-                    [1] = {
-                        Name = "Wasp1",
-                        Level = 1,
-                        Rarity = "★",
-                        Color = "Red",
-                        Band = 0,
-                    },
-                },
-            }
-
-            PData.EquipmentShop = {
-                Tools = {['Shovel'] = true},
-                Bags ={['Backpack'] = true},
-                Boots = {},
-                Belts = {},
-                Hats = {},
-                Gloves = {},
-                RGuards = {},
-                LGuards = {},
-                Parachutes = {},
-            }
-
-            PData.TimerTable = { -- таймеры сделать
-                ['Banana'] ={
-                    Timer1 = {
-                        Time = 100000000000
-                    },
-                    Timer2 = {
-                        Time = 100000000000
-                    },
-                    Timer3 = {
-                        Time = 100000000000
-                    },
-                    Timer4 = {
-                        Time = 100000000000
-                    },
-                    Timer5 = {
-                        Time = 100000000000
-                    },
-                }
-            }
-            --Player:Kick()
-        end
-    end
-end
 
 function DeleteItems(HRP, ItemType, ItemName, PData)
     local Player = game.Players:FindFirstChild(HRP.Name)
@@ -295,7 +120,6 @@ Remotes.RemoteShop.OnServerEvent:Connect(ShopCheckOpen)
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)
 Remotes.BuyShop2.OnServerEvent:Connect(EquipmentServer)
 Remotes.HiveConvert.OnServerEvent:Connect(ConvertServer)
-game.Players.PlayerAdded:Connect(BanSystems)
 task.spawn(Barier)
 
 return AllScript

@@ -1,5 +1,6 @@
 local Data = {}
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local CopyTable = require(game.ReplicatedStorage.Libary.CopyTable)
 
@@ -36,10 +37,408 @@ function Data.new(Player)
 	}
 	
 	PData.IStats = {
-		Coin = 99999999999,
+		Coin = 0,
 		Pollen = 0,
-		Capacity = 99999999999,
-		DailyHoney = 99999999999,
+		Capacity = 350,
+		DailyHoney = 0,
+		Tutorial = false,
+
+	}
+
+    PData.TotalItems = {
+        TotalQuestAll = 0,
+        CoinTotal = 0,
+        PollenTotal = 0,
+        WaspTotal = 0,
+		TotalWhite = 0,
+		TotalPupler = 0,
+		TotalBlue = 0,
+
+		['Battle Points'] = 0,
+    }
+
+    PData.Hive = {
+        SlotsAll = 1,
+        WaspSettings = {
+			[1] = {
+				Name = "Wasp1",
+				Level = 1,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+		},
+        RolingWasp = 0,
+    }
+
+    PData.Boost = {
+		PlayerBoost = {
+			["Pollen"] = 100,
+			["Pupler Pollen"] = 100,
+			["White Pollen"] = 100,
+			["Blue Pollen"] = 100,
+			["Critical Chance"] = 100,
+			["Movement Collection"] = 0,
+			["Instant"] = 0,
+			["Pupler Instant"] = 0,
+			["White Instant"] = 0,
+			["Blue Instant"] = 0,
+			["Pollen From Collectors"] = 100,
+			["Collectors Speed"] = 100,
+			["Critical Power"] = 100,
+			["Honey From Tokens"] = 100,
+		}
+    }
+
+	PData.QuestTaskNPC = {}
+	
+    PData.QuestNPC = {
+        ['Vladislov'] = {
+		NowQuest = false, --* Новый квест
+		Complish = false, --* Настоящий квест
+		QuestEvent = false, --* Праздничный квест
+		TotalQuest = 1 --* Всего
+		},
+        ['Bread'] = {NowQuest = false, Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
+		['Snail'] = {NowQuest = false,Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
+    }
+
+	PData.Inventory = {
+		['Waspik Egg'] = 1,
+	}
+
+	PData.Equipment = {
+		Tool = "Shovel",
+		Bag = "Backpack",
+		Boot = "",
+		Belt = "",
+		Hat = "",
+		Glove = "",
+		RGuard = "",
+		LGuard = "",
+		Parachute = "",
+	}
+
+	PData.EquipmentShop = {
+		Tools = {['Shovel'] = true},
+        Bags ={['Backpack'] = true},
+		Boots = {},
+        Belts = {},
+        Hats = {},
+		Gloves = {},
+        RGuards = {},
+		LGuards = {},
+		Parachutes = {},
+	}
+
+	PData.TimerTable = {
+		["BottalCoin"] = {
+			Time = 0
+		},
+		["WatherEvent"] = {
+			Time = 0
+		},
+		["clownEvent"] = {
+			Time = 0
+		},
+
+		Field = {
+			['BananaPath1'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
+			},
+			['BananaPath2'] = {
+				Timer1 = {
+					Time = 0
+				},
+			},
+			['BananaPath3'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
+			},
+		}
+	}
+	PData.Bagers = {
+		['Pollen'] = {
+            Rank = 1,
+            Amount = 0
+        },
+
+        ['Coin'] = {
+            Rank = 1,
+            Amount = 0
+        }
+	}
+
+    PData.Settings = { 
+        ['Sound'] = true,
+        ['Pollen Text'] = true,
+		['PollenGuiAdd'] = false,
+		['CoinGuiAdd'] = false,
+		['MenuFixed'] = false,
+    }
+	
+	function PData:Update(key, value)
+		PData[key] = value
+		Remotes.DataUpdate:FireClient(Player,key,value)
+	end
+	
+	Data.PlayerData[Player.Name] = PData
+	return PData
+end
+
+function Data:Testers(Player)
+	local PData = {}
+	PData.Loaded = false
+
+	PData.BaseFakeSettings = {
+		Attack = false,
+		objAttack = nil,
+		HiveOwner = "",
+		HiveNumberOwner = "",
+		OpenCameraCustomHive = false,
+		OpenCameraCustom = false,
+		FieldVars = "",
+		FieldNameSettings = "",
+		GuiField = false,
+		FieldVarsOld = "",
+
+		MonsterZone = false,
+		PlayerAttack = false,
+		FieldMods = ""
+	}
+
+	PData.GameSettings = {
+		SnailTutorial = false,
+		LocationOne = false
+	}
+	
+	PData.IStats = {
+		Coin = 1,
+		Pollen = 1,
+		Capacity = 1,
+		DailyHoney = 1,
+		Tutorial = false,
+
+	}
+
+    PData.TotalItems = {
+        TotalQuestAll = 0,
+        CoinTotal = 0,
+        PollenTotal = 0,
+        WaspTotal = 0,
+		TotalWhite = 0,
+		TotalPupler = 0,
+		TotalBlue = 0,
+
+		['Battle Points'] = 0,
+    }
+
+    PData.Hive = {
+        SlotsAll = 5,
+        WaspSettings = {
+			[1] = {
+				Name = "Wasp1",
+				Level = 20,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+			[2] = {
+				Name = "Wasp2",
+				Level = 20,
+				Rarity = "★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[3] = {
+				Name = "Wasp3",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[4] = {
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[5] = {
+				Name = "Wasp5",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+		},
+        RolingWasp = 0,
+    }
+
+    PData.Boost = {
+		PlayerBoost = {
+			["Pollen"] = 100,
+			["Pupler Pollen"] = 100,
+			["White Pollen"] = 100,
+			["Blue Pollen"] = 100,
+			["Critical Chance"] = 100,
+			["Movement Collection"] = 0,
+			["Instant"] = 0,
+			["Pupler Instant"] = 0,
+			["White Instant"] = 0,
+			["Blue Instant"] = 0,
+			["Pollen From Collectors"] = 100,
+			["Collectors Speed"] = 100,
+			["Critical Power"] = 100,
+			["Honey From Tokens"] = 100,
+		}
+    }
+
+	PData.QuestTaskNPC = {}
+	
+    PData.QuestNPC = {
+        ['Vladislov'] = {
+		NowQuest = false, --* Новый квест
+		Complish = false, --* Настоящий квест
+		QuestEvent = false, --* Праздничный квест
+		TotalQuest = 1 --* Всего
+		},
+        ['Bread'] = {NowQuest = false, Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
+		['Snail'] = {NowQuest = false,Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
+    }
+
+	PData.Inventory = {
+		['Waspik Egg'] = 1,
+	}
+
+	PData.Equipment = {
+		Tool = "Shovel",
+		Bag = "Backpack",
+		Boot = "",
+		Belt = "",
+		Hat = "",
+		Glove = "",
+		RGuard = "",
+		LGuard = "",
+		Parachute = "",
+	}
+
+	PData.EquipmentShop = {
+		Tools = {['Shovel'] = true},
+        Bags ={['Backpack'] = true},
+		Boots = {},
+        Belts = {},
+        Hats = {},
+		Gloves = {},
+        RGuards = {},
+		LGuards = {},
+		Parachutes = {},
+	}
+
+	PData.TimerTable = {
+		["BottalCoin"] = {
+			Time = 0
+		},
+		["WatherEvent"] = {
+			Time = 0
+		},
+		["clownEvent"] = {
+			Time = 0
+		},
+
+		Field = {
+			['BananaPath1'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
+			},
+			['BananaPath2'] = {
+				Timer1 = {
+					Time = 0
+				},
+			},
+			['BananaPath3'] = {
+				Timer1 = {
+					Time = 0
+				},
+				Timer2 = {
+					Time = 0
+				},
+			},
+		}
+	}
+	PData.Bagers = {
+		['Pollen'] = {
+            Rank = 1,
+            Amount = 0
+        },
+
+        ['Coin'] = {
+            Rank = 1,
+            Amount = 0
+        }
+	}
+
+    PData.Settings = { 
+        ['Sound'] = true,
+        ['Pollen Text'] = true,
+		['PollenGuiAdd'] = false,
+		['CoinGuiAdd'] = false,
+		['MenuFixed'] = false,
+    }
+	
+	function PData:Update(key, value)
+		PData[key] = value
+		Remotes.DataUpdate:FireClient(Player,key,value)
+	end
+	
+	Data.PlayerData[Player.Name] = PData
+	return PData
+end
+
+function Data:Admin(Player)
+	local PData = {}
+	PData.Loaded = false
+
+	PData.BaseFakeSettings = {
+		Attack = false,
+		objAttack = nil,
+		HiveOwner = "",
+		HiveNumberOwner = "",
+		OpenCameraCustomHive = false,
+		OpenCameraCustom = false,
+		FieldVars = "",
+		FieldNameSettings = "",
+		GuiField = false,
+		FieldVarsOld = "",
+
+		MonsterZone = false,
+		PlayerAttack = false,
+		FieldMods = ""
+	}
+
+	PData.GameSettings = {
+		SnailTutorial = false,
+		LocationOne = false
+	}
+	
+	PData.IStats = {
+		Coin = 111,
+		Pollen = 0,
+		Capacity = 111,
+		DailyHoney = 111,
 		Tutorial = false,
 
 	}
@@ -232,10 +631,11 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test10'
-local ClientKey = 'Data_Client_Test10'
+local MainKey = 'Data_Server_Test12'
+local ClientKey = 'Data_Client_Test12'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
+local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 
 function LoadData(Client)
 	DataStore2.Combine(MainKey, ClientKey)
@@ -250,7 +650,25 @@ end
 function SaveData(client, PData)
 	DataStore2(ClientKey, client):Set(CopyTable:CopyWithoutFunctions(PData))
 	print(PData)
-end 
+end
+
+function CheckDataPlayer(Player) 
+	for _, adminName in pairs(ModuleTable.PlayerGame.Admins) do
+		if adminName == Player.Name then
+			Data:Admin(Player)
+			return  -- выход из цикла, так как игрок найден в админах
+		end
+	end
+	
+	for _, testerName in pairs(ModuleTable.PlayerGame.Testers) do
+		if testerName == Player.Name then
+			Data:Testers(Player)
+			return  -- выход из цикла, так как игрок найден в тестерах
+		end
+	end
+	
+	LoadData(Player)
+end
 
 function GetDataFromDataStorage(Client, DataStorage)
 	local PData = Data:Get(Client)
@@ -303,11 +721,18 @@ function GetDataFromDataStorage(Client, DataStorage)
 	end
 	return PData
 end
+
 do
-	Players.PlayerAdded:Connect(LoadData)
+	Players.PlayerAdded:Connect(CheckDataPlayer)
 	Players.PlayerRemoving:Connect(function(Client)
-		SaveData(Client, Data:Get(Client))
-		AutoSaves[Client.Name] = nil
+		for _, GetTable in next, ModuleTable.PlayerGame.BanPlayer do
+			if GetTable ~= Client.Name then
+				SaveData(Client, Data:Get(Client))
+				AutoSaves[Client.Name] = nil
+			else
+				warn(Client.Name)
+			end
+		end
 	end)
 	--Players.PlayerRemoving:Connect(function(Client) SaveData(Client, Data:Get(Client)) AutoSaves[Client.Name] = nil end)
 
