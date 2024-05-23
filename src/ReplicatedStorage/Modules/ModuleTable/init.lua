@@ -211,7 +211,13 @@ local TableModuel = {} do
                 Image = "rbxassetid://17180421548",
                 Coouldown = 15
             },
+        },
+        TokenGame = {
+            ['Banana'] = {
+                Image = "rbxassetid://17180421548",
+            },
         }
+
     }
 
     TableModuel.ItemsPlayer = {

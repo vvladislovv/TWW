@@ -126,12 +126,20 @@ function TweenModule:CloseGuiButton(Button)
     TweenService:Create(Button, TweenInfo.new(1,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.533, 0,1.5, 0)}):Play()
 end
 
-function TweenModule:NofficalUp(Button)
-    TweenService:Create(Button, TweenInfo.new(1,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.714, 0,0.905, 0)}):Play()
+function TweenModule:NofficalUp(Button, Icon)
+    if Icon then
+        Button:TweenSize(UDim2.new(0.12, 0,0.041, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.5, true)
+        TweenService:Create(Button, TweenInfo.new(1,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.934, 0,0.962, 0)}):Play()
+    else
+        Button.FrameImage:TweenSize(UDim2.new(0, 0,0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.5, true)
+        Button:TweenSize(UDim2.new(0.12, 0,0.041, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.5, true)
+        TweenService:Create(Button, TweenInfo.new(1,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.934, 0,0.962, 0)}):Play()
+    end
 end
 
 function TweenModule:NofficalDown(Button)
-    TweenService:Create(Button, TweenInfo.new(1.5,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.714, 0,1.5, 0)}):Play()
+    Button:TweenSize(UDim2.new(0, 0,0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.5, true)
+    TweenService:Create(Button, TweenInfo.new(2,Enum.EasingStyle.Back,Enum.EasingDirection.Out), {Position = UDim2.new(0.934, 0,1.5, 0)}):Play()
 end
 
 function TweenModule:TweenIngredients(Ingredients,ShopFrame) -- 0,0,0,0

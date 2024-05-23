@@ -61,13 +61,12 @@ function HiveModule:StatModule(input)
             else
                 --Button.B.Text.Position = UDim2.new(0.27, 0,0.2, 0)
                 Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
-                --Noffical = false
+                Noffical = false
                 
-                if not Noffical then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
-                    --print('fasdfagdasgdasdg')
+                if not Noffical and _G.PData.IStats.Pollen <= 0 then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
                     task.wait()
                     Noffical = true
-                    NofficalModule:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,"You can't recycle your empty backpack.",1)
+                    NofficalModule:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,"You can't recycle your empty backpack.",1,false,nil)
                     task.wait(3)
                     Noffical = false
                 end

@@ -1,9 +1,10 @@
 local Player = game:GetService("Players").LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
-
+local PlayerGui = Player:WaitForChild('PlayerGui')
 local TweenModule = require(ReplicatedStorage.Libary.TweenModule)
 local RunService = game:GetService("RunService")
+local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
 local TokenCoulduwn = false
 local TokenModule = {}
@@ -48,7 +49,9 @@ function AnimToken(Token,Info)
                 v2 = true
                 v1 = true
                 v3 = 1
-
+                print(Info.Token)
+                -- Дописать noffical
+                --NofficalGame:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,Text,ColorIndex,icon,items)
                 TweenModule:OrientationToken(Token)
                 TweenModule:TrasnparionToken(Token)
 
