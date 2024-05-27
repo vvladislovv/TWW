@@ -166,11 +166,11 @@ local TableModuel = {} do
     }
     TableModuel.ColorTable = {
         Noffical = {
-            Color1 = {[1] = Color3.fromRGB(213, 14, 18),[2] = Color3.fromRGB(194, 13, 19)}, -- Red
-            Color2 = {[1] = Color3.fromRGB(28, 112, 185),[2] = Color3.fromRGB(32, 129, 208)}, -- Blue
-            Color3 = {[1] = Color3.fromRGB(213, 131, 32),[2] = Color3.fromRGB(195, 118, 29)}, -- Orange
-            Color4 = {[1] = Color3.fromRGB(85, 103, 185),[2] = Color3.fromRGB(64, 78, 140)}, -- Pupler
-            Color5 = {[1] = Color3.fromRGB(79, 154, 29),[2] = Color3.fromRGB(92, 179, 34)} -- Green
+            Red = {[1] = Color3.fromRGB(213, 14, 18),[2] = Color3.fromRGB(194, 13, 19)}, -- Red
+            Blue = {[1] = Color3.fromRGB(28, 112, 185),[2] = Color3.fromRGB(32, 129, 208)}, -- Blue
+            Orange = {[1] = Color3.fromRGB(213, 131, 32),[2] = Color3.fromRGB(195, 118, 29)}, -- Orange
+            Pupler = {[1] = Color3.fromRGB(85, 103, 185),[2] = Color3.fromRGB(64, 78, 140)}, -- Pupler
+            Green = {[1] = Color3.fromRGB(79, 154, 29),[2] = Color3.fromRGB(92, 179, 34)} -- Green
         },
         Shops = {
             Purchase = {[1] = Color3.fromRGB(78, 220, 87), [2] = Color3.fromRGB(90, 255, 98)},
@@ -219,7 +219,7 @@ local TableModuel = {} do
             ['Shovel'] = {
                 Type = 'PlayerData',
                 Coouldown = 0.2,
-                SpeedCoper = 0.75,
+                SpeedCoper = 0.35,
                 Collecting = 12,
                 PowerTools = 0.3,
                 Stamp = "Shovel",

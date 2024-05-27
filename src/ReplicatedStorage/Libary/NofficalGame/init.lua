@@ -1,4 +1,3 @@
-local Player = game:GetService("Players").LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local TweenModule = require(ReplicatedStorage.Libary.TweenModule)
@@ -6,9 +5,41 @@ local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local Nofical = false
 local NofficalModule = {}
 
-function NofficalModule:NofficalCreate(Info)
+local SettingsNotify = {
 
-function NofficalModule:NofficalCreate(Info) --OBJ,Text,ColorIndex,icon,items
+}
+local function getFrame()
+    return function ()
+        local players = game:GetService("Players")
+        local player = players.LocalPlayer
+        local playerGui = player.PlayerGui
+        local screenGui = playerGui:WaitForChild("UIs")
+        local frame = screenGui:WaitForChild("NotifyList")
+        return frame
+    end
+end
+
+function MakeNotifyWindow(color, msg, Icon,TypeCall)
+    if not Icon then
+        local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
+        FrameBox.Parent = getFrame()()
+        local OldSizeFrame = FrameBox.Size
+        FrameBox.Transparency = 1
+        FrameBox.FrameImage.Visible = false
+        FrameBox.Size = UDim2.fromScale(0,0)
+
+        FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
+        FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
+        FrameBox.FrameMain.Frame2.TextButton.Text = msg
+        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3)
+    end
+end
+
+function NofficalModule:CreateNotify(Info)
+    MakeNotifyWindow(Info.TypeColor,Info.Msg,Info.Icon,Info.TypeCall)
+end 
+
+--[[function NofficalModule:NofficalCreate(Info) --OBJ,Text,ColorIndex,icon,items
     if not Nofical then -- переписать полностью
         Nofical = true
         if Info.icon and Info.items ~= nil then
@@ -31,16 +62,6 @@ function NofficalModule:NofficalCreate(Info) --OBJ,Text,ColorIndex,icon,items
             Nofical = false
         end
     end
-end
-
-function NofficalFriend(PlayerNew)
-    if Player:IsFriendsWith(PlayerNew.UserId) then
-        print(PlayerNew.Name)
-    else
-        print(PlayerNew.Name)
-    end
-end
-
-game.Players.PlayerAdded:Connect(NofficalFriend)
+end]]
 
 return NofficalModule

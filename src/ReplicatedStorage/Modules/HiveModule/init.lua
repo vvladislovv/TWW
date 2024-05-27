@@ -71,7 +71,12 @@ function HiveModule:StatModule(input)
                         if not Noffical and _G.PData.IStats.Pollen <= 0 then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
                             task.wait()
                             Noffical = true
-                            NofficalModule:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,"You can't recycle your empty backpack.",1,false,nil)
+                            NofficalModule:CreateNotify({
+                                TypeColor = "Red",
+                                Msg = "You can't recycle your empty backpack!",
+                                Icon = false,
+                                TypeCall = "Hive"
+                            }) 
                             task.wait(3)
                             Noffical = false
                         end

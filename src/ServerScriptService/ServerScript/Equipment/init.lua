@@ -43,6 +43,7 @@ local EquipmentModule = {} do
             PData:Update('IStats', PData.IStats)
             
             --! Оповищение, что рюкзак пуст
+            Remote.Notify:FireClient(Player, 'Blue',"You died and lost all the pollen you had!", false)
             local Character = Player.CharacterAdded:Wait()
             EquipmentModule:LoadItems(Player, PData, Character)
         end)

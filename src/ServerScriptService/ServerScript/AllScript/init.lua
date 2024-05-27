@@ -115,6 +115,16 @@ function ShopCheckOpen(plr,Bool)
         PData:Update('BaseFakeSettings', PData.BaseFakeSettings)
     end
 end
+function NofficalFriend(PlayerNew) -- Тест
+    print(PlayerNew)
+    if PlayerNew:IsFriendsWith(PlayerNew.UserId) then -- может быть ошибка
+        print(PlayerNew.Name)
+    else
+        print(PlayerNew.Name)
+    end
+end
+
+game.Players.PlayerAdded:Connect(NofficalFriend)
 
 Remotes.RemoteShop.OnServerEvent:Connect(ShopCheckOpen)
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)

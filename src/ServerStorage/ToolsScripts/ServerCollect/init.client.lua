@@ -22,6 +22,7 @@ end
 local Collect = false
 local Debonuce = false
 local TableAnim = require(ReplicatedStorage.Modules.ModuleTable).ItemsPlayer.Tools[_G.PData.Equipment.Tool].AnimTools
+local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 
 UIS.InputBegan:Connect(function(v1,v2)
 	if not v2 and v1.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -48,7 +49,9 @@ CAS:SetTitle("Scoop", "Scoop")
 
 local Coouldown = {}
 
-function CollectFlowerClient(AnimTrack, HRP)
+function CollectFlowerClient(AnimTrack, HRP) -- фикс нужен(Если не 55 строчка, то есть ожидание, надо решить баг)
+	print(_G.PData.IStats.Pollen)
+	print(_G.PData.IStats.Capacity)
     if _G.PData.IStats.Pollen <= _G.PData.IStats.Capacity and not Coouldown[Player.Name] then
         Coouldown[Player.Name] = true
         task.wait(AnimTrack.Length-0.8)
@@ -60,6 +63,14 @@ function CollectFlowerClient(AnimTrack, HRP)
 			StatsMOD = ModuleTool,
         })
         task.wait(ModuleTool.SpeedCoper - 0.2)
+		Coouldown[Player.Name] = false
+	else
+		NofficalGame:CreateNotify({
+			TypeColor = 'Red',
+			Msg = "You bag is full! Convert pollen in your hive!",
+			Icon = false,
+			TypeCall = "Hive"
+		})
 		Coouldown[Player.Name] = false
     end
 end
