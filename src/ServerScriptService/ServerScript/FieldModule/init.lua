@@ -22,12 +22,47 @@ local FieldModule = {}
                 TripleBlue ={0,0}
 			}
 		},
+		["Blueberries"] = {
+			Flowers = {
+				MiniWhite = {1, 50},
+				DoubleWhite = {1, 40},
+                TripleWhite ={0,0},
+
+				MiniPupler = {1, 3},
+				DoublePupler = {1, 5},
+                TriplePupler ={0,0},
+
+				MiniBlue = {1, 6},
+				DoubleBlue = {1, 5},
+                TripleBlue ={0,0}
+			}
+		},
+		["Pear"] = {
+			Flowers = {
+				MiniWhite = {1, 50},
+				DoubleWhite = {1, 40},
+                TripleWhite ={0,0},
+
+				MiniPupler = {1, 3},
+				DoublePupler = {1, 5},
+                TriplePupler ={0,0},
+
+				MiniBlue = {1, 6},
+				DoubleBlue = {1, 5},
+                TripleBlue ={0,0}
+			}
+		},
 	}
 	
 	FieldModule.Correspondant = {
 		["BananaPath1"] = "Banana",
         ["BananaPath2"] = "Banana",
         ["BananaPath3"] = "Banana",
+
+		['BlueberriesPath1'] = "Blueberries",
+		['BlueberriesPath2'] = "Blueberries",
+
+		['PearParth1'] = "Pear",
 	}
 	
 	FieldModule.FlowerTypes = {

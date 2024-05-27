@@ -24,57 +24,70 @@ _G.PData = Remotes.GetDataSave:InvokeServer()
 local HiveModule = {}
 
 function HiveModule:StatModule(input)
-    for _, Button in next, workspace.Map.GameSettings.Button:GetChildren() do
-        if Button.Name == "Hive" then
-
-            task.spawn(function()
-                Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
+        if _G.PData.BaseFakeSettings.HiveOwner ~= Player.Name and workspace.Map.GameSettings.Hives[_G.Button.Name].Owner.Value == "" then
+            HiveOwnerCheck(_G.Button)
+        end
+        _G.Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
+        task.spawn(function()
+            if _G.PData.BaseFakeSettings.HiveOwner == Player.Name and workspace.Map.GameSettings.Hives[_G.Button.Name].Owner.Value == Player.Name then
+                _G.Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
                 SoundService.OpenButton:Play()
         
-                while UserInputService:IsKeyDown(input.KeyCode.EnumType.E) do
+                while UserInputService:IsKeyDown(input.KeyCode.EnumType.E) do -- тут баг
                     task.wait()
-                    Button.B.ButtonE.ImageColor3 = Color3.fromRGB(166, 166, 166)
-                    TweenModule:KeyCode(Button.B)
+                    if _G.PData.BaseFakeSettings.HiveNumberOwner == _G.Button.Name and _G.Button.Name == _G.Button.Name then
+                        _G.Button.B.ButtonE.ImageColor3 = Color3.fromRGB(166, 166, 166)
+                        TweenModule:KeyCode(_G.Button.B)
+                    end
                 end
         
                 if not UserInputService:IsKeyDown(input.KeyCode.EnumType.E) then
                     --SoundService.CloseButton:Play()
                     SoundService.OpenButton:Play()
-                    Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
-                end                
-            end)
-
-            HiveOwnerCheck()
-            if _G.PData.IStats.Pollen > 0 then -- Check Capacity
-                --Button.B.Text.Position = UDim2.new(0.27, 0,0.25, 0)
-                Button.B:WaitForChild('TextLabel').Text = "Stop Converting"
-                Remotes.HiveConvert:FireServer()
-                
-                task.spawn(function()
-                    repeat task.wait(1)
-                        Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
-                    until _G.PData.IStats.Pollen == 0
-                end)
-
-                Noffical = true
-                --print(Noffical)
-            else
-                --Button.B.Text.Position = UDim2.new(0.27, 0,0.2, 0)
-                Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
-                Noffical = false
-                
-                if not Noffical and _G.PData.IStats.Pollen <= 0 then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
-                    task.wait()
-                    Noffical = true
-                    NofficalModule:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,"You can't recycle your empty backpack.",1,false,nil)
-                    task.wait(3)
-                    Noffical = false
+                    _G.Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
+                end           
+            end      
+        end)
+        coroutine.wrap(function() -- тут проблема
+            if workspace.Map.GameSettings.Hives[_G.Button.Name].Owner.Value == Player.Name then
+                if _G.PData.BaseFakeSettings.HiveOwner == Player.Name then
+                    if _G.PData.IStats.Pollen > 0 then -- Check Capacity
+                        --Button.B.Text.Position = UDim2.new(0.27, 0,0.25, 0)
+                        Remotes.HiveConvert:FireServer()
+                        
+                        task.spawn(function()
+                            repeat task.wait(1)
+                                _G.Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
+                            until _G.PData.IStats.Pollen == 0
+                        end)
+        
+                        Noffical = true
+                        --print(Noffical)
+                    else
+                        --Button.B.Text.Position = UDim2.new(0.27, 0,0.2, 0)
+                        _G.Button.B:WaitForChild('TextLabel').Text = "Convert Pollen"
+                        Noffical = false
+                        
+                        if not Noffical and _G.PData.IStats.Pollen <= 0 then -- пофиксить баг, при заходе появлеться а надо чтобы при повторном нажатие 
+                            task.wait()
+                            Noffical = true
+                            NofficalModule:NofficalCreate(PlayerGui:FindFirstChild('UIs').Noffical,"You can't recycle your empty backpack.",1,false,nil)
+                            task.wait(3)
+                            Noffical = false
+                        end
+                    end
                 end
             end 
+        end)()
+    end
+function ButtonHive()
+    for _, Button in next, workspace.Map.GameSettings.Button:GetChildren() do
+        if _G.PData.BaseFakeSettings.HiveNumberOwner == Button.Name then
+            Button.B.Enabled = true
         end
     end
-end
 
+end
 
 task.spawn(function()
 
@@ -106,13 +119,26 @@ task.spawn(function()
                     Controls:Disable()
                     Cam.CameraType = Enum.CameraType.Scriptable
                     TweenModule:CameraCustomStart(Cam, HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Camera)
-
-                    local function CameraSlot()
-                        local number = Mouse.Target.Parent.Name
-                        if Mouse.Target.Name == "Down" and CameraSlotH then
-                            local CameraTypeSlot =  HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Slots[Mouse.Target.Parent.Name].Down.CameraSlot
-                            TweenModule:CameraCustomStop(Cam, CameraTypeSlot.WorldCFrame) 
+                    
+                    for i, v in next, HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Slots:GetChildren() do
+                        if _G.PData.Hive.SlotsAll == i then
+                            HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Slots[i].Down.CameraStart.Value = true
+                        else
+                            HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Slots[i].Down.CameraStart.Value = false
                         end
+                    end
+                    
+                    local function CameraSlot()
+                        task.spawn(function()
+
+                            local number = Mouse.Target.Parent.Name
+                            if Mouse.Target.Name == "Down" and CameraSlotH  then
+                                local CameraTypeSlot = HiveFolder[_G.PData.BaseFakeSettings.HiveNumberOwner].Slots[Mouse.Target.Parent.Name].Down
+                                if CameraTypeSlot.CameraStart.Value then
+                                    TweenModule:CameraCustomStop(Cam, CameraTypeSlot.CameraSlot.WorldCFrame)
+                                end
+                            end
+                        end)
                     end
 
                     Mouse.Button1Down:Connect(CameraSlot)
@@ -153,46 +179,25 @@ task.spawn(function()
     end)
 end)
 
-task.spawn(function()
-    task.wait()
-    coroutine.wrap(function()
-        for _, btn in next, PlayerGui:FindFirstChild('UIs'):WaitForChild('CloseCameraHive'):GetChildren() do
-            if btn.Name == "FrameText" or btn.Name == "Button" then
-                --! добавить по нажатию
-                local buttonSizeX = btn.Size.X.Scale
-                local buttonSizeY = btn.Size.Y.Scale
-    
-                btn.MouseEnter:Connect(function()
-                    local newSizeX = (buttonSizeX + 0.02) --// Change this to what you like
-                    local newSizeY = (buttonSizeY + 0.02) --// Change this to what you like
-    
-                    local info = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-                    TweenService:Create(btn, info, {Size = UDim2.new(newSizeX, 0, newSizeY, 0)}):Play()
-                end)
-    
-                btn.MouseLeave:Connect(function()
-                    local info = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
-                    TweenService:Create(btn, info, {Size = UDim2.new(buttonSizeX, 0, buttonSizeY, 0)}):Play()
-                end)
-            end
-        end
-    end)()
-end)
 
-function HiveOwnerCheck()
+
+function HiveOwnerCheck(Button)
     for _, index in next, HiveFolder:GetChildren() do
         
         local function Touched(hit)
             if Player.Character == hit.Parent then
-
-                if StartHive == false then
+                Remotes.HiveOwner:FireServer(index)
+                if StartHive == false  then
                     StartHive = true
-                    Remotes.HiveSpawnSlot:FireServer(index)
+                    Button.B.Enabled = true
                     _G.PData.BaseFakeSettings.HiveOwner = Player.Name
                     _G.PData.BaseFakeSettings.HiveNumberOwner = index.name
+                    workspace.Map.GameSettings.Hives[index.name].Owner.Value = index.name
+                    if workspace.Map.GameSettings.Hives[index.name].Owner.Value == index.name then
+                        Button.B.TextLabel.Text = "Convert Pollen"
+                        Remotes.HiveSpawnSlot:FireServer(index)
+                    end
                 end
-
-                Remotes.HiveOwner:FireServer(index)
             end
         end
 
@@ -200,4 +205,6 @@ function HiveOwnerCheck()
     end
 end
 
+
+Remotes.UIHive.OnClientEvent:Connect(ButtonHive)
 return HiveModule

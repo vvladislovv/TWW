@@ -1,5 +1,5 @@
 game:IsLoaded()
-task.wait(0.5)
+task.wait(1)
 local Player = game.Players.LocalPlayer
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

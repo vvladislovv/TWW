@@ -15,10 +15,19 @@ function HiveOwner(Player,Hive)
     if PData.BaseFakeSettings.HiveOwner == "" and Hive.Owner.Value == "" then
         PData.BaseFakeSettings.HiveNumberOwner = Hive.Name
         PData.BaseFakeSettings.HiveOwner = Player.Name
-
+        Hive.Owner.Value = Player.Name
         Hive.NamePlayerHive.BillboardGui.TextLabel.Text = Player.Name
         Hive.HivePlatform.Up.SurfaceGui.TextLabel.Text = Player.Name
-        Hive.Owner.Value = Player.Name
+        for i, index in next, workspace.Map.GameSettings.Button:GetChildren() do
+            if PData.BaseFakeSettings.HiveNumberOwner == index.Name then
+                index.B.Enabled = false
+                Remotes.UIHive:FireClient(Player)
+            end
+        end
+       -- local UI = Hive.ButtonUI.Value
+        --UI.B.Enabled = true
+        --TweenModule:OpenButton(UI.B)
+    else
     end
 end
 
