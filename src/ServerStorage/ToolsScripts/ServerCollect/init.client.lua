@@ -50,8 +50,6 @@ CAS:SetTitle("Scoop", "Scoop")
 local Coouldown = {}
 
 function CollectFlowerClient(AnimTrack, HRP) -- фикс нужен(Если не 55 строчка, то есть ожидание, надо решить баг)
-	print(_G.PData.IStats.Pollen)
-	print(_G.PData.IStats.Capacity)
     if _G.PData.IStats.Pollen <= _G.PData.IStats.Capacity and not Coouldown[Player.Name] then
         Coouldown[Player.Name] = true
         task.wait(AnimTrack.Length-0.8)
@@ -64,21 +62,12 @@ function CollectFlowerClient(AnimTrack, HRP) -- фикс нужен(Если н�
         })
         task.wait(ModuleTool.SpeedCoper - 0.2)
 		Coouldown[Player.Name] = false
-	else
-		NofficalGame:CreateNotify({
-			TypeColor = 'Red',
-			Msg = "You bag is full! Convert pollen in your hive!",
-			Icon = false,
-			TypeCall = "Hive"
-		})
-		Coouldown[Player.Name] = false
     end
 end
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if Collect and not Debonuce then
         Debonuce = true
-		
 		local Anim = Instance.new("Animation")
 		Anim.AnimationId = TableAnim
 		
@@ -86,8 +75,19 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		local Cooldown = ToolInfo.SpeedCoper / (_G.PData.Boost.PlayerBoost["Collectors Speed"] / 100)
 		AnimTrack.Priority = Enum.AnimationPriority.Action
 		AnimTrack:Play()
-		
-		CollectFlowerClient(AnimTrack,HRP)
+		if _G.PData.IStats.Pollen >= _G.PData.IStats.Capacity then
+			coroutine.wrap(function()
+				NofficalGame:CreateNotify({
+					TypeColor = 'Red',
+					Msg = "You bag is full! Convert pollen in your hive!",
+					Icon = false,
+					TypeCall = "Hive",
+					Items = nil
+				})
+			end)()
+		else
+			CollectFlowerClient(AnimTrack,HRP)
+		end
 		task.wait(Cooldown)
 		Debonuce = false
 		

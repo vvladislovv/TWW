@@ -219,7 +219,7 @@ local TableModuel = {} do
             ['Shovel'] = {
                 Type = 'PlayerData',
                 Coouldown = 0.2,
-                SpeedCoper = 0.35,
+                SpeedCoper = 0.45,
                 Collecting = 12,
                 PowerTools = 0.3,
                 Stamp = "Shovel",
@@ -493,7 +493,7 @@ local TableModuel = {} do
                 },
                 ['Battle Points'] = {
                     Name = "Battle Points",
-                    Amt = 50, -- Умножать
+                    Amt = 5 * math.random(1,10), -- Умножать
                     Chance = 100,
                     Type = "TotalItems"
                 },

@@ -9,7 +9,8 @@ function Noffical(color,Text,Ic)
         TypeColor = color,
         Msg = Text,
         Icon = Ic,
-        TypeCall = "Hive"
+        TypeCall = "Hive",
+        Items = nil
     }) 
 end
 

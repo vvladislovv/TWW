@@ -33,6 +33,7 @@ function TokenSystems:SpawnToken(Info)
         local function TouchedToken(hit)
             if game.Players:FindFirstChild(hit.Parent.Name) then
                 local Player = game.Players:FindFirstChild(hit.Parent.Name)
+                local TokenOld
                 Token.DownColor.CanTouch = false
                 if Player then
                     task.spawn(function()
@@ -41,8 +42,9 @@ function TokenSystems:SpawnToken(Info)
                         v1Dop = true
                     end)
     
-                    task.spawn(function()
+                    task.spawn(function() -- тут смотреть 
                         local PData = Data:Get(Player)
+                        print('f')
                         if Token:FindFirstChild('Type').Value == "Drop" then
                             if Token:FindFirstChild('Item').Value == "Coin" then
                                 if v1Dop then
@@ -50,6 +52,9 @@ function TokenSystems:SpawnToken(Info)
                                     v1Dop = false
                                     local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,25)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
                                     PData.IStats.Coin += AmountOfHoney
+                                    coroutine.wrap(function()
+                                        Remotes.Notify:FireClient(Player,"Blue","+"..AmountOfHoney.." "..Info.Token.Item)
+                                    end)()
                                     PData.TotalItems.CoinTotal += AmountOfHoney
                                     PData.IStats.DailyHoney += AmountOfHoney
                                     PData:Update('IStats', PData.IStats)
@@ -59,6 +64,9 @@ function TokenSystems:SpawnToken(Info)
                             else
                                 if v1 then
                                     v1 = false
+                                    coroutine.wrap(function()
+                                        Remotes.Notify:FireClient(Player,"Blue","+"..Info.Token.Amount.." "..Info.Token.Item)
+                                    end)()
                                     if PData.Inventory[Token.Item.Value] == nil then
                                         PData.Inventory[Token.Item.Value] = Token.Amount.Value
                                     else

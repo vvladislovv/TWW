@@ -19,7 +19,7 @@ local function getFrame()
     end
 end
 
-function MakeNotifyWindow(color, msg, Icon,TypeCall)
+function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
     if not Icon then
         local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
         FrameBox.Parent = getFrame()()
@@ -32,11 +32,24 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall)
         FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
         FrameBox.FrameMain.Frame2.TextButton.Text = msg
         TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3)
+    else 
+        local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
+        FrameBox.Parent = getFrame()()
+        local OldSizeFrame = FrameBox.Size
+        FrameBox.Transparency = 1
+        FrameBox.FrameImage.Size = UDim2.fromScale(0,0)
+        FrameBox.Size = UDim2.fromScale(0,0)
+        FrameBox.FrameImage.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1]
+        FrameBox.FrameImage.Frame2.ImageLabel.Image = ModuleTable.TokenTables.TokenDrop[Items].Image
+        FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
+        FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
+        FrameBox.FrameMain.Frame2.TextButton.Text = msg
+        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3)
     end
 end
 
 function NofficalModule:CreateNotify(Info)
-    MakeNotifyWindow(Info.TypeColor,Info.Msg,Info.Icon,Info.TypeCall)
+    MakeNotifyWindow(Info.TypeColor,Info.Msg,Info.Icon,Info.TypeCall,Info.Items)
 end 
 
 --[[function NofficalModule:NofficalCreate(Info) --OBJ,Text,ColorIndex,icon,items
