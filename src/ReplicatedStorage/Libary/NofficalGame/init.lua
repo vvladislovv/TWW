@@ -31,20 +31,20 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
         FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
         FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
         FrameBox.FrameMain.Frame2.TextButton.Text = msg
-        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3)
+        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
     else 
         local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
         FrameBox.Parent = getFrame()()
         local OldSizeFrame = FrameBox.Size
         FrameBox.Transparency = 1
-        FrameBox.FrameImage.Size = UDim2.fromScale(0,0)
+        --FrameBox.FrameImage.Size = UDim2.fromScale(0,0)
         FrameBox.Size = UDim2.fromScale(0,0)
         FrameBox.FrameImage.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1]
         FrameBox.FrameImage.Frame2.ImageLabel.Image = ModuleTable.TokenTables.TokenDrop[Items].Image
         FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
         FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
         FrameBox.FrameMain.Frame2.TextButton.Text = msg
-        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3)
+        TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
     end
 end
 

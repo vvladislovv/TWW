@@ -457,7 +457,7 @@ local TableModuel = {} do
             Reward = {
                 ['Coin'] = {
                     Name = "Coin",
-                    Amt = 50, -- Умножать
+                    Amt = 1, -- Умножать
                     Chance = math.random(50,100),
                     Type = "IStats"
                 },

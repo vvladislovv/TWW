@@ -9,6 +9,8 @@ local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local Utils = require(ReplicatedStorage.Libary.Utils)
 local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 
+local TableNofi = {}
+
 local TokenSystems = {}
 
 function TokenSystems:SpawnToken(Info)
@@ -33,7 +35,6 @@ function TokenSystems:SpawnToken(Info)
         local function TouchedToken(hit)
             if game.Players:FindFirstChild(hit.Parent.Name) then
                 local Player = game.Players:FindFirstChild(hit.Parent.Name)
-                local TokenOld
                 Token.DownColor.CanTouch = false
                 if Player then
                     task.spawn(function()
@@ -44,17 +45,23 @@ function TokenSystems:SpawnToken(Info)
     
                     task.spawn(function() -- тут смотреть 
                         local PData = Data:Get(Player)
-                        print('f')
                         if Token:FindFirstChild('Type').Value == "Drop" then
                             if Token:FindFirstChild('Item').Value == "Coin" then
                                 if v1Dop then
-                                    task.wait()
                                     v1Dop = false
+                                    print('ff')
+                                    coroutine.wrap(function()
+                                        if TableNofi[Info.Token.Item] ~= nil then
+                                            TableNofi[Info.Token.Item] += Info.Token.Amount
+                                        else
+                                            TableNofi[Info.Token.Item] = Info.Token.Amount
+                                        end
+                                        Remotes.Notify:FireClient(Player,"Orange","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
+                                    end)()
+
                                     local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,25)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
                                     PData.IStats.Coin += AmountOfHoney
-                                    coroutine.wrap(function()
-                                        Remotes.Notify:FireClient(Player,"Blue","+"..AmountOfHoney.." "..Info.Token.Item)
-                                    end)()
+                                    print(AmountOfHoney)
                                     PData.TotalItems.CoinTotal += AmountOfHoney
                                     PData.IStats.DailyHoney += AmountOfHoney
                                     PData:Update('IStats', PData.IStats)
@@ -65,7 +72,13 @@ function TokenSystems:SpawnToken(Info)
                                 if v1 then
                                     v1 = false
                                     coroutine.wrap(function()
-                                        Remotes.Notify:FireClient(Player,"Blue","+"..Info.Token.Amount.." "..Info.Token.Item)
+                                        if TableNofi[Info.Token.Item] ~= nil then
+                                            TableNofi[Info.Token.Item] += Info.Token.Amount
+                                        else
+                                            TableNofi[Info.Token.Item] = Info.Token.Amount
+                                        end
+                                        print(TableNofi)
+                                        Remotes.Notify:FireClient(Player,"Blue","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
                                     end)()
                                     if PData.Inventory[Token.Item.Value] == nil then
                                         PData.Inventory[Token.Item.Value] = Token.Amount.Value
@@ -79,6 +92,9 @@ function TokenSystems:SpawnToken(Info)
                         elseif Token.Type.Value == "Boost" then
                             -- Fire in Boost
                         end
+                        task.delay(15,function()
+                            TableNofi = {}
+                        end)
                     end)
     
                 end
@@ -87,7 +103,6 @@ function TokenSystems:SpawnToken(Info)
     
     
         Token.DownColor.Touched:Connect(TouchedToken)
-    
 end
 
 
