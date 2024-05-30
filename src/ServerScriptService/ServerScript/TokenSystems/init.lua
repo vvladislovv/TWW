@@ -49,17 +49,17 @@ function TokenSystems:SpawnToken(Info)
                             if Token:FindFirstChild('Item').Value == "Coin" then
                                 if v1Dop then
                                     v1Dop = false
-                                    print('ff')
+                                    local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,25)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
+
                                     coroutine.wrap(function()
                                         if TableNofi[Info.Token.Item] ~= nil then
-                                            TableNofi[Info.Token.Item] += Info.Token.Amount
+                                            TableNofi[Info.Token.Item] += AmountOfHoney
                                         else
-                                            TableNofi[Info.Token.Item] = Info.Token.Amount
+                                            TableNofi[Info.Token.Item] = AmountOfHoney
                                         end
                                         Remotes.Notify:FireClient(Player,"Orange","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
                                     end)()
 
-                                    local AmountOfHoney = math.round(((Token.Amount.Value + math.random(10,25)) * PData.Boost.PlayerBoost["Honey From Tokens"] / 100))
                                     PData.IStats.Coin += AmountOfHoney
                                     print(AmountOfHoney)
                                     PData.TotalItems.CoinTotal += AmountOfHoney
@@ -77,7 +77,6 @@ function TokenSystems:SpawnToken(Info)
                                         else
                                             TableNofi[Info.Token.Item] = Info.Token.Amount
                                         end
-                                        print(TableNofi)
                                         Remotes.Notify:FireClient(Player,"Blue","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
                                     end)()
                                     if PData.Inventory[Token.Item.Value] == nil then

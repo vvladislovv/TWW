@@ -144,18 +144,8 @@ end
 
 function TweenModule:AnimationNotify(OldSizeFrame, FrameBox, Time,IconPerment)
     if IconPerment then
-       -- TweenService:Create(FrameBox.FrameImage,TweenInfo.new(0.3), {BackgroundTransparency = 0 }):Play()
-       TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 0 }):Play()
-       TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out),{Size = OldSizeFrame}):Play() 
-       task.wait(Time)
-
-        TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),{Size = UDim2.new(0.644, 0,0.066, 0)}):Play()
-        task.wait(0.2)
-        TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(FrameBox.FrameImage,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),{Size = UDim2.fromScale(0,0)}):Play()
-        task.wait(1)
-        FrameBox:Destroy()
+        TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 0 }):Play()
+        TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out),{Size = OldSizeFrame}):Play()
     else
         TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 0 }):Play()
         TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out),{Size = OldSizeFrame}):Play()
@@ -169,6 +159,22 @@ function TweenModule:AnimationNotify(OldSizeFrame, FrameBox, Time,IconPerment)
         FrameBox:Destroy()
     end
 
+end
+
+function TweenModule:NoffiAnim(FrameBox)
+    local OldSizeFrame = UDim2.new(0.577, 0,0.059, 0)
+    TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out),{Size = OldSizeFrame}):Play()
+    TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),{Size = UDim2.new(0.644, 0,0.066, 0)}):Play()
+    task.wait(0.4)
+    TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out),{Size = OldSizeFrame}):Play()
+end
+
+function TweenModule:TokenTableNotify(FrameBox)
+    TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
+    TweenService:Create(FrameBox.FrameImage,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
+    TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),{Size = UDim2.fromScale(0,0)}):Play()
+    task.wait(1)
+    FrameBox:Destroy()   
 end
 
 function TweenModule:TweenIngredients(Ingredients,ShopFrame) -- 0,0,0,0

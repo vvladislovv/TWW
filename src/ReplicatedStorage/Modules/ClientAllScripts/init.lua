@@ -5,7 +5,6 @@ local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 local ClientAll = {}
 
 function Noffical(color,Text,Ic,ItemsIcon)
-    print(color,Text,Ic,ItemsIcon)
     NofficalGame:CreateNotify({
         TypeColor = color,
         Msg = Text,
