@@ -171,7 +171,6 @@ end
 
 function TweenModule:TokenTableNotify(FrameBox)
     TweenService:Create(FrameBox,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(FrameBox.FrameImage,TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
     TweenService:Create(FrameBox, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),{Size = UDim2.fromScale(0,0)}):Play()
     task.wait(1)
     FrameBox:Destroy()   

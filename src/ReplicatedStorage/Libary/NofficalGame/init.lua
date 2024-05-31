@@ -36,6 +36,7 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
 
             TableToken[Items] = {}
             TableToken[Items].Value = 1
+            TableToken[Items].Type = true
 
             local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
             FrameBox.Name = Items
@@ -50,8 +51,9 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
             FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
             FrameBox.FrameMain.Frame2.TextButton.Text = msg
             TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
-        else -- плюсует но нет эффекта удаления по этапно
+        else -- Тут надо дописать
             local Frame = getFrame()()
+            print(Items)
             for _, value in next, Frame:GetChildren() do
                 if value.Name == Items then
                     Frame[Items].FrameMain.Frame2.TextButton.Text = msg
@@ -67,12 +69,8 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
             task.delay(5,function()
                 for _, value in next, Frame:GetChildren() do
                     if value.Name ~= "UIListLayout" then
-                        if value.Name == Items then
-                            TableToken[Items] = nil
-                            TweenModule:TokenTableNotify(value)
-                        else
-                            TweenModule:TokenTableNotify(value)
-                        end
+                        TableToken[Items] = nil
+                        TweenModule:TokenTableNotify(value)
                     end
                 end
             end)
