@@ -1,0 +1,3 @@
+local DiologModule = {}
+
+return DiologModule
