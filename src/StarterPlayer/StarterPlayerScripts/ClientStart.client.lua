@@ -9,7 +9,7 @@ local ClientScript = game.ReplicatedStorage.Modules
 for _, index in next, ClientScript:GetDescendants() do
 	if index:IsA('ModuleScript') then
 		require(index)
-		print(index)
+		--print(index)
 	end
 end
 

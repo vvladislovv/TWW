@@ -116,11 +116,11 @@ function ShopCheckOpen(plr,Bool)
     end
 end
 function NofficalFriend(PlayerNew) -- Тест
-    print(PlayerNew)
+    --print(PlayerNew)
     if PlayerNew:IsFriendsWith(PlayerNew.UserId) then -- может быть ошибка
-        print(PlayerNew.Name)
+       -- print(PlayerNew.Name)
     else
-        print(PlayerNew.Name)
+        --print(PlayerNew.Name)
     end
 end
 

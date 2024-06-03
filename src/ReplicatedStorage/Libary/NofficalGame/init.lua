@@ -53,11 +53,11 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
             TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
         else -- Тут надо дописать
             local Frame = getFrame()()
-            print(Items)
+           -- print(Items)
             for _, value in next, Frame:GetChildren() do
                 if value.Name == Items then
                     Frame[Items].FrameMain.Frame2.TextButton.Text = msg
-                    print(msg)
+                   -- print(msg)
                     TableToken[Items].Value += 1
 
                     if Frame[Items] then

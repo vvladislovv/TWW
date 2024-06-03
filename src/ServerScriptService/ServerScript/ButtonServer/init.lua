@@ -7,10 +7,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Data = require(ServerScriptService.ServerScript.Data)
 
-
 local function CalculateDistance(Button, HumRootPart)
     return (Button.Position - HumRootPart.Position).Magnitude
 end
+
 function Start()
     game:GetService("RunService").Heartbeat:Connect(function()
         
@@ -18,7 +18,6 @@ function Start()
             local Humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
             local HumRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
             local PData = Data:Get(player)
-            
             if Humanoid and Humanoid.Health > 0 and HumRootPart then
                 for _, Button in ipairs(game.Workspace.Map.GameSettings.Button:GetChildren()) do
                     if PData.Loaded then

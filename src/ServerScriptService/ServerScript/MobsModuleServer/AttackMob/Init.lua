@@ -55,7 +55,7 @@ function DestroyMobs(Player,Mob,PData,Field)
             end
         end)
         if index ~= nil and Mob.PrimaryPart ~= nil then
-            print(Mob.Name)
+           -- print(Mob.Name)
             task.wait(0.3)
             PData.BaseFakeSettings.PlayerAttack = false
             index[Mob.Name]:Destroy()

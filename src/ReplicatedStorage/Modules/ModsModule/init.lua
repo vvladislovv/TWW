@@ -7,7 +7,7 @@ local MobsModule = {}
 
 
 function TimerClient(PData, TimerData, Field1, i, Mob)
-    print(Field1[i].NameMonster.Value == Mob.Name)
+    --print(Field1[i].NameMonster.Value == Mob.Name)
 
     if TimerData ~= nil and PData.BaseFakeSettings.FieldVarsOld == Field1.Name and Field1[i].NameMonster.Value == Mob.Name then
         Field1[i].BillboardGui.Enabled = true
@@ -24,7 +24,7 @@ function TimerClient(PData, TimerData, Field1, i, Mob)
                     Field1[i].BillboardGui.TextLabel.Text = Utils:FormatTime(math.max(0, TimerData.Time - os.time()))
                     
                     if TimerData.Time - os.time() <= 0  then
-                        print(i)
+                        --print(i)
                         TimerData.Time = 0
                         TweenModule:BillboardGuiClose(Field1[i])
                         task.wait(0.3)

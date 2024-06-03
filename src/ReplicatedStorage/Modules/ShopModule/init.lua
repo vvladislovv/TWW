@@ -77,11 +77,9 @@ function StartCamer(Button)
     Controls:Disable()
     TweenModule:CameraCustomStart(Cam,workspace.Map.GameSettings.Shops[Button.ShopOBJ.Value].Camers.Cam1)
     _G.PData.BaseFakeSettings.OpenCameraCustom = true
-    --print(_G.PData.BaseFakeSettings.OpenCameraCustom)
 end
 
 function CloseShop()
-    print('fff')
     CameraNow = 1
     TweenModule:CameraCustomStop(Cam,CamOriginal)
     task.wait(0.1)
@@ -173,14 +171,14 @@ function GetItemShop(CameraNow)
                     else
                         if _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == false then -- Equip
                             updateItemDisplay(TableItems, showIngredients)
-                            print(CameraType.ItemsName.Value)
+                           -- print(CameraType.ItemsName.Value)
                             ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equip"
                             ShopFrame.BuyButton.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Equip[1]
                             ShopFrame.BuyButton.Frame.Frame.BackgroundColor3 = ModuleTable.ColorTable.Shops.Equip[2]
                             ShopFrame.BuyButton.Frame.Frame.TextButton.MouseButton1Click:Connect(function()
                                 local TextBuy = ShopFrame.BuyButton.Frame.Frame.TextButton.Text
                                 if _G.PData.EquipmentShop[CameraType.Type.Value.."s"][CameraType.ItemsName.Value] == false and CameraNow == CameraType.Order.Value and ShopFrame.BuyButton.Frame.Frame.TextButton.Text == "Equip" then
-                                    print(CameraType.ItemsName.Value)
+                                    --print(CameraType.ItemsName.Value)
                                     ShopFrame.BuyButton.Frame.Frame.TextButton.Text = "Equipped"
                                     Remotes.BuyShop2:FireServer(TextBuy, TableItems.ShopBuy, CameraType,CameraNow,ModuleTable)
                                 end

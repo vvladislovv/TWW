@@ -61,7 +61,7 @@ function TokenSystems:SpawnToken(Info)
                                     end)()
 
                                     PData.IStats.Coin += AmountOfHoney
-                                    print(AmountOfHoney)
+                                    --print(AmountOfHoney)
                                     PData.TotalItems.CoinTotal += AmountOfHoney
                                     PData.IStats.DailyHoney += AmountOfHoney
                                     PData:Update('IStats', PData.IStats)

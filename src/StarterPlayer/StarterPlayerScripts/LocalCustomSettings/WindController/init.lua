@@ -121,10 +121,10 @@ DirInput.FocusLost:Connect(function()
 end)
 DirInput.Parent = Gui
 
-Gui.Parent = game.Players.LocalPlayer:WaitForChild("")
+--Gui.Parent = game.Players.LocalPlayer:WaitForChild("")
 
-spawn(function()
-	while wait(0.1) do
+task.spawn(function()
+	while task.wait(0.1) do
 		local Active,Handled = WindShake.Active,WindShake.Handled
 		CountLabel.Text = string.format("Leaf Count: %d Active, %d Inactive, %d Not Streamed In (77760 Total)",Active,Handled-Active,77760-Handled)
 	end

@@ -54,9 +54,9 @@ function MobsCreatServer(Player,FieldPlayer)
                     FieldData[Index.Name].Time = 0
                     Zoneier[Index.Name].TimerStart.Value = false
                     if FieldData[Index.Name] ~= nil and PData.BaseFakeSettings.FieldMods == FieldPlayer then
-                        print(FieldData[Index.Name].Time <= 0)
+                        --(FieldData[Index.Name].Time <= 0)
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
-                            print(FieldData[Index.Name].Time)
+                            --print(FieldData[Index.Name].Time)
                             CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
                         end
                     end
@@ -129,7 +129,7 @@ end
 
 function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
     local PData = Data:Get(Player)
-    print(CollectTimers)
+   -- print(CollectTimers)
     if not Field[Index.Name].TimerStart.Value and not Field['Pos'..CollectTimers].Spawn.Value then
         if not FolderMobs:FindFirstChild(Player.Name) and PData.BaseFakeSettings.MonsterZone and PData.BaseFakeSettings.FieldMods == Field.Name then -- Создаем папку для спавна монстра
             local Folder = Instance.new("Folder", FolderMobs)
@@ -147,7 +147,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
             Field[Index.Name].NameMonster.Value = Mob.Name
 
             for _, index in next, FolderMobs:GetChildren() do
-                print(CollectTimers)
+                --print(CollectTimers)
                 for _, value in next, index[Field.Monster.Value..CollectTimers].ModelBag:GetChildren() do
                     if value.Transparency == 1 then
                         TweenService:Create(value, TweenInfo.new(0.4,Enum.EasingStyle.Quad,Enum.EasingDirection.Out), {Transparency = 0}):Play()                    

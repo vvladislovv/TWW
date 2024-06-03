@@ -31,7 +31,7 @@ function HiveModule:StatModule(input)
         task.spawn(function()
             if _G.PData.BaseFakeSettings.HiveOwner == Player.Name and workspace.Map.GameSettings.Hives[_G.Button.Name].Owner.Value == Player.Name then
                 _G.Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
-                SoundService.OpenButton:Play()
+                --SoundService.OpenButton:Play()
         
                 while UserInputService:IsKeyDown(input.KeyCode.EnumType.E) do -- тут баг
                     task.wait()
@@ -43,7 +43,7 @@ function HiveModule:StatModule(input)
         
                 if not UserInputService:IsKeyDown(input.KeyCode.EnumType.E) then
                     --SoundService.CloseButton:Play()
-                    SoundService.OpenButton:Play()
+                    --SoundService.OpenButton:Play()
                     _G.Button.B.ButtonE.ImageColor3 = Color3.fromRGB(255, 255, 255)
                 end           
             end      
@@ -116,7 +116,7 @@ task.spawn(function()
                 local Distation = DistationCheck()
                 SlotHight = true
                 CameraSlotH = true
-                print(Distation)
+                --print(Distation)
                 if Distation < 10  then
                     TweenModule:OpenGuiButton(PlayerGui.UIs.CloseCameraHive)
                     _G.PData.BaseFakeSettings.OpenCameraCustomHive = true

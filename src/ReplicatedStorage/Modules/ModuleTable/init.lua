@@ -2,10 +2,16 @@ local TableModuel = {} do
     
     TableModuel.PlayerGame = {
         Admins = {
-            [1] = 'vlad060108'
+            [1] = 'vlad060108',
+            [2] = 'Helaliky',
         },
         Testers = {
             [1] = 'TOPCIERG',
+            [2] = "Brings_Holder",
+            [3] = "vhfcfr",
+            [4] = "LOKEPZAKPRO",
+            [5] = "Kubusthomas",
+            [6] = "NoobPuplu",
         },
         BanPlayer = {
             [1] = 'dima0tu3',
@@ -16,8 +22,6 @@ local TableModuel = {} do
             [6] = 'KtotoVBSS',
             [7] = 'StepanVIP123',
             [8] = 'Nerason_Dev',
-            [9] = 'TOPCIERG',
-            [10] = 'vlad060108',
         }
     }
 
@@ -456,7 +460,7 @@ local TableModuel = {} do
                 Speed = 15,
                 Damage = 15,
                 Dist = 50,
-                Cooldown = 150
+                Cooldown = 200
             },
     
             Reward = {

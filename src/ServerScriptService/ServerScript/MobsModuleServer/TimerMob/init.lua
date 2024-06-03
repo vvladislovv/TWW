@@ -7,7 +7,7 @@ local TimerMob = {}
 
 function TimerMob:CreateTimerMobs(Player,Field1,Mob)
     local PData = Data:Get(Player)
-    print(Field1:IsA('BasePart'))
+    --print(Field1:IsA('BasePart'))
     if Field1:IsA('BasePart') then
         local FieldData = PData.TimerTable.Field[Field1.Name]
         for i, TimerData in FieldData do

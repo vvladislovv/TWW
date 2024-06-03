@@ -67,7 +67,7 @@ Diologs.QuesetDialog = {
 
                     Task = {
                         [1] = {
-                        Type = "TimeGame", --! Timer
+                        Type = "TimeGame",
                         StartAmt = 0,
                         NeedAmt = 3600,
                         },
