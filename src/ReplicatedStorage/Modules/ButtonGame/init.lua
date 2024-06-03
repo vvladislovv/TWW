@@ -66,7 +66,7 @@ end
 
 function KeyCode(input, GPE)
     if not GPE  then
-        if input.KeyCode == Enum.KeyCode.E then
+        if input.KeyCode == Enum.KeyCode.E or input.UserInputType == Enum.UserInputType.Touch then
             if _G.Button ~= nil then
                 if TableButton.Hives[_G.Button.Name] then
                     require(ReplicatedStorage.Modules.HiveModule):StatModule(input)

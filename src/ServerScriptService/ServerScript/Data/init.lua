@@ -94,10 +94,10 @@ function Data.new(Player)
 	
     PData.QuestNPC = {
         ['Vladislov'] = {
-		NowQuest = false, --* Новый квест
-		Complish = false, --* Настоящий квест
-		QuestEvent = false, --* Праздничный квест
-		TotalQuest = 1 --* Всего
+			NowQuest = false, --* Новый квест
+			Complish = false, --* Настоящий квест
+			QuestEvent = false, --* Праздничный квест
+			TotalQuest = 1 --* Всего
 		},
         ['Bread'] = {NowQuest = false, Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
 		['Snail'] = {NowQuest = false,Complish = false, QuestEvent = false, TotalQuest = 1, NoQuset = false},
@@ -222,10 +222,10 @@ function Data:Testers(Player)
 	}
 	
 	PData.IStats = {
-		Coin = 1,
-		Pollen = 1,
-		Capacity = 1,
-		DailyHoney = 1,
+		Coin = 0,
+		Pollen = 0,
+		Capacity = 100000,
+		DailyHoney = 0,
 		Tutorial = false,
 
 	}
@@ -435,10 +435,10 @@ function Data:Admin(Player)
 	}
 	
 	PData.IStats = {
-		Coin = 111,
+		Coin = 10000000,
 		Pollen = 0,
-		Capacity = 111,
-		DailyHoney = 111,
+		Capacity = 10000000,
+		DailyHoney = 10000000,
 		Tutorial = false,
 
 	}

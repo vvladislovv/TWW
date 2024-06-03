@@ -2,10 +2,10 @@ local TableModuel = {} do
     
     TableModuel.PlayerGame = {
         Admins = {
-            --[1] = 'vlad060108'
+            [1] = 'vlad060108'
         },
         Testers = {
-           -- [1] = 'TOPCIERG',
+            [1] = 'TOPCIERG',
         },
         BanPlayer = {
             [1] = 'dima0tu3',
@@ -254,11 +254,12 @@ local TableModuel = {} do
                     ShopType = "ShopMini",
                     Cost = 18500,
                     Description = "",
-                    Ingriends = {
+                    Ingriends = nil
+                    --[[Ingriends = {
                         ['Waspik Egg'] = 1,
                         ['Strabbery'] = 15,
                         ['Send'] = 15,
-                    },
+                    },]]
                 },
 
                 GuiItems = "rbxassetid://17180412078",
@@ -302,9 +303,9 @@ local TableModuel = {} do
                     ShopType = "ShopMini",
                     Cost = 9500,
                     Description = "",
-                    Ingriends = {
+                    Ingriends = nil--[[{
                         ['Waspik Egg'] = 1,
-                    },
+                    },]]
                 },
 
                 GuiItems = "rbxassetid://17180412078",
@@ -343,10 +344,12 @@ local TableModuel = {} do
                     Cost = 17500,
                     Description = "",
                     Name = 'Big Backpack',
-                    Ingriends = {
+                    Ingriends = nil --[[
+                        {
                         ['Strabbery'] = 2222,
                         ['Rock'] = 2222,
                     },
+                    ]]
                 },
 
                 GuiItems = "rbxassetid://17161583288",
@@ -384,7 +387,7 @@ local TableModuel = {} do
                     Cost = 8600,
                     Description = "",
                     Name = 'Wheat backpack',
-                    Ingriends = {['Rock'] = 200,}
+                    Ingriends = nil --{['Rock'] = 200,}
                 },
 
                 GuiItems = "rbxassetid://17161583288",
@@ -404,10 +407,11 @@ local TableModuel = {} do
                     Cost = 23500,
                     Description = "",
                     Name = 'Vio Boot',
-                    Ingriends = {
+                    Ingriends = nil --[[
+                        {
                         ['Rock'] = 250,
-
                     }
+                    ]]
                 },
 
                 GuiItems = "rbxassetid://17161583288",
@@ -428,10 +432,11 @@ local TableModuel = {} do
                     Cost = 21000,
                     Description = "",
                     Name = 'Vio hat',
-                    Ingriends = {
-                        ['Rock'] = 200,
-
+                    Ingriends = nil --[[
+                        {
+                        ['Rock'] = 250,
                     }
+                    ]]
                 },
 
                 GuiItems = "rbxassetid://17161583288",
@@ -451,7 +456,7 @@ local TableModuel = {} do
                 Speed = 15,
                 Damage = 15,
                 Dist = 50,
-                Cooldown = 15
+                Cooldown = 150
             },
     
             Reward = {
