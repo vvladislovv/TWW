@@ -2,9 +2,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
-local Data = require(ServerScriptService.ServerScript.Data)
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
-local TokenSystems = require(ServerScriptService.ServerScript.TokenSystems)
+local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 local RewardsMob = {}
 
 function RToken(Field,Player) 
@@ -27,9 +26,14 @@ end
 
 
 function RewardsMob:BattlePoints(Player,Data2)
-    local PData = Data:Get(Player)
+    local PData = _G.PData
     PData.TotalItems['Battle Points'] += Data2['Battle Points'].Amt
-    Remotes.Notify:FireClient(Player,"Blue","+"..Data2['Battle Points'].Amt.." Battle Points")
+    NofficalGame:CreateNotify({
+        TypeColor = "Blue",
+        Msg = "+"..Data2['Battle Points'].Amt.." Battle Points",
+        Icon = false,
+        TypeCall = "Hive"
+    })
 end
 
 function RewardsMob:TokenSpawn(Player,Field,StartVector3, amountofitems,Arclength)
@@ -48,7 +52,8 @@ function RewardsMob:TokenSpawn(Player,Field,StartVector3, amountofitems,Arclengt
         if ModuleTable.MonstersTable[Field.Monster.Value] then
             local RandomToken = RToken(Field,Player)
             if RandomToken ~= 1 then
-                TokenSystems:SpawnToken({
+
+                Remotes.SpawnTokenClient:FireServer({
                     PlayerName = Player,
                     Position = vector3,
                     Cooldown = 15,
@@ -67,10 +72,9 @@ end
 
 
 function RewardsMob:GetReward(Player,Mob,Field,SpawnMobs)
-    local PData = Data:Get(Player)
+    local PData = _G.PData
     local RewardNumber = 0
     local RewardMobs = nil
-    local Start = true
     if not Field['Timer'..SpawnMobs].TimerStart.Value then
         PData.TimerTable.Field[Field.Name]['Timer'..SpawnMobs] = {Time = ModuleTable.MonstersTable[Field.Monster.Value].SettingsMobs.Cooldown + os.time()} -- Ставим время
         for _,v in pairs(ModuleTable.MonstersTable[Field.Monster.Value].Reward) do

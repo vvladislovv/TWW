@@ -6,7 +6,7 @@ local TweenModule = require(ReplicatedStorage.Libary.TweenModule)
 local MobsModule = {}
 
 
-function TimerClient(PData, TimerData, Field1, i, Mob)
+function MobsModule:TimerClient(PData, TimerData, Field1, i, Mob)
     --print(Field1[i].NameMonster.Value == Mob.Name)
 
     if TimerData ~= nil and PData.BaseFakeSettings.FieldVarsOld == Field1.Name and Field1[i].NameMonster.Value == Mob.Name then
@@ -30,7 +30,8 @@ function TimerClient(PData, TimerData, Field1, i, Mob)
                         task.wait(0.3)
                         Field1[i].BillboardGui.Enabled = false
                         Field1[i].TimerStart.Value = false
-                        Remotes.ServerMobsNoffical:FireServer(Field1.Name)
+                        require(script.Parent["MobsModuleС2"].CreateMob):MobsCreatServer(Field1.Name)
+
                         break
                     end
 
@@ -47,6 +48,6 @@ function TimerNot(v2)
 end
 
 Remotes.MobsNoTimer.OnClientEvent:Connect(TimerNot)
-Remotes.MobsTimer.OnClientEvent:Connect(TimerClient)
+--Remotes.MobsTimer.OnClientEvent:Connect(TimerClient)
 
 return MobsModule

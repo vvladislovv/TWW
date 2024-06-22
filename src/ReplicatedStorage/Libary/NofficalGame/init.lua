@@ -20,6 +20,7 @@ end
 function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
     local OldSizeFrame
     if not Icon then
+
         local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
         FrameBox.Parent = getFrame()()
         OldSizeFrame = FrameBox.Size
@@ -31,82 +32,73 @@ function MakeNotifyWindow(color, msg, Icon,TypeCall,Items)
         FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
         FrameBox.FrameMain.Frame2.TextButton.Text = msg
         TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
-    else  --Icon = true
-        if not TableToken[Items] then
-
-            TableToken[Items] = {}
-            TableToken[Items].Value = 1
-            TableToken[Items].Type = true
-
-            local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
-            FrameBox.Name = Items
-            FrameBox.Parent = getFrame()()
-
-            OldSizeFrame = FrameBox.Size
-            FrameBox.Transparency = 1
-            FrameBox.Size = UDim2.fromScale(0,0)
-            FrameBox.FrameImage.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1]
-            FrameBox.FrameImage.Frame2.ImageLabel.Image = ModuleTable.TokenTables.TokenDrop[Items].Image
-            FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
-            FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
-            FrameBox.FrameMain.Frame2.TextButton.Text = msg
-            TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
-        else -- Тут надо дописать
-            local Frame = getFrame()()
-           -- print(Items)
-            for _, value in next, Frame:GetChildren() do
-                if value.Name == Items then
-                    Frame[Items].FrameMain.Frame2.TextButton.Text = msg
-                   -- print(msg)
-                    TableToken[Items].Value += 1
-
-                    if Frame[Items] then
-                        TweenModule:NoffiAnim(Frame[Items])
-                    end
-                end
-            end
-
-            task.delay(5,function()
+        
+    else  --Icon = true -- ! придумать и переписать
+        local Frame = getFrame()()
+        if not Frame:IsA('UIListLayout') then
+            if Frame.Name ~= Items then
+                print(Items)
+                print(Frame.Name)
+                TableToken[Items] = {}
+                TableToken[Items].Time = os.time() + 5
+                local FrameBox = ReplicatedStorage.Assert.FrameNotify:Clone()
+                FrameBox.Name = Items
+                FrameBox.Parent = getFrame()()
+    
+                OldSizeFrame = FrameBox.Size
+                FrameBox.Transparency = 1
+                FrameBox.Size = UDim2.fromScale(0,0)
+                FrameBox.FrameImage.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1]
+                FrameBox.FrameImage.Frame2.ImageLabel.Image = ModuleTable.TokenTables.TokenDrop[Items].Image
+                FrameBox.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][1] 
+                FrameBox.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical[color][2]
+                FrameBox.FrameMain.Frame2.TextButton.Text = msg
+                TweenModule:AnimationNotify(OldSizeFrame, FrameBox, 3,Icon)
+    
+            else -- Тут надо дописать
+                local Frame = getFrame()()
+                print('fff')
                 for _, value in next, Frame:GetChildren() do
-                    if value.Name ~= "UIListLayout" then
-                        TableToken[Items] = nil
-                        TweenModule:TokenTableNotify(value)
+                    if value.Name == Items and Items ~= nil then
+                        Frame[Items].FrameMain.Frame2.TextButton.Text = msg
+                        -- print(msg)
+                        
+                        if TableToken[Items] ~= nil then
+                            if TableToken[Items] ~= nil then
+                                TableToken[Items].Time = os.time() + 5
+                            end
+                        end
                     end
                 end
-            end)
-            --TweenModule:NoffiAnim(FrameBox,OldSizeFrame)
+    
+                task.delay(8,function()
+                    print(Items)
+                    if TableToken[Items].Time == os.time() then
+                        TweenModule:NofficalDown(Frame[Items])
+                        TableToken[Items].Time = 0
+                        TableToken[Items] = {}
+                    end 
+                end)
+    
+                coroutine.wrap(function()
+                    if TableToken[Items] == nil then
+                        for _, value in next, Frame:GetChildren() do
+                            if value.Name ~= "UIListLayout" then
+                                TweenModule:TokenTableNotify(value)
+                                TableToken[Items].Time = 0
+                                TableToken[Items] = {}
+                            end
+                        end
+                    end   
+                end)()
+                --TweenModule:NoffiAnim(FrameBox,OldSizeFrame)
+            end
         end
     end
 end
 
 function NofficalModule:CreateNotify(Info)
     MakeNotifyWindow(Info.TypeColor,Info.Msg,Info.Icon,Info.TypeCall,Info.Items)
-end 
-
-
---[[function NofficalModule:NofficalCreate(Info) --OBJ,Text,ColorIndex,icon,items
-    if not Nofical then -- переписать полностью
-        Nofical = true
-        if Info.icon and Info.items ~= nil then
-            OBJ.FrameImage.Frame2.ImageLabel.Image = ModuleTable.TokenTables.TokenDrop[items].Image
-            OBJ.FrameImage.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical["Color"..ColorIndex][1]
-            OBJ.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical["Color"..ColorIndex][1] 
-            OBJ.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical["Color"..ColorIndex][2]
-            OBJ.FrameMain.Frame2.TextButton.Text = Text
-            TweenModule:NofficalUp(OBJ,icon)
-            task.wait(1)
-            TweenModule:NofficalDown(OBJ)
-            Nofical = false
-        else
-            OBJ.FrameMain.BackgroundColor3 = ModuleTable.ColorTable.Noffical["Color"..ColorIndex][1] 
-            OBJ.FrameMain.Frame2.BackgroundColor3 = ModuleTable.ColorTable.Noffical["Color"..ColorIndex][2]
-            OBJ.FrameMain.Frame2.TextButton.Text = Text
-            TweenModule:NofficalUp(OBJ,icon)
-            task.wait(1)
-            TweenModule:NofficalDown(OBJ)
-            Nofical = false
-        end
-    end
-end]]
+end
 
 return NofficalModule

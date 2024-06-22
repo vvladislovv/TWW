@@ -242,7 +242,7 @@ end
 function Data:Adminer(Player)
 	local PData = Data:Get(Player)
 		PData.IStats.Coin = 100000000000
-		PData.IStats.Capacity = 100000000000
+		PData.IStats.Capacity = 100000
 		PData.Hive.SlotsAll = 5
 		PData.Hive.WaspSettings = {
 			[1] = {

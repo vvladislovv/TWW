@@ -17,11 +17,10 @@ local TableModuel = {} do
             [1] = 'dima0tu3',
             [2] = 'iQlemjo',
             [3] = 'CblH_Cengdopa',
-            [4] = 'BroNlockLove',
-            [5] = 'dima0tu17',
-            [6] = 'KtotoVBSS',
-            [7] = 'StepanVIP123',
-            [8] = 'Nerason_Dev',
+            [4] = 'dima0tu17',
+            [5] = 'KtotoVBSS',
+            [6] = 'StepanVIP123',
+            [7] = 'Nerason_Dev',
         }
     }
 

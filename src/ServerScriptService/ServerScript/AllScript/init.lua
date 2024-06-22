@@ -124,8 +124,23 @@ function NofficalFriend(PlayerNew) -- Тест
     end
 end
 
-game.Players.PlayerAdded:Connect(NofficalFriend)
+function TokenSpawn(Player,info)
+    print(info)
+    --[[TokenSpawn:SpawnToken({
+        PlayerName = Player,
+        Position = vector3,
+        Cooldown = 15,
+        Token = {
+            Item = RandomToken,
+            Amount = 1,
+            Type = "Drop",
+        },
+        Resourse = Field.Name.." Field",
+    })]]
+end
 
+game.Players.PlayerAdded:Connect(NofficalFriend)
+Remotes.SpawnTokenClient.OnServerEvent:Connect(TokenSpawn)
 Remotes.RemoteShop.OnServerEvent:Connect(ShopCheckOpen)
 Remotes.BuyShop.OnServerEvent:Connect(ShopBuyServer)
 Remotes.BuyShop2.OnServerEvent:Connect(EquipmentServer)

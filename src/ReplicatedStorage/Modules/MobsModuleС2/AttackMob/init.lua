@@ -1,8 +1,6 @@
-local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
-local Data = require(ServerScriptService.ServerScript.Data)
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
 local FolderMobs = workspace.Map.GameSettings.GameOnline.PlayeMobs
 
@@ -65,7 +63,7 @@ end
 
 function MobsAttaker(Player,Character,Mob,Field)
 
-    local PData = Data:Get(Player)
+    local PData = _G.PData
 
         while task.wait() do
             task.wait()
@@ -91,8 +89,9 @@ function MobsAttaker(Player,Character,Mob,Field)
                         Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                     end
                                     
-                    if DistationSpawn(Mob,Character)() <= 6 and PData.BaseFakeSettings.FieldMods == "" then
-                        DestroyMobs(Player,Mob,PData,Field)
+                    if DistationSpawn(Mob,Character)() <= 2 and PData.BaseFakeSettings.FieldMods == "" then
+                        print('fff')
+                        --DestroyMobs(Player,Mob,PData,Field)
                     end
 
                 end

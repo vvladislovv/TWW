@@ -3,7 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)
-local Data = require(ServerScriptService.ServerScript.Data)
+
 
 local MobsBilldingGui = ReplicatedStorage:WaitForChild('Assert').MobsBilldingGui
 local Config = ReplicatedStorage:WaitForChild('Assert').Configuration
@@ -44,7 +44,7 @@ end
 
 function MobsCreatServer(Player,FieldPlayer)
     local CollectTimers = 0
-    local PData = Data:Get(Player)
+    local PData = _G.PData
     for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()) do
         if Zoneier.name == FieldPlayer then
             for _, Index in Zoneier:GetChildren() do
@@ -57,7 +57,7 @@ function MobsCreatServer(Player,FieldPlayer)
                         --(FieldData[Index.Name].Time <= 0)
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
                             --print(FieldData[Index.Name].Time)
-                            CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
+                            --CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
                         end
                     end
                 end 
@@ -77,7 +77,7 @@ function Test(PData,Configuration)
 end
 
 function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
-    local PData = Data:Get(Player)
+    local PData = _G.PData
     local SpawnMobs = 0
     local SpawnMobsMax = 0
     for _, index in next, Field:GetChildren() do
@@ -128,7 +128,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
 end
 
 function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
-    local PData = Data:Get(Player)
+    local PData = _G.PData
    -- print(CollectTimers)
     if not Field[Index.Name].TimerStart.Value and not Field['Pos'..CollectTimers].Spawn.Value then
         if not FolderMobs:FindFirstChild(Player.Name) and PData.BaseFakeSettings.MonsterZone and PData.BaseFakeSettings.FieldMods == Field.Name then -- Создаем папку для спавна монстра
@@ -171,5 +171,5 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
     end
 end
 
-Remotes.ServerMobsNoffical.OnServerEvent:Connect(MobsCreatServer)
+--Remotes.ServerMobsNoffical.OnServerEvent:Connect(MobsCreatServer)
 return CreateMob
