@@ -93,7 +93,7 @@ function TweenModule:StopShop(ShopFrame)
 end
 
 function TweenModule:SpawnSlotHive(Hive,CheckSlot)
-    local TweenInfoSlot = TweenInfo.new(1,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut)
+    local TweenInfoSlot = TweenInfo.new(0.45,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut)
     TweenService:Create(Hive.Slots[CheckSlot].Up, TweenInfoSlot, {Transparency = 0}):Play()
     TweenService:Create(Hive.Slots[CheckSlot].Down, TweenInfoSlot, {Transparency = 0.45}):Play()
     Hive.Slots[CheckSlot].Level.SurfaceGui.Enabled = true

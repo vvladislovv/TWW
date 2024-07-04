@@ -4,16 +4,22 @@ local NofficalGame = require(ReplicatedStorage.Libary.NofficalGame)
 
 local ClientAll = {}
 
-function Noffical(color,Text,Ic,ItemsIcon)
+function Noffical(color,Text,Ic,ItemsIcon,Time)
+
     NofficalGame:CreateNotify({
         TypeColor = color,
         Msg = Text,
         Icon = Ic,
         TypeCall = "Hive",
-        Items = ItemsIcon
+        Items = ItemsIcon,
+        Timer = Time
     }) 
 end
 
-Remotes.Notify.OnClientEvent:Connect(Noffical)
+function DestroyFrame2(Items)
+    NofficalGame:DestroyFrame(Items)
+end
 
+Remotes.Notify.OnClientEvent:Connect(Noffical)
+ReplicatedStorage.Remotes.DestroyFrameNoffical.OnClientEvent:Connect(DestroyFrame2)
 return ClientAll

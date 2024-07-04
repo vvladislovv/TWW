@@ -44,6 +44,9 @@ function HiveSpawn(Player, HiveGet)
     local function SpawnHiveSlot()
         if HiveGet.Owner.Value == PData.BaseFakeSettings.HiveOwner then
 
+            HiveGet.HiveModel.Highlight.Enabled = false
+            HiveGet.HivePlatform.Down.Highlight.Enabled = false
+            Remotes.HiveHighlight:FireClient(Player,HiveGet)
             local function CheckSlotWasp(CheckSlot)
                 for NumberSlot, GetSlot in pairs(PData.Hive.WaspSettings) do
                     if NumberSlot == CheckSlot then
@@ -72,6 +75,9 @@ function HiveSpawn(Player, HiveGet)
                     TweenModule:SpawnSlotHive(HiveGet,CheckSlot)
                 until CheckSlotPlayer == CheckSlot
             end
+        elseif HiveGet.Owner.Value ~= PData.BaseFakeSettings.HiveOwner then
+            HiveGet.HiveModel.Highlight.Enabled = true
+            HiveGet.HivePlatform.Down.Highlight.Enabled = true
         end
     end
 
@@ -98,6 +104,7 @@ function HiveLeave(Player)
                     if CheckSlotPlayer ~= CheckSlot then
                         repeat
                             --task.wait(0.25)
+
                             CheckSlot += 1
                             TweenModule:DestroySlotHive(index,CheckSlot)
 

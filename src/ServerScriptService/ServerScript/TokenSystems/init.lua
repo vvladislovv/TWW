@@ -30,8 +30,8 @@ function TokenSpawn(Info,TokenModule) -- решить тут проблему
         Token.Tokenimage.Decal2.Texture = TokenModule.Image
     end
 
-    Token.PrimaryPart.Position = Info.Position 
-    Token.Tokenimage.Position = Info.Position 
+    Token.PrimaryPart.Position = Info.Position
+    Token.Tokenimage.Position = Info.Position
     Token.DownColor.Position = Info.Position
     return Token
 end
@@ -48,11 +48,14 @@ function TokenType(Token,Info,PData,Player)
 
                     coroutine.wrap(function()
                         if TableNofi[Info.Token.Item] ~= nil then
-                            TableNofi[Info.Token.Item] += AmountOfHoney
+                            TableNofi[Info.Token.Item].Amount += AmountOfHoney
+                            TableNofi[Info.Token.Item].Time = os.time() + 10
                         else
-                            TableNofi[Info.Token.Item] = AmountOfHoney
+                            TableNofi[Info.Token.Item] = {}
+                            TableNofi[Info.Token.Item].Amount = AmountOfHoney
+                            TableNofi[Info.Token.Item].Time = os.time() + 10
                         end
-                        Remotes.Notify:FireClient(Player,"Orange","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
+                        Remotes.Notify:FireClient(Player,"Orange","+"..TableNofi[Info.Token.Item].Amount.." "..Info.Token.Item,true,Info.Token.Item,TableNofi)
                     end)()
 
                     PData.IStats.Coin += AmountOfHoney
@@ -67,12 +70,17 @@ function TokenType(Token,Info,PData,Player)
                 if v1 then
                     v1 = false
                     coroutine.wrap(function()
+
                         if TableNofi[Info.Token.Item] ~= nil then
-                            TableNofi[Info.Token.Item] += Info.Token.Amount
+                            TableNofi[Info.Token.Item].Amount += Info.Token.Amount
+                            TableNofi[Info.Token.Item].Time = os.time() + 10
                         else
-                            TableNofi[Info.Token.Item] = Info.Token.Amount
+                            TableNofi[Info.Token.Item] = {}
+                            TableNofi[Info.Token.Item].Amount = Info.Token.Amount
+                            TableNofi[Info.Token.Item].Time = os.time() + 10
+
                         end
-                        Remotes.Notify:FireClient(Player,"Blue","+"..TableNofi[Info.Token.Item].." "..Info.Token.Item,true,Info.Token.Item)
+                        Remotes.Notify:FireClient(Player,"Blue","+"..TableNofi[Info.Token.Item].Amount.." "..Info.Token.Item,true,Info.Token.Item, TableNofi)
                     end)()
                     if PData.Inventory[Token.Item.Value] == nil then
                         PData.Inventory[Token.Item.Value] = Token.Amount.Value
@@ -82,13 +90,21 @@ function TokenType(Token,Info,PData,Player)
                     PData:Update('Inventory', PData.Inventory)
                 end
             end
-
+            task.spawn(function()
+                while true do
+                    task.wait()
+                    if TableNofi[Info.Token.Item].Time == os.time() then
+                        TableNofi[Info.Token.Item].Amount = 0
+                        TableNofi[Info.Token.Item].Time = os.time()
+                        Remotes.DestroyFrameNoffical:FireClient(Player,Info.Token.Item)
+                        break
+                    end
+                end
+            end)
         elseif Token.Type.Value == "Boost" then
             -- Fire in Boost
         end
-        task.delay(15,function()
-            TableNofi = {}
-        end) 
+
     end
 end
 

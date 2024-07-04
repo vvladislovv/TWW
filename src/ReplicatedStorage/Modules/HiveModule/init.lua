@@ -211,5 +211,18 @@ function HiveOwnerCheck(Button)
 end
 
 
+function HighlightHive(HiveGet)
+    for _, value in next, workspace.Map.GameSettings.Hives:GetChildren() do
+        if value.Owner.Value == Player.Name then
+            value.HiveModel.Highlight.Enabled = true
+            value.HivePlatform.Down.Highlight.Enabled = true
+        else
+            value.HiveModel.Highlight.Enabled = false
+            value.HivePlatform.Down.Highlight.Enabled = false
+        end
+    end
+end
+
+Remotes.HiveHighlight.OnClientEvent:Connect(HighlightHive)
 Remotes.UIHive.OnClientEvent:Connect(ButtonHive)
 return HiveModule

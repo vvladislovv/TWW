@@ -243,38 +243,192 @@ function Data:Adminer(Player)
 	local PData = Data:Get(Player)
 		PData.IStats.Coin = 100000000000
 		PData.IStats.Capacity = 100000
-		PData.Hive.SlotsAll = 5
+		PData.Hive.SlotsAll = 27
 		PData.Hive.WaspSettings = {
 			[1] = {
-				Name = "Wasp5",
+				Name = "Wasp1",
 				Level = 20,
-				Rarity = "★★★★★★★★",
+				Rarity = "★",
 				Color = "Red",
 				Band = 0,
 			},
 			[2] = {
-				Name = "Wasp5",
+				Name = "Wasp2",
 				Level = 20,
-				Rarity = "★★★★★★★★",
+				Rarity = "★★★★",
 				Color = "Red",
 				Band = 0,
 			},
 			[3] = {
 				Name = "Wasp5",
 				Level = 20,
-				Rarity = "★★★★★★★★",
+				Rarity = "★★★",
 				Color = "Red",
 				Band = 0,
 			},
 			[4] = {
-				Name = "Wasp5",
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[5] = {
+				Name = "Wasp6",
 				Level = 20,
 				Rarity = "★★★★★★★★",
 				Color = "Red",
 				Band = 0,
 			},
-			[5] = {
+			[6] = {
+				Name = "Wasp1",
+				Level = 20,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+			[7] = {
+				Name = "Wasp2",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[8] = {
 				Name = "Wasp5",
+				Level = 20,
+				Rarity = "★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[9] = {
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[10] = {
+				Name = "Wasp6",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[11] = {
+				Name = "Wasp1",
+				Level = 20,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+			[12] = {
+				Name = "Wasp2",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[13] = {
+				Name = "Wasp5",
+				Level = 20,
+				Rarity = "★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[14] = {
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[15] = {
+				Name = "Wasp6",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[16] = {
+				Name = "Wasp1",
+				Level = 20,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+			[17] = {
+				Name = "Wasp2",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[18] = {
+				Name = "Wasp5",
+				Level = 20,
+				Rarity = "★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[19] = {
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[20] = {
+				Name = "Wasp6",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[21] = {
+				Name = "Wasp1",
+				Level = 20,
+				Rarity = "★",
+				Color = "Red",
+				Band = 0,
+			},
+			[22] = {
+				Name = "Wasp2",
+				Level = 20,
+				Rarity = "★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[23] = {
+				Name = "Wasp5",
+				Level = 20,
+				Rarity = "★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[24] = {
+				Name = "Wasp4",
+				Level = 20,
+				Rarity = "★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[25] = {
+				Name = "Wasp6",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[26] = {
+				Name = "Wasp6",
+				Level = 20,
+				Rarity = "★★★★★★★★",
+				Color = "Red",
+				Band = 0,
+			},
+			[27] = {
+				Name = "Wasp6",
 				Level = 20,
 				Rarity = "★★★★★★★★",
 				Color = "Red",
@@ -317,8 +471,8 @@ end
 
 local AutoSaves = {}
 
-local MainKey = 'Data_Server_Test125'
-local ClientKey = 'Data_Client_Test125'
+local MainKey = 'Data_Server_Test127'
+local ClientKey = 'Data_Client_Test127'
 
 local DataStore2 = require(game.ServerScriptService.DataStore2)
 local ModuleTable = require(ReplicatedStorage.Modules.ModuleTable)

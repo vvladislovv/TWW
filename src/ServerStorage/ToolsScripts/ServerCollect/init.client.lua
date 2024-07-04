@@ -81,7 +81,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 					TypeColor = 'Red',
 					Msg = "You bag is full! Convert pollen in your hive!",
 					Icon = false,
-					TypeCall = "Hive",
+					TypeCall = "Collect",
 					Items = nil
 				})
 			end)()
