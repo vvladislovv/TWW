@@ -138,7 +138,7 @@ Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, Sta
 
                 CoinAdd += Convert
                 
-                local FieldGrant = math.random(1,5)
+                local FieldGrant = math.random(1,1000)
                 if FieldGrant <= math.random(1,2) then
                     if Item.FieldsDrop[FieldName] then
                         local RandomToken = RToken(FieldName)

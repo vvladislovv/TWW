@@ -14,8 +14,8 @@ for _, Zoneier in pairs(workspace.Map.GameSettings.FieldBarierMobs:GetChildren()
     Zone.playerEntered:Connect(function(Player)
         local PData = _G.PData
         if PData.TimerTable.Field[Zoneier.Name] then
-            PData.BaseFakeSettings.FieldMods = Zoneier.Name
             for _, Index in Zoneier:GetChildren() do
+                PData.BaseFakeSettings.FieldMods = Zoneier.Name
                 if Index:IsA('BasePart') then
                     CollectTimers += 1 
                     local FieldData = PData.TimerTable.Field[Zoneier.Name]

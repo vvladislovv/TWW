@@ -127,7 +127,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
     end)
 end
 
-function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- потестить
+function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- 
     local PData = _G.PData
    -- print(CollectTimers)
     if not Field[Index.Name].TimerStart.Value and not Field['Pos'..CollectTimers].Spawn.Value then
@@ -143,6 +143,7 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- пот
             local Mob = ReplicatedStorage.Assert.Mobs:FindFirstChild(Field.Monster.Value):Clone()
             Mob.Name = Field.Monster.Value..CollectTimers
             Mob.Parent = FolderMobs:FindFirstChild(Player.Name)
+
             Mob.SpawnMobs.Value = Field
             Field[Index.Name].NameMonster.Value = Mob.Name
 
@@ -163,7 +164,9 @@ function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- пот
             PData.BaseFakeSettings.Attack = true
 
             Mob:MoveTo(Field['Pos'..CollectTimers].WorldPosition)
+
             Mob.SpawnMobs.Value = Field['Pos'..CollectTimers].SpawnMobs
+
             require(script.Parent.AttackMob):MobsGo(Player,Mob,Field)
             CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
         end

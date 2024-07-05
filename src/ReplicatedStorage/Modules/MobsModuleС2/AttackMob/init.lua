@@ -62,7 +62,7 @@ function DestroyMobs(Player,Mob,PData,Field)
 end
 
 function MobsAttaker(Player,Character,Mob,Field)
-
+    print(_G.PData.BaseFakeSettings.FieldMods)
     local PData = _G.PData
 
         while task.wait() do
@@ -71,28 +71,29 @@ function MobsAttaker(Player,Character,Mob,Field)
                 if workspace:WaitForChild(Player.Name) and Mob ~= nil and Mob.Configuration.HP.Value > 0 then
 
                     if PData.BaseFakeSettings.FieldMods == Field.Name then
+
                         coroutine.wrap(function()
-                            if PData.BaseFakeSettings.PlayerAttack and PData.BaseFakeSettings.FieldMods ~= "" then
-                                Mob.Humanoid:MoveTo(Character.PrimaryPart.Position)
-                            end
+                            Mob.Humanoid:MoveTo(Character.PrimaryPart.Position)
+                                print(PData.BaseFakeSettings.FieldMods)
                         end)()
+
+                    elseif PData.BaseFakeSettings.FieldMods ~= Field.Name and math.floor(DistationSpawn(Mob,Character)()) <= 5 then
+                        if math.floor(Distation(Mob,Character)()) >= 15 and Mob.Configuration.HP.Value >= 0 and PData.BaseFakeSettings.FieldMods ~= Field.Name then
+                            print('f')
+                            DestroyMobs(Player,Mob,PData,Field)
+                        elseif Mob.Configuration.HP.Value <= 0 then
+                            Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
+                        end
+
                     end
+
                     coroutine.wrap(function()
-                        if (Mob:WaitForChild('UpperTorso').Position - Player.Character.PrimaryPart.Position).Magnitude <= 5 then
+                        if Distation(Mob,Character)() <= 5 then
                             task.wait(0.3)
                             Player.Character.Humanoid.Health -= ModuleTable.MonstersTable[Field.Monster.Value].SettingsMobs.Damage
                             Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                         end
                     end)
-
-                    if PData.BaseFakeSettings.FieldMods == "" and Mob.Configuration.HP.Value > 0 then
-                        Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
-                    end
-                                    
-                    if DistationSpawn(Mob,Character)() <= 0.5 and PData.BaseFakeSettings.FieldMods == "" then
-                        print('fff')
-                        DestroyMobs(Player,Mob,PData,Field)
-                    end
 
                 end
             end
