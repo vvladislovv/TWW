@@ -12,6 +12,7 @@ local TableModuel = {} do
             [4] = "LOKEPZAKPRO",
             [5] = "Kubusthomas",
             [6] = "NoobPuplu",
+            [7] = "bnnuyman"
         },
         BanPlayer = {
             [1] = 'dima0tu3',

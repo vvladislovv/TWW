@@ -57,7 +57,7 @@ function MobsCreatServer(Player,FieldPlayer)
                         --(FieldData[Index.Name].Time <= 0)
                         if FieldData[Index.Name].Time <= 0 then -- Если таймер ноль
                             --print(FieldData[Index.Name].Time)
-                            --CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
+                            CreateMob:CreatersMobsField(Player,Zoneier,Index,CollectTimers)
                         end
                     end
                 end 
@@ -127,7 +127,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
     end)
 end
 
-function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- test
+function CreateMob:CreatersMobsField(Player,Field,Index,CollectTimers) -- потестить
     local PData = _G.PData
    -- print(CollectTimers)
     if not Field[Index.Name].TimerStart.Value and not Field['Pos'..CollectTimers].Spawn.Value then

@@ -13,7 +13,7 @@ function TimerMob:CreateTimerMobs(Player,Field1,Mob)
             if TimerData ~= nil then
                 if TimerData.Time >= 0 and PData.BaseFakeSettings.FieldVarsOld == Field1.Name then -- Если таймер не ноль
                     require(script.Parent.Parent.ModsModule):TimerClient(PData, TimerData, Field1, i, Mob)
-                    --Remotes.MobsTimer:FireClient(Player,PData, TimerData, Field1, i, Mob) -- Если таймер ноль
+                     --Remotes.MobsTimer:FireClient(Player,PData, TimerData, Field1, i, Mob) -- Если таймер ноль
                 end
             end
         end

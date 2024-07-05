@@ -89,9 +89,9 @@ function MobsAttaker(Player,Character,Mob,Field)
                         Mob.Humanoid:MoveTo(Mob.SpawnMobs.Value.Position)
                     end
                                     
-                    if DistationSpawn(Mob,Character)() <= 2 and PData.BaseFakeSettings.FieldMods == "" then
+                    if DistationSpawn(Mob,Character)() <= 0.5 and PData.BaseFakeSettings.FieldMods == "" then
                         print('fff')
-                        --DestroyMobs(Player,Mob,PData,Field)
+                        DestroyMobs(Player,Mob,PData,Field)
                     end
 
                 end
