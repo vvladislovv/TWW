@@ -150,7 +150,7 @@ local FlowerModule = {} do
             while Field do task.wait(5)
                 for i, Pollen in pairs(Field:GetChildren()) do
                     if Pollen:IsA("BasePart") then
-                    InfoFieldGame = _G.Field.Flowers[Pollen.FlowerID.Value]
+                    InfoFieldGame = _G.Field.Flowers[Pollen:GetAttribute('ID')]
                         if Pollen.Position.Y < InfoFieldGame.MaxP then
                             local ToMaxFlower = tonumber(InfoFieldGame.MaxP - Pollen.Position.Y)
                             local FlowerPos = Pollen.Position + Vector3.new(0, ToMaxFlower, 0)

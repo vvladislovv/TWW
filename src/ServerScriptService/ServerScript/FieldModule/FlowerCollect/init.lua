@@ -44,14 +44,14 @@ end)
 
 Remote.CollectField.OnServerEvent:Connect(function(Player, Flower, Position, StatsMOD, Stamp)
     local PData = DataSave:Get(Player)
-    if Flower and PData and (Flower.Position.Y - FieldGame.Flowers[Flower.FlowerID.Value].MinP) > 0.2 then
+    if Flower and PData and (Flower.Position.Y - FieldGame.Flowers[Flower:GetAttribute('ID')].MinP) > 0.2 then
         local CanScoop = true
         if PData.IStats.Pollen <= PData.IStats.Capacity and CanScoop == true then
             local Type = PData.Equipment.Tool
             local Crit = false
             local FieldName = PData.BaseFakeSettings.FieldVars
-            local FColor = FieldGame.Flowers[Flower.FlowerID.Value].Color
-            local FSize = FieldGame.Flowers[Flower.FlowerID.Value].Stat.Value
+            local FColor = FieldGame.Flowers[Flower:GetAttribute('ID')].Color
+            local FSize = FieldGame.Flowers[Flower:GetAttribute('ID')].Stat.Value
             local SS
             local DecAm
             local FoodAm

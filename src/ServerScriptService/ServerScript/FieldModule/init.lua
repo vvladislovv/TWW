@@ -1,10 +1,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Remotes = ReplicatedStorage:WaitForChild('Remotes')
-local Data = require(game.ServerScriptService.ServerScript.Data)
-local ZonePlus = require(game.ReplicatedStorage.Zone)
 local FieldModule = {}
 
-	FieldModule.MaxSize = 4
 	FieldModule.Flowers = {}
 	FieldModule.Fields = {
 		["Banana"] = {
@@ -56,8 +53,6 @@ local FieldModule = {}
 	
 	FieldModule.Correspondant = {
 		["BananaPath1"] = "Banana",
-        ["BananaPath2"] = "Banana",
-        ["BananaPath3"] = "Banana",
 
 		['BlueberriesPath1'] = "Blueberries",
 		['BlueberriesPath2'] = "Blueberries",
@@ -108,7 +103,7 @@ local FieldModule = {}
 	--! NumberRandom --
 	function GetRandomFlower(FieldName)
 		local MainTable, Number = {}, 0
-		for _,imd in pairs(FieldModule.Fields[FieldName].Flowers) do
+		for _, imd in pairs(FieldModule.Fields[FieldName].Flowers) do
 			local v = imd[math.random(1,2)]
 			if v > 0 then
 				Number = Number + v
@@ -127,26 +122,34 @@ local FieldModule = {}
 		return nil
 	end
 	
-	function FieldModule:RegisterFlower(Flower)
-		local FlowerParentName = Flower.Parent.Name
-		local FlowerType = GetFlowerType(GetRandomFlower(FieldModule.Correspondant[FlowerParentName]))
-		local FlowerID = Flower:FindFirstChild("FlowerID")
-		local FlowerColor = FlowerType.Color
-		local ID = #FieldModule.Flowers + 1
-		FlowerID.Value = ID
-		FieldModule.Flowers[ID] = {
-			Color = FlowerColor,
-			Stat = FlowerType,
-			MaxP = Flower.Position.Y,
-			MinP = Flower.Position.Y - 2,
-			RegenFlower = 0.3,
-		}
-		local Color = FieldModule.Flowers[ID].Color
-		local Number = FieldModule.Flowers[ID].Stat.Value
-		Flower.TopTexture.Texture = FieldModule.FlowerTypes[Color][Number]
+	function FieldModule:RegisterFlower(Flower: Part)
+		local _, error = pcall(function()
+
+			local FlowerParentName = Flower.Parent.Name
+			local FlowerType = GetFlowerType(GetRandomFlower(FieldModule.Correspondant[FlowerParentName]))
+			local FlowerColor = FlowerType.Color
+			local ID = #FieldModule.Flowers + 1
+			Flower:SetAttribute("ID",ID)
+
+			FieldModule.Flowers[ID] = {
+				Color = FlowerColor,
+				Stat = FlowerType,
+				MaxP = Flower.Position.Y,
+				MinP = Flower.Position.Y - 2,
+				RegenFlower = 0.3,
+			}
+
+			local Color = FieldModule.Flowers[ID].Color
+			local Number = FieldModule.Flowers[ID].Stat.Value
+			Flower.TopTexture.Texture = FieldModule.FlowerTypes[Color][Number]
+		end)
+
+		if error then
+			warn(error)
+		end
 	end
 
-	function FieldModule:GenerateFlower(Field, Position)
+	function FieldModule:GenerateFlower(Field : BasePart, Position : Vector3)
 		local Flower = script.Flower:Clone()
 		Flower.Parent = Field
 		Flower.CFrame = Position
@@ -171,10 +174,9 @@ local FieldModule = {}
     end
 
 	--! Generate --
-    task.spawn(function()
-        task.wait()
-        for i, Fieldfolder in pairs(workspace.Map.GameSettings.FieldStudio:GetChildren()) do
-            for i, Zone in pairs(Fieldfolder:GetChildren()) do
+    coroutine.wrap(function()
+        for _, Fieldfolder in next, (workspace.Map.GameSettings.FieldStudio:GetChildren()) do
+            for _, Zone in next, (Fieldfolder:GetChildren()) do
                 if Zone:IsA("Part") then
                     local Field = Instance.new("Folder", workspace.Map.GameSettings.Fields)
                         Field.Name = Zone.Parent.Name
@@ -192,7 +194,7 @@ local FieldModule = {}
                 end
             end
         end
-    end)
+    end)()
 
 
 return FieldModule

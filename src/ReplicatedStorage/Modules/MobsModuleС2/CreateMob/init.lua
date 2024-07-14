@@ -80,6 +80,7 @@ function CreateMob:UpdateConfiger(Player,Mob,Configuration,Field)
     local PData = _G.PData
     local SpawnMobs = 0
     local SpawnMobsMax = 0
+    
     for _, index in next, Field:GetChildren() do
         if index:IsA('BasePart') then
             SpawnMobsMax += 1

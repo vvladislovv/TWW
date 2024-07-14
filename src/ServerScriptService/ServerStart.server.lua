@@ -1,9 +1,18 @@
-local Server = game.ServerScriptService.ServerScript
+
 local EquipmentModule = require(Server.Equipment)
-EquipmentModule:StartSysmes()
-for _, index in next, Server:GetDescendants() do
-    if index:IsA('ModuleScript') then
-        require(index)
-       -- print(index)
+
+
+local _, Err = pcall(function()
+    EquipmentModule:StartSysmes()
+    for _, index in next, Server:GetDescendants() do
+        if index:IsA('ModuleScript') then
+            require(index)
+        end
     end
-end
+end)
+
+coroutine.wrap(function()
+    if Err then
+        warn(Err)
+    end
+end)()

@@ -3,7 +3,7 @@ local Data = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local CopyTable = require(game.ReplicatedStorage.Libary.CopyTable)
-
+local DataModule = require(script.Parent.DataNew)
 local Remotes = game.ReplicatedStorage:WaitForChild("Remotes")
 --local Modules = game.ReplicatedStorage:WaitForChild("Modules")
 --local Items = require(Modules.Items)
@@ -563,7 +563,9 @@ end
 
 do
 	Players.PlayerAdded:Connect(function(player)
+	
 		LoadData(player)
+		print('f')
 	end)
 	Players.PlayerRemoving:Connect(function(Client)
 		for _, GetTable in next, ModuleTable.PlayerGame.BanPlayer do
